@@ -12,18 +12,7 @@
     <!-- https://stackoverflow.com/questions/40497288/how-to-create-a-fixed-sidebar-layout-with-bootstrap-4 -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2 px-1 bg-dark">
-                <div class="py-2 sticky-top">
-                    <div class="nav flex-sm-column">
-                        <a href="" class="nav-link d-none d-sm-inline">Fishing</a>
-                        <a href="" class="nav-link">Link</a>
-                        <a href="" class="nav-link">Link</a>
-                        <a href="" class="nav-link">Link</a>
-                        <a href="" class="nav-link">Link</a>
-                        <a href="" class="nav-link">Link</a>
-                    </div>
-                </div>
-            </div>
+            {% include "sidebar.html" %}
             <div class="col" id="main">
                 <h1>{{ title }}</h1>
                 <hr>
