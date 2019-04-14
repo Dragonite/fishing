@@ -14,17 +14,24 @@
     <script>
       var formErrors = {% if error %}true{% else %} false{% endif %};
       if (formErrors) {
-        Notify("{{error}}", null, null, 'danger');
+        Notify("Username: {{error}}", null, null, 'danger');
       }
     </script>
-    <span style="color: red;">[{{ error }}]</span>
+    {# <span style="color: red;">[{{ error }}]</span> #}
     {% endfor %}
   </p>
-  <p>
+  <p style="font-weight: bold">
     {{ form.password.label }}<br>
     {{ form.password(size=32) }}<br>
     {% for error in form.password.errors %}
-    <span style="color: red;">[{{ error }}]</span>
+
+    <script>
+      var formErrors = {% if error %}true{% else %} false{% endif %};
+      if (formErrors) {
+        Notify("Password: {{error}}", null, null, 'danger');
+      }
+    </script>
+    {# <span style="color: red;">[{{ error }}]</span> #}
     {% endfor %}
   </p>
   <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
