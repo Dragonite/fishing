@@ -1,11 +1,15 @@
-<div class="col-sm-2 px-1 bg-dark">
+<div class="col-sm-2 px-1 sidebar">
   <div class="py-2 sticky-top">
-    <div class="nav flex-sm-column">
-      <a style="margin: 0 auto;" href="{{ url_for('index') }}" class="navbar-brand">
-        <i style="font-size: 50px" class="fas fa-fish"></i>
+    <div class="nav flex-sm-column sidebar">
+      <i style="margin: 25px auto; font-size: 50px" class="navbar-brand fas fa-fish"></i>
+      <a href="{{ url_for('index') }}" class="nav-link d-none d-sm-inline">
+        <i class="fa-fw fa fa-home"></i>
+        Home
       </a>
-      <a href="{{ url_for('index') }}" class="nav-link d-none d-sm-inline">Fishing</a>
-      <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+      <a href="{{ url_for('login') }}" class="nav-link">
+        <i class="fa-fw fa fa-sign-in-alt"></i>
+        Login
+      </a>
       <a href="" class="nav-link">Link</a>
       <a href="" class="nav-link">Link</a>
       <a href="" class="nav-link">Link</a>
