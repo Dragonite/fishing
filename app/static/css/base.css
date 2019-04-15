@@ -21,6 +21,10 @@ a:hover
     cursor:pointer;  
 }
 
+.list-button:hover {
+    background-color: #f2f2f2;
+}
+
 .header-title {
     margin-top: 20px;
 }
