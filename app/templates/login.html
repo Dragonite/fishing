@@ -4,38 +4,43 @@
 
 <!-- <div class="elem-demo" id="elem-demo">a Box</div> -->
 <div class="test">Test</div>
-<form id="form1" action="" method="post" novalidate>
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.username.label }}<br>
-    {{ form.username(size=32) }}<br>
-    {% for error in form.username.errors %}
+<i class="fal fa-whale"></i>
+<div class="page">
+  <div class="form-container">
+    <form id="login-form" action="" method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.username.label }}<br>
+        {{ form.username(size=32) }}<br>
+        {% for error in form.username.errors %}
 
-    <script>
-      var formErrors = {% if error %}true{% else %} false{% endif %};
-      if (formErrors) {
-        Notify("Username: {{error}}", null, null, 'danger');
-      }
-    </script>
-    {# <span style="color: red;">[{{ error }}]</span> #}
-    {% endfor %}
-  </p>
-  <p style="font-weight: bold">
-    {{ form.password.label }}<br>
-    {{ form.password(size=32) }}<br>
-    {% for error in form.password.errors %}
+        <script>
+          var formErrors = {% if error %}true{% else %} false{% endif %};
+          if (formErrors) {
+            Notify("Username: {{error}}", null, null, 'danger');
+          }
+        </script>
+        {# <span style="color: red;">[{{ error }}]</span> #}
+        {% endfor %}
+      </p>
+      <p style="font-weight: bold">
+        {{ form.password.label }}<br>
+        {{ form.password(size=32) }}<br>
+        {% for error in form.password.errors %}
 
-    <script>
-      var formErrors = {% if error %}true{% else %} false{% endif %};
-      if (formErrors) {
-        Notify("Password: {{error}}", null, null, 'danger');
-      }
-    </script>
-    {# <span style="color: red;">[{{ error }}]</span> #}
-    {% endfor %}
-  </p>
-  <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-  <p>{{ form.submit() }}</p>
-</form>
+        <script>
+          var formErrors = {% if error %}true{% else %} false{% endif %};
+          if (formErrors) {
+            Notify("Password: {{error}}", null, null, 'danger');
+          }
+        </script>
+        {# <span style="color: red;">[{{ error }}]</span> #}
+        {% endfor %}
+      </p>
+      <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+      <p>{{ form.submit() }}</p>
+    </form>
+  </div>
+</div>
 
 {% endblock %}
