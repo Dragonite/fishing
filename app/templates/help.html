@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Tab links -->
+<div class="tab">
+  <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'About')">About</button>
+  <button class="tablinks" onclick="openTab(event, 'Algorithm')">Algorithm</button>
+  <button class="tablinks" onclick="openTab(event, 'Acknowledgements')">Acknowledgements</button>
+</div>
+
+<!-- Tab content -->
+<div id="About" class="tabcontent">
+  <h3>About</h3>
+  <hr>
+  <p></p>
+</div>
+
+<div id="Algorithm" class="tabcontent">
+  <h3>Algorithm</h3>
+  <hr>
+  <p></p> 
+</div>
+
+<div id="Acknowledgements" class="tabcontent">
+  <h3>Acknowledgements</h3>
+  <hr>
+  <p></p>
+</div>
+
+<script>
+  // Get the element with id="defaultOpen" and click on it
+  document.getElementById("defaultOpen").click();
+</script>
+
+{% endblock %}
