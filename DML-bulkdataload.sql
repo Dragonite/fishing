@@ -1,3 +1,10 @@
+
+insert into users(firstName, lastName, email, createdAt, isActive, isAdmin)
+values('Luna', 'Lee', '22187554@student.uwa.edu.au',datetime('now'), 1,1 );
+
+insert into users(firstName, lastName, email, createdAt, isActive, isAdmin)
+values('Haolin', 'Woo', '21706137@student.uwa.edu.au',datetime('now'), 1,1 );
+
 insert into users(firstName, lastName, email, ad_street, ad_suburb, ad_state, createdAt, isActive)
 values('Maybelle',	'Bewley',   'cgrafenstein@gmail.com',	        'Dennison St',	        'Herron',	        'Western Australia',datetime('now'), 1);
 

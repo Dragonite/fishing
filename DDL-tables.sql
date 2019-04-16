@@ -21,7 +21,9 @@ Create table users(
     ad_state text,
     ad_country text deafult 'Australia',
     createdAt datetime,
-    isActive integer check(isActive IN(0,1))
+    isActive integer check(isActive IN(0,1)),
+
+    isAdmin integer default 0 check(isAdmin IN(0,1))
 );
 
 
