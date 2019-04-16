@@ -32,35 +32,21 @@ def login():
 def help():
     return render_template("help.html", title='Help', user=user)
 
+@app.route('/current')
+def current():
+    return render_template("current.html", title='Current Polls', user=user)
 
-    
-@app.route('/currentStandingPolls')
-def CurrentStandingPolls():
-    return render_template("CurrentStandingPolls.html",
-                           title='currentStandingPolls')
-
-
-
-
-@app.route('/completedPolls')
-def CompletedPolls():
-    return render_template("CompletedPolls.html",
-                           title='completedPolls')
+@app.route('/completed')
+def completed():
+    return render_template("completed.html", title='Completed Polls', user=user)
 
 
-@app.route('/createAPolls')
-def CreateAPolls():
-    return render_template("CreateAPolls",
-                           title='createAPolls')
+@app.route('/create')
+def create():
+    return render_template("create.html", title='Create A Poll', user=user)
 
-@app.route('/mProfile')
-def MyProfile():
-    return render_template("MyProfile.html",
-                           title='myProfile')
-
-@app.route('/logOut')
-def LogOut():
-    return render_template("LogOut.html",
-                           title='logOut')
+@app.route('/profile')
+def profile():
+    return render_template("profile.html", title='My Profile', user=user)
 
                  
