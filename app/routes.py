@@ -64,3 +64,13 @@ def LogOut():
                            title='logOut')
 
                  
+
+import sqlite3
+
+
+@app.route('/dbtest')
+def dbtest():
+    conn = sqlite3.connect('test.db')
+    msg= "Opened database successfully"
+    return render_template("dbtest.html", msg=msg)
+    conn.close()
