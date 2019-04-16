@@ -6,8 +6,44 @@
     <p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p>
 </div>
 {% endfor %} -->
+<div class="card-container">
+    <div style="width:23%">
+        <div class="card" style="color:#212529;max-width: 18rem; background-color: #ffe082; text-align: center">
+            <div class="card-header"><strong>Current Polls</strong></div>
+            <div class="card-body">
+                <h5 class="card-title">6</h5>
+            </div>
+        </div>
+    </div>
+    <div style="width:23%">
+        <div class="card" style="max-width: 18rem; background-color: #81d4fa; text-align: center">
+            <div class="card-header"><strong>Completed Polls</strong></div>
+            <div class="card-body">
+                <h5 class="card-title">15</h5>
+            </div>
+        </div>
+    </div>
+    <div style="width:23%">
+        <div class="card" style="max-width: 18rem; background-color: #c5e1a5; text-align: center">
+            <div class="card-header"><strong>Online Users</strong></div>
+            <div class="card-body">
+                <h5 class="card-title">5</h5>
+            </div>
+        </div>
+    </div>
+    <div style="width:23%">
+        <div class="card" style="max-width: 18rem;background-color: #ef9a9a; text-align: center">
+            <div class="card-header"><strong>All Users</strong></div>
+            <div class="card-body">
+                <h5 class="card-title">20</h5>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
 <div style="width:50%">
-    <!-- <h3 style="text-align: center">Polls</h3> -->
+    <h3>Welcome back, {{user.nickname}}.</h3>
     <canvas id="myChart"></canvas>
 </div>
 
@@ -32,7 +68,7 @@
             plugins: {
                 datalabels: {
                     color: '#212529',
-                    formatter: function(value, ctx) {
+                    formatter: function (value, ctx) {
                         var label = ctx.chart.data.datasets[ctx.datasetIndex].label;
                         return label;
                     }
