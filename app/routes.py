@@ -31,3 +31,36 @@ def login():
 @app.route('/help')
 def help():
     return render_template("help.html", title='Help', user=user)
+
+
+    
+@app.route('/currentStandingPolls')
+def CurrentStandingPolls():
+    return render_template("CurrentStandingPolls.html",
+                           title='currentStandingPolls')
+
+
+
+
+@app.route('/completedPolls')
+def CompletedPolls():
+    return render_template("CompletedPolls.html",
+                           title='completedPolls')
+
+
+@app.route('/createAPolls')
+def CreateAPolls():
+    return render_template("CreateAPolls",
+                           title='createAPolls')
+
+@app.route('/mProfile')
+def MyProfile():
+    return render_template("MyProfile.html",
+                           title='myProfile')
+
+@app.route('/logOut')
+def LogOut():
+    return render_template("LogOut.html",
+                           title='logOut')
+
+                 
