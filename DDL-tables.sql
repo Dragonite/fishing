@@ -3,12 +3,8 @@
 ----execute sqlite3 [databaseName]
 ----sqlite> .read DDL-tables.sql
 
-
-
 ---Created by Luna
 ---Modified on 16.04.2019 by Luna
-
-
 
 
 DROP TABLE IF EXISTS users;
@@ -23,7 +19,7 @@ Create table users(
     ad_street text,
     ad_suburb text, 
     ad_state text,
-
+    ad_country text deafult 'Australia',
     createdAt datetime,
     isActive integer check(isActive IN(0,1))
 );
@@ -47,7 +43,7 @@ Create table polls(
 
     createdAt datetime NOT NULL ,
     
-    isOpen integer NOT NULL check(isActive IN(0,1)),
+    isOpenPoll integer NOT NULL check(isActive IN(0,1)),
     isActive integer NOT NULL check(isActive IN(0,1)),
 
     constraint fk_createdByUser
@@ -86,12 +82,10 @@ Create table responses(
       foreign key(pollId) references polls(pollId),
       foreign key(candidateId) references candidates(candidateId),
 
-      unique (pollId, candidateId, response)
+      unique (pollId, candidateId, response) --if response = null is it still unique??
 
 );
 
 
 .tables
---.schema users
---.schema polls
---.schema candidates
+.schema 
