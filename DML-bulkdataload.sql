@@ -61,3 +61,97 @@ values('Dexter',	'Prosienski',	'bettyann@fernades.com.au',     'Park Pl',	      
 insert into users(firstName, lastName, email, ad_street, ad_suburb, ad_state, createdAt, isActive)
 values('Rosina',	'Sidhu',     	'clare_bortignon@hotmail.com',  'State St',          	'Boya',	            'Western Australia',  datetime('
 '), 1);
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+insert into polls(title, description, openedAt, totalCandidates, createdByUserId, createdAt, isOpenPoll, isActive, orderCandidatesBy)
+values('where is your favorite fishing spot?','survey to find out perth best fishing spot', datetime('now'),  5, 12, datetime('now'),1,1, 'SpecialOrder');
+
+
+------------------------------------------------------------------------------------------------------------
+
+insert into candidates(candidateDescription, isActive, displayOrder)
+values('Narrows Bridge Perth', 1, 3);
+
+insert into candidates(candidateDescription, isActive, displayOrder)
+values('White Hills Mandurah', 1, 2);
+
+insert into candidates(candidateDescription, isActive, displayOrder)
+values('North Mole Fremantle', 1, 1);
+
+insert into candidates(candidateDescription, isActive, displayOrder)
+values('Floreat Drain Floreat', 1, 4);
+
+insert into candidates(candidateDescription, isActive, displayOrder)
+values('Ricey Beach And Radar Reef Rottnest Island', 1, 5);
+
+insert into candidates(candidateDescription, isActive, displayOrder)
+values('Lancelin Jetty Lancelin', 1, 6);
+
+
+----------------------------------------------------------------------------------------
+
+insert into pollxCandidates(pollId, candidateId)
+values(1,1);
+
+insert into pollxCandidates(pollId, candidateId)
+values(1,2);
+
+insert into pollxCandidates(pollId, candidateId)
+values(1,3);
+
+insert into pollxCandidates(pollId, candidateId)
+values(1,4);
+
+insert into pollxCandidates(pollId, candidateId)
+values(1,5);
+
+insert into pollxCandidates(pollId, candidateId)
+values(1,6);
+
+----------------------------------------------------------------
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(3,1,1,2, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(3,1,2,1, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(3,1,3,3, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(3,1,4,5, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(3,1,5,4, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(3,1,6,6, datetime('now'));
+
+
+
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(4,1,1,6, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(4,1,2,2, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(4,1,3,3, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(4,1,4,4, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(4,1,5,1, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(4,1,6,5, datetime('now'));
+
+
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(5,1,1,5, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(5,1,2,3, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(5,1,3,2, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(5,1,4,1, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(5,1,5,4, datetime('now'));
+insert into responses(userId, pollId, candidateId, response, createdAt)
+values(5,1,6,6, datetime('now'));

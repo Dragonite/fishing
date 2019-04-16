@@ -42,10 +42,11 @@ Create table polls(
     
     totalCandidates integer NOT NULL ,
     createdByUserId integer NOT NULL,
+    orderCandidatesBy text NOT NULL check(orderCandidatesBy IN('Desc','Acs','SpecialOrder')),
 
-    createdAt datetime NOT NULL ,
+    createdAt datetime, 
     
-    isOpenPoll integer NOT NULL check(isActive IN(0,1)),
+    isOpenPoll integer NOT NULL check(isOpenPoll IN(0,1)),
     isActive integer NOT NULL check(isActive IN(0,1)),
 
     constraint fk_createdByUser
@@ -56,7 +57,7 @@ DROP TABLE IF EXISTS candidates;
 Create table candidates(
     candidateId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     candidateDescription text,
-
+    displayOrder integer,
     isActive integer NOT NULL check(isActive IN(0,1))
 );
 
@@ -78,16 +79,18 @@ Create table responses(
     pollId integer NOT NULL,
     candidateId integer NOT NULL, 
     response integer, 
+    createdAt datetime, 
+
 
     constraint pf_pollxCandidatesxResponses
       foreign key(userId) references users(userId),
       foreign key(pollId) references polls(pollId),
       foreign key(candidateId) references candidates(candidateId),
 
-      unique (pollId, candidateId, response) --if response = null is it still unique??
+      unique (userId, pollId, candidateId, response) --if response = null is it still unique??
 
 );
 
 
 .tables
-.schema 
+--.schema 
