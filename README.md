@@ -17,3 +17,7 @@ Fishing Poll application written for CITS3403's [Project](http://teaching.csse.u
 
 - Lecture slides and tutorials forming the base of the application written by [Dr. Tim French](https://github.com/drtnf).
 - Flask Mega Tutorial written by [Miguel Grinberg](https://github.com/miguelgrinberg).
+
+## License
+
+MIT License, Copyright © Haolin Wu 2019
