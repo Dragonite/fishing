@@ -14,7 +14,7 @@
 DROP TABLE IF EXISTS users;
 Create table users(
     userId integer PRIMARY KEY AUTOINCREMENT,
-    email text NOT NULL,
+    email text NOT NULL UNIQUE,
     firstName text NOT NULL,
     lastName text,
    
@@ -64,19 +64,31 @@ Create table candidates(
 
 DROP TABLE IF EXISTS pollxCandidates;
 Create table pollxCandidates(
-    pollID integer ,
+    pollId integer ,
     candidateID integer, 
 
     constraint pf_pollxCandidates
-      foreign key(pollID) references polls(pollId),
+      foreign key(pollId) references polls(pollId),
       foreign key(candidateID) references candidates(candidateId),
-      primary key(pollID, candidateID)
+      primary key(pollId, candidateID)
 );
 
 DROP TABLE IF EXISTS responses;
 Create table responses(
+    responseId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    userId integer NOT NULL,
+    pollId integer NOT NULL,
+    candidateId integer NOT NULL, 
+    response integer, 
 
-)
+    constraint pf_pollxCandidatesxResponses
+      foreign key(userId) references users(userId),
+      foreign key(pollId) references polls(pollId),
+      foreign key(candidateId) references candidates(candidateId),
+
+      unique (pollId, candidateId, response)
+
+);
 
 
 .tables
