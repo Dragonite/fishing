@@ -1,7 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
+<!-- <h1>Hi, {{ user.nickname }}!</h1>
+{% for post in posts %}
+<div>
+    <p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p>
+</div>
+{% endfor %} -->
+<div style="width:50%">
+    <!-- <h3 style="text-align: center">Polls</h3> -->
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Polls'],
+            datasets: [{
+                label: 'Current',
+                data: [12],
+                backgroundColor: ["rgba(255,0,0,0.5)"]
+            },
+            {
+                label: 'Completed',
+                data: [29],
+                backgroundColor: ["rgba(0,0,255,0.5)"]
+            }]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    color: '#212529',
+                    formatter: function(value, ctx) {
+                        var label = ctx.chart.data.datasets[ctx.datasetIndex].label;
+                        return label;
+                    }
+                }
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        display: false
+                    }
+                }]
+            }
+        }
+    });
+</script>
 {% endblock %}
