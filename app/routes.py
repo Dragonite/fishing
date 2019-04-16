@@ -2,7 +2,14 @@ from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import LoginForm
 
-user = {'nickname': 'Haolin', 'admin': 'true', 'id': 1}
+# Mimic Admin User
+#user = {'nickname': 'Haolin', 'admin': True, 'id': 1}
+
+# Mimic Logged In User
+#user = {'nickname': 'Leon', 'admin': False, 'id': 2}
+
+# Mimic Default User
+user={}
 
 @app.route('/')
 @app.route('/index')
