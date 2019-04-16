@@ -69,6 +69,7 @@ a:hover
   
   /* Style the buttons that are used to open the tab content */
   .tab button {
+    transition: 0.3s;
     background-color: inherit;
     float: left;
     border: none;

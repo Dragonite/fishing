@@ -6,21 +6,21 @@
         <i class="fa-fw fa fa-home"></i>
         Home
       </a>
-      <a href="{{ url_for('CurrentStandingPolls')}}" class="nav-link">
+      <a href="{{ url_for('current')}}" class="nav-link">
         <i class="fa-fw fa fa-bell"></i>
         Current Polls
       </a>
-      <a href="{{ url_for('CompletedPolls')}}" class="nav-link">
+      <a href="{{ url_for('completed')}}" class="nav-link">
         <i class="fa-fw fa fa-poll"></i>
         Completed Polls
       </a>
       <!-- If the user is logged in -->
       {% if user.id %}
-      <a href="{{ url_for('CreateAPolls')}}" class="nav-link">
+      <a href="{{ url_for('create')}}" class="nav-link">
         <i class="fa-fw fa fa-plus"></i>
         Create Poll
       </a>
-      <a href="{{ url_for('MyProfile')}}" class="nav-link">
+      <a href="{{ url_for('profile')}}" class="nav-link">
         <i class="fa-fw fa fa-user"></i>
         My Profile
       </a>
