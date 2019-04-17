@@ -4,7 +4,7 @@
 ----sqlite> .read DDL-tables.sql
 
 ---Created by Luna
----Modified on 16.04.2019 by Luna
+---Modified on 17.04.2019 by Luna
 
 
 DROP TABLE IF EXISTS users;
@@ -13,7 +13,7 @@ Create table users(
     email text NOT NULL UNIQUE,
     firstName text NOT NULL,
     lastName text,
-    ---id
+    logInId text UNIQUE,
     pwd text, 
    
     ad_street text,
@@ -22,7 +22,7 @@ Create table users(
     ad_country text deafult 'Australia',
     createdAt datetime,
     isActive integer check(isActive IN(0,1)),
-    ---last modified date
+    lastModifiedAt datetime,
     isAdmin integer default 0 check(isAdmin IN(0,1))
 );
 
@@ -46,8 +46,8 @@ Create table polls(
 
     createdAt datetime, 
     
-    ---last modified datetime
-    ---minimum vote number
+    lastModified datetime,
+    minResponses integer,
     isOpenPoll integer NOT NULL check(isOpenPoll IN(0,1)),
     isActive integer NOT NULL check(isActive IN(0,1)),
 

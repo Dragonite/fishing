@@ -68,9 +68,9 @@ def LogOut():
 import sqlite3
 
 
-@app.route('/dbtest')
+'''@app.route('/dbtest')
 def dbtest():
     conn = sqlite3.connect('test.db')
     msg= "Opened database successfully"
     return render_template("dbtest.html", msg=msg)
-    conn.close()
+    conn.close()'''
