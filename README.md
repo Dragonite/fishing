@@ -7,6 +7,7 @@ Fishing Poll application written for CITS3403's [Project](http://teaching.csse.u
 - [Font Awesome](https://fontawesome.com/)
 - [Notify.js](https://github.com/msroot/Notify.js/)
 - [Chart.js](https://www.chartjs.org/)
+- [Chart.js Datalabels](https://github.com/chartjs/chartjs-plugin-datalabels)
 - [W3Schools JS Tabs](https://www.w3schools.com/howto/howto_js_tabs.asp)
 
 ## Authors
