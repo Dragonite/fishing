@@ -7,6 +7,8 @@ Fishing Poll application written for CITS3403's [Project](http://teaching.csse.u
 - [Font Awesome](https://fontawesome.com/)
 - [Notify.js](https://github.com/msroot/Notify.js/)
 - [Chart.js](https://www.chartjs.org/)
+- [Chart.js Datalabels](https://github.com/chartjs/chartjs-plugin-datalabels)
+- [DataTables](https://datatables.net/)
 - [W3Schools JS Tabs](https://www.w3schools.com/howto/howto_js_tabs.asp)
 
 ## Authors
@@ -17,3 +19,7 @@ Fishing Poll application written for CITS3403's [Project](http://teaching.csse.u
 
 - Lecture slides and tutorials forming the base of the application written by [Dr. Tim French](https://github.com/drtnf).
 - Flask Mega Tutorial written by [Miguel Grinberg](https://github.com/miguelgrinberg).
+
+## License
+
+MIT License, Copyright © Haolin Wu 2019

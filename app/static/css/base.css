@@ -43,6 +43,12 @@ a:hover
     width: 50%;
 }
 
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
 #login-form {
     margin-top: 30px;
 }
@@ -69,6 +75,7 @@ a:hover
   
   /* Style the buttons that are used to open the tab content */
   .tab button {
+    transition: 0.3s;
     background-color: inherit;
     float: left;
     border: none;
