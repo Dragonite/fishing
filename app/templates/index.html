@@ -6,6 +6,19 @@
     <p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p>
 </div>
 {% endfor %} -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{% if user.id %}
+        Welcome back, {{ user.nickname }}
+      {% else %}
+        Welcome
+      {% endif %}</h5>
+      <p class="card-text">There are currently 21 total polls on the Fishing Polling Application.</p>
+      <p class="card-text">
+        <small class="text-muted">Last logged in 3 minutes ago</small>
+      </p>
+    </div>
+  </div>
   <div class="card-container">
     <div style="width:23%">
       <div class="card" style="color:#212529; background-color: #ffe082; text-align: center">
@@ -40,64 +53,86 @@
       </div>
     </div>
   </div>
-  <br>
-  <br>
-  <div style="width:50%">
-    <h3>
-      {% if user.id %}
-        Welcome back, {{ user.nickname }}.
-      {% else %}
-        Welcome
-      {% endif %}
-    </h3>
-    <canvas id="myChart"></canvas>
+  <div class="card-container">
+    <div class="card" style="margin-top: 20px;width: 49%; height:48%">
+      <div class="card-body">
+        <h5 class="card-title" style="margin-bottom: 30px;">Most Popular Fish</h5>
+        <canvas id="poll-chart-1"></canvas>
+        <p class="card-text" style="margin-top:10px">
+          <small class="text-muted">Voted on by 300 people</small>
+        </p>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 20px;width: 49%; height:48%">
+      <div class="card-body">
+        <h5 class="card-title" style="margin-bottom: 30px;">Most Popular Location</h5>
+        <canvas id="poll-chart-2"></canvas>
+        <p class="card-text" style="margin-top:10px">
+          <small class="text-muted">Voted on by 300 people</small>
+        </p>
+      </div>
+    </div>
   </div>
-
   <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('poll-chart-1').getContext('2d');
     var myChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'horizontalBar',
       data: {
-        labels: ['Polls'],
+        labels: ['Salmon', 'Catfish', 'Tuna', 'Snapper', 'Swordfish'],
         datasets: [{
-          label: 'Current',
-          data: [12],
+          label: ['Polls'],
+          data: [39, 56, 22, 104, 79],
           backgroundColor: "rgba(255,0,0,0.5)",
           borderWidth: 2,
           borderColor: "rgba(255,0,0,0.3)"
-        },
-          {
-            label: 'Completed',
-            data: [29],
-            backgroundColor: "rgba(0,0,255,0.5)",
-            borderWidth: 2,
-            borderColor: "rgba(0,0,255,0.3)"
-          }]
+        }]
       },
       options: {
         plugins: {
           datalabels: {
-            color: '#212529',
-            formatter: function (value, ctx) {
-              var label = ctx.chart.data.datasets[ctx.datasetIndex].label;
-              return label;
-            }
+            color: '#212529'
           }
         },
         legend: {
-          display: true
+          display: false
         },
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: false
             }
           }],
           xAxes: [{
             ticks: {
-              display: false
+              beginAtZero: true
             }
           }]
+        }
+      }
+    });
+  </script>
+  <script>
+    var ctx = document.getElementById('poll-chart-2').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Fremantle', 'Coogee', 'Claremont', 'Dalkeith', 'South Perth'],
+        datasets: [{
+          label: ['Polls'],
+          data: [39, 56, 22, 104, 79],
+          backgroundColor: ["rgba(255,0,0,0.5)", "#ffe082", "#81d4fa", '#c5e1a5', '#ffcc80'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        plugins: {
+          datalabels: {
+            color: '#212529'
+          }
+        },
+        legend: {
+          display: true,
+          position: 'bottom'
         }
       }
     });
