@@ -1,9 +1,9 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, Markup
 from app import app
 from app.forms import LoginForm
 
 # Mimic Admin User
-#user = {'nickname': 'Haolin', 'admin': True, 'id': 1}
+# user = {'nickname': 'Haolin', 'admin': True, 'id': 1}
 
 # Mimic Logged In User
 #user = {'nickname': 'Leon', 'admin': False, 'id': 2}
@@ -30,8 +30,10 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.username.data, form.remember_me.data))
+        message=Markup('<script>Notify("Login requested for user {}, Remember me = {}", null, null, "danger")</script>'.format(form.username.data, form.remember_me.data))
+        flash(message)
+        # flash('Login requested for user {}, remember_me={}'.format(
+        #     form.username.data, form.remember_me.data))
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form, user=user)
 
