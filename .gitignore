@@ -1,5 +1,6 @@
 .DS_Store
 .vscode
+.idea
 flask
 app/__pycache__
 __pycache__

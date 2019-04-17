@@ -1,105 +1,105 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- <h1>Hi, {{ user.nickname }}!</h1>
+  <!-- <h1>Hi, {{ user.nickname }}!</h1>
 {% for post in posts %}
 <div>
     <p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p>
 </div>
 {% endfor %} -->
-<div class="card-container">
+  <div class="card-container">
     <div style="width:23%">
-        <div class="card" style="color:#212529; background-color: #ffe082; text-align: center">
-            <div class="card-header"><strong>Current Polls</strong></div>
-            <div class="card-body">
-                <h5 class="card-title">6</h5>
-            </div>
+      <div class="card" style="color:#212529; background-color: #ffe082; text-align: center">
+        <div class="card-header"><strong>Current Polls</strong></div>
+        <div class="card-body">
+          <h5 class="card-title">6</h5>
         </div>
+      </div>
     </div>
     <div style="width:23%">
-        <div class="card" style="color:#212529; background-color: #81d4fa; text-align: center">
-            <div class="card-header"><strong>Completed Polls</strong></div>
-            <div class="card-body">
-                <h5 class="card-title">15</h5>
-            </div>
+      <div class="card" style="color:#212529; background-color: #81d4fa; text-align: center">
+        <div class="card-header"><strong>Completed Polls</strong></div>
+        <div class="card-body">
+          <h5 class="card-title">15</h5>
         </div>
+      </div>
     </div>
     <div style="width:23%">
-        <div class="card" style="color:#212529; background-color: #c5e1a5; text-align: center">
-            <div class="card-header"><strong>Online Users</strong></div>
-            <div class="card-body">
-                <h5 class="card-title">5</h5>
-            </div>
+      <div class="card" style="color:#212529; background-color: #c5e1a5; text-align: center">
+        <div class="card-header"><strong>Online Users</strong></div>
+        <div class="card-body">
+          <h5 class="card-title">5</h5>
         </div>
+      </div>
     </div>
     <div style="width:23%">
-        <div class="card" style="color:#212529; background-color: #ef9a9a; text-align: center">
-            <div class="card-header"><strong>All Users</strong></div>
-            <div class="card-body">
-                <h5 class="card-title">20</h5>
-            </div>
+      <div class="card" style="color:#212529; background-color: #ef9a9a; text-align: center">
+        <div class="card-header"><strong>All Users</strong></div>
+        <div class="card-body">
+          <h5 class="card-title">20</h5>
         </div>
+      </div>
     </div>
-</div>
-<br>
-<br>
-<div style="width:50%">
+  </div>
+  <br>
+  <br>
+  <div style="width:50%">
     <h3>
-        {% if user.id %}
-        Welcome back, {{user.nickname}}.
-        {% else %}
+      {% if user.id %}
+        Welcome back, {{ user.nickname }}.
+      {% else %}
         Welcome
-        {% endif %}
+      {% endif %}
     </h3>
     <canvas id="myChart"></canvas>
-</div>
+  </div>
 
-<script>
+  <script>
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Polls'],
-            datasets: [{
-                label: 'Current',
-                data: [12],
-                backgroundColor: "rgba(255,0,0,0.5)",
-                borderWidth: 2,
-                borderColor: "rgba(255,0,0,0.3)"
-            },
-            {
-                label: 'Completed',
-                data: [29],
-                backgroundColor: "rgba(0,0,255,0.5)",
-                borderWidth: 2,
-                borderColor: "rgba(0,0,255,0.3)"
-            }]
+      type: 'bar',
+      data: {
+        labels: ['Polls'],
+        datasets: [{
+          label: 'Current',
+          data: [12],
+          backgroundColor: "rgba(255,0,0,0.5)",
+          borderWidth: 2,
+          borderColor: "rgba(255,0,0,0.3)"
         },
-        options: {
-            plugins: {
-                datalabels: {
-                    color: '#212529',
-                    formatter: function (value, ctx) {
-                        var label = ctx.chart.data.datasets[ctx.datasetIndex].label;
-                        return label;
-                    }
-                }
-            },
-            legend: {
-                display: true
-            },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }],
-                xAxes: [{
-                    ticks: {
-                        display: false
-                    }
-                }]
+          {
+            label: 'Completed',
+            data: [29],
+            backgroundColor: "rgba(0,0,255,0.5)",
+            borderWidth: 2,
+            borderColor: "rgba(0,0,255,0.3)"
+          }]
+      },
+      options: {
+        plugins: {
+          datalabels: {
+            color: '#212529',
+            formatter: function (value, ctx) {
+              var label = ctx.chart.data.datasets[ctx.datasetIndex].label;
+              return label;
             }
+          }
+        },
+        legend: {
+          display: true
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              display: false
+            }
+          }]
         }
+      }
     });
-</script>
+  </script>
 {% endblock %}
