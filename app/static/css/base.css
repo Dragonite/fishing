@@ -43,6 +43,12 @@ a:hover
     width: 50%;
 }
 
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
 #login-form {
     margin-top: 30px;
 }

@@ -7,11 +7,10 @@
   <div class="form-container">
     <form id="login-form" action="" method="post" novalidate>
       {{ form.hidden_tag() }}
-      <p>
+      <p style="font-weight: bold">
         {{ form.username.label }}<br>
-        {{ form.username(size=32) }}<br>
+        {{ form.username(size=32, style="border-radius:5px; border:1px solid #e2e2e2") }}<br>
         {% for error in form.username.errors %}
-
         <script>
           var formErrors = {% if error %}true{% else %} false{% endif %};
           if (formErrors) {
@@ -23,7 +22,7 @@
       </p>
       <p style="font-weight: bold">
         {{ form.password.label }}<br>
-        {{ form.password(size=32) }}<br>
+        {{ form.password(size=32, style="border-radius:5px; border:1px solid #e2e2e2") }}<br>
         {% for error in form.password.errors %}
 
         <script>
@@ -36,7 +35,7 @@
         {% endfor %}
       </p>
       <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-      <p>{{ form.submit() }}</p>
+      <p>{{ form.submit(class_="btn btn-primary") }}</p>
     </form>
   </div>
 </div>

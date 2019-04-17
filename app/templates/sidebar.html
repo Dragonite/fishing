@@ -25,8 +25,8 @@
         My Profile
       </a>
       <!-- If the user is logged in AND an admin -->
-      {% if user.admin == 'true' %}
-      <a href="" class="nav-link">
+      {% if user.admin == True %}
+      <a href="{{ url_for('users') }}" class="nav-link">
         <i class="fa-fw fa fa-users"></i>
         Users
       </a>
