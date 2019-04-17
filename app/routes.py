@@ -3,13 +3,13 @@ from app import app
 from app.forms import LoginForm
 
 # Mimic Admin User
-# user = {'nickname': 'Haolin', 'admin': True, 'id': 1}
+user = {'nickname': 'Haolin', 'admin': True, 'id': 1}
 
 # Mimic Logged In User
 #user = {'nickname': 'Leon', 'admin': False, 'id': 2}
 
 # Mimic Default User
-user={}
+# user={}
 
 @app.route('/')
 @app.route('/index')
@@ -53,6 +53,10 @@ def completed():
 @app.route('/create')
 def create():
     return render_template("create.html", title='Create A Poll', user=user)
+
+@app.route('/users')
+def users():
+    return render_template("users.html", title='Users', user=user)
 
 @app.route('/profile')
 def profile():

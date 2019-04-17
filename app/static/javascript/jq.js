@@ -12,18 +12,20 @@
 //   );
 //   // $('.elem-demo').click(function () {
 //   //   // alert('Button Clicked');
-    
+
 //   // });
 // });
 
-$( document ).ready(function() {
-  $(".test").click(function() {
+$(document).ready(function () {
+  $(".test").click(function () {
     Notify("This is a test message.");
   });
 
-  $( "#Hi" ).click(function() {
+  $("#Hi").click(function () {
     // Notify("Submission Attempt")
     Notify("Form Submission");
     // alert("Form Submission");
   });
+
+  $('#table-active, #table-inactive').DataTable();
 });
