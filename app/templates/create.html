@@ -25,9 +25,8 @@
         {{ form.description(id='description', size=32, maxlength=200, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;", oninput="countCharacters(200, 'description', 'description-counter')") }}<br>
         <small id="description-counter" class="text-muted">0 of 200 characters used.</small>
       </div>
-    <br>
+      <br>
       {% for error in form.description.errors %}
-
         <script>
           var formErrors = {% if error %}true;{% else %} false{% endif %};
           if (formErrors) {
@@ -36,18 +35,28 @@
         </script>
         {# <span style="color: red;">[{{ error }}]</span> #}
       {% endfor %}
+      <div style="margin-left: 20%;">
+        {{ form.choice.label(style="font-weight: bold") }}<br>
+        {{ form.choice(size=32, style="border-radius:5px; border:1px solid #D8D8D8; width: 70%") }}
+        <span onclick="handleClick()" style="margin-left: 5px"><i class="fa fa-plus-circle" style="font-size:24px"></i></span>
+      </div>
+      <br>
+      <br>
+      {% for field in form.options %}
+        {{ field(class='choice') }}<br>
+      {% endfor %}
       <div style="text-align: center;">
         {{ form.isOpen }} {{ form.isOpen.label }}
-         {% for error in form.isOpen.errors %}
+        {% for error in form.isOpen.errors %}
 
-        <script>
-          var formErrors = {% if error %}true;{% else %} false{% endif %};
-          if (formErrors) {
-            Notify("Open Poll: {{error}}", null, null, 'danger');
-          }
-        </script>
-        {# <span style="color: red;">[{{ error }}]</span> #}
-      {% endfor %}
+          <script>
+            var formErrors = {% if error %}true;{% else %} false{% endif %};
+            if (formErrors) {
+              Notify("Open Poll: {{error}}", null, null, 'danger');
+            }
+          </script>
+          {# <span style="color: red;">[{{ error }}]</span> #}
+        {% endfor %}
         <br>
         {{ form.submit(class_="btn btn-primary") }}
       </div>

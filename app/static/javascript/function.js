@@ -9,3 +9,7 @@ function countCharacters(maxCharacters, source, target) {
   var counter = document.getElementById(target);
   counter.innerText = count + " of" + " " +  maxCharacters + " " +  "characters used.";
 }
+
+function handleClick() {
+  alert("clicked!")
+}
