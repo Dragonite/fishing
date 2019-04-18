@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, Markup
 
 from app import app
-from app.forms import LoginForm
+from app.forms import LoginForm, CreatePollForm
 
 # Mimic Admin User
 user = {'nickname': 'Haolin', 'admin': True, 'id': 1}
@@ -43,6 +43,20 @@ def login():
     return render_template('login.html', title='Sign In', form=form, user=user)
 
 
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    form = CreatePollForm()
+    if form.validate_on_submit():
+        # message = Markup(
+        #     # '<script>Notify("Login requested for user {}, Remember me = {}", null, null, "danger")</script>'.format(
+        #     #     form.username.data, form.remember_me.data))
+        # flash(message)
+        # flash('Login requested for user {}, remember_me={}'.format(
+        #     form.username.data, form.remember_me.data))
+        return redirect(url_for('index'))
+    return render_template('create.html', title='Create a Poll', form=form, user=user)
+
+
 @app.route('/help')
 def help():
     return render_template("help.html", title='Help', user=user)
@@ -56,11 +70,6 @@ def current():
 @app.route('/completed')
 def completed():
     return render_template("completed.html", title='Completed Polls', user=user)
-
-
-@app.route('/create')
-def create():
-    return render_template("create.html", title='Create A Poll', user=user)
 
 
 @app.route('/users')

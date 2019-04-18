@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <div class="form-container">
+    <form id="login-form" action="" method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <div style="margin-left: 20%;">
+        {{ form.title.label(style="font-weight: bold") }}<br>
+        {{ form.title(size=32, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;") }}<br>
+      </div>
+      <br>
+      {% for error in form.title.errors %}
+        <script>
+          var formErrors = {% if error %}true;{% else %} false{% endif %};
+          if (formErrors) {
+            Notify("Username: {{error}}", null, null, 'danger');
+          }
+        </script>
+        {# <span style="color: red;">[{{ error }}]</span> #}
+      {% endfor %}
+      <div style="margin-left: 20%;">
+        {{ form.description.label(style="font-weight: bold") }}<br>
+        {{ form.description(id='description', size=32, maxlength=250, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;", oninput="countCharacters(250, 'description', 'counter')") }}<br>
+        <small id="counter" class="text-muted">0 of 250 characters used.</small>
+      </div>
+    <br>
+      {% for error in form.description.errors %}
+
+        <script>
+          var formErrors = {% if error %}true;{% else %} false{% endif %};
+          if (formErrors) {
+            Notify("Password: {{error}}", null, null, 'danger');
+          }
+        </script>
+        {# <span style="color: red;">[{{ error }}]</span> #}
+      {% endfor %}
+      <div style="text-align: center;">
+        {{ form.isOpen }} {{ form.isOpen.label }}
+        <br>
+        {{ form.submit(class_="btn btn-primary") }}
+      </div>
+      <p></p>
+    </form>
+  </div>
+{% endblock %}
