@@ -7,7 +7,8 @@
       {{ form.hidden_tag() }}
       <div style="margin-left: 20%;">
         {{ form.title.label(style="font-weight: bold") }}<br>
-        {{ form.title(size=32, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;") }}<br>
+        {{ form.title(id='title', size=32, maxlength=50, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;", oninput="countCharacters(50, 'title', 'title-counter')") }}<br>
+        <small id="title-counter" class="text-muted">0 of 50 characters used.</small>
       </div>
       <br>
       {% for error in form.title.errors %}
@@ -21,8 +22,8 @@
       {% endfor %}
       <div style="margin-left: 20%;">
         {{ form.description.label(style="font-weight: bold") }}<br>
-        {{ form.description(id='description', size=32, maxlength=250, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;", oninput="countCharacters(250, 'description', 'counter')") }}<br>
-        <small id="counter" class="text-muted">0 of 250 characters used.</small>
+        {{ form.description(id='description', size=32, maxlength=200, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;", oninput="countCharacters(200, 'description', 'description-counter')") }}<br>
+        <small id="description-counter" class="text-muted">0 of 200 characters used.</small>
       </div>
     <br>
       {% for error in form.description.errors %}
@@ -37,6 +38,16 @@
       {% endfor %}
       <div style="text-align: center;">
         {{ form.isOpen }} {{ form.isOpen.label }}
+         {% for error in form.isOpen.errors %}
+
+        <script>
+          var formErrors = {% if error %}true;{% else %} false{% endif %};
+          if (formErrors) {
+            Notify("Open Poll: {{error}}", null, null, 'danger');
+          }
+        </script>
+        {# <span style="color: red;">[{{ error }}]</span> #}
+      {% endfor %}
         <br>
         {{ form.submit(class_="btn btn-primary") }}
       </div>

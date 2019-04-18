@@ -11,7 +11,7 @@ class LoginForm(FlaskForm):
 
 
 class CreatePollForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
+    title = TextAreaField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    isOpen = BooleanField('Open Poll')
+    isOpen = BooleanField('Open Poll', validators=[DataRequired()])
     submit = SubmitField('Create Poll')
