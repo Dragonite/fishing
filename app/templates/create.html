@@ -41,6 +41,24 @@
         <span onclick="handleClick()" style="margin-left: 5px"><i class="fa fa-plus-circle" style="font-size:24px"></i></span>
       </div>
       <br>
+
+      <div style="margin-left:20%">
+        <div style="font-weight:bold">Choices</div>
+        <div style="margin-top: 10px">
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+          <div class="poll-choice"></div>
+        </div>
+      </div>
+
+      <br>
       <br>
       {% for field in form.options %}
         {{ field(class='choice') }}<br>
