@@ -45,6 +45,7 @@
 
       <div style="margin-left:20%">
         <div style="font-weight:bold">Choices</div>
+        <small class="text-muted">These are the options for your poll.</small>
         <div style="margin-top: 10px; max-width: 70%; word-break: break-word">
           <div class="poll-choice"></div>
           <div class="poll-choice"></div>
@@ -76,6 +77,7 @@
             if (!submitChoices[i].value) {
               listChoices[i].innerHTML = createChoice.value;
               submitChoices[i].value = createChoice.value;
+              createChoice.value = "";
               break;
             }
           }
