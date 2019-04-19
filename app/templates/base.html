@@ -25,8 +25,19 @@
 <div class="container-fluid">
   <div class="row">
     {% include "sidebar.html" %}
-    <div class="col-sm-10" id="main">
-      <h1 class="header-title">{{ title }}</h1>
+    <div class="col-sm-10" style="color: #212529" id="main">
+      <div style="margin-top: 20px">
+        <h1 class="header-title" style="display:inline" >
+          {{ title }}
+        </h1>
+        <span style="float:right;margin-top: 20px;font-weight: bold;color:#6c757d">
+          {% if current_user.is_anonymous %}
+            Log In/Register
+          {% else %}
+            Logged in as {{ current_user.firstName }} {{ current_user.lastName }}
+          {% endif %}
+        </span>
+      </div>
       <hr>
       {% with messages = get_flashed_messages() %}
         {% if messages %}
