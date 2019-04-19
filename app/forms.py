@@ -8,18 +8,21 @@ from app.models import User
 
 
 class LoginForm(FlaskForm):
-    logInId = StringField('Username', validators=[DataRequired()])
-    pwd = PasswordField('Password', validators=[DataRequired()])
-    firstName = StringField('First Name', validators=[DataRequired()])
-    email = EmailField('Email address', validators=[DataRequired(), Email()])
-    pwd_repeat=PasswordField(
-        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
-
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
-    def validate_username(self,logInId):
-        user = User.query.filter_by(logInId=logInId.data).first()
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    firstName = StringField('First Name', validators=[DataRequired()])
+    email = EmailField('Email address', validators=[DataRequired(), Email()])
+    password2 =PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign up')
+
+    def validate_username(self, username):
+        user = User.query.filter_by( username= username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
@@ -27,7 +30,6 @@ class LoginForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
-
 # https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
 
 class CreatePollForm(FlaskForm):

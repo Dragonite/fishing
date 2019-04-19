@@ -1,19 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-  <!-- <h1>Hi, {{ user.nickname }}!</h1>
-{% for post in posts %}
-<div>
-    <p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p>
-</div>
-{% endfor %} -->
+
   <div class="card mb-3">
     <div class="card-body">
-      <h5 class="card-title">{% if user.id %}
-        Welcome back, {{ user.nickname }}
+      <h5 class="card-title">{% if current_user.is_authenticated %}
+        Welcome back, {{ current_user.firstName }}
       {% else %}
         Welcome
       {% endif %}</h5>
-      <p class="card-text">There are currently 21 total polls on the Fishing Polling Application.</p>
+      <p class="card-text">Please login if you want to create a poll or view poll results.</p>
+      
       <p class="card-text">
         <small class="text-muted">Last logged in 3 minutes ago</small>
       </p>

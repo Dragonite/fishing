@@ -7,8 +7,8 @@ from sqlalchemy import Column, Integer, String, Enum
 
 
 @login.user_loader
-def load_user(logInId):
-  return (db.session.query(User).filter(User.logInId==logInId).first())
+def load_user(username):
+  return (db.session.query(User).filter(User.username==username).first())
 
 class User(UserMixin, db.Model):
     
@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
     
     firstName=db.Column(db.String(64), nullable=False)
     lastName=db.Column(db.String(64))
-    logInId=db.Column(db.String(64),nullable=False, unique=True)
+    username=db.Column(db.String(64),nullable=False, unique=True)
     pwdHash=db.Column(db.String(128))
 
     email=db.Column(db.String(128), nullable=False, unique=True)
@@ -44,13 +44,13 @@ class User(UserMixin, db.Model):
 
     ######### method definition #################
     def __repr__(self):
-        return '<User {}>'.format(self.logInId)
+        return '<User {}>'.format(self.username)
 
     def set_password(self, pwd):
         self.pwdHash=generate_password_hash(pwd)
 
     def check_password(self, pwd):
-        return check_password_hash(self.password_hash, pwd)
+        return check_password_hash(self.pwdHash, pwd)
 
     def is_committed(self):
         return self.project_id is not None
