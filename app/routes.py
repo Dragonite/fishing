@@ -32,7 +32,7 @@ def login():
             #session['was_once_logged_in'] = True
             return redirect(url_for('index'))
         else:
-            flash('Invalid username or password')
+            flash(Markup('<script>Notify("Invalid username or password.", null, null, "danger")</script>'))
             return redirect(url_for('login'))
 
     return render_template('login.html', title='Sign In', form=form)
