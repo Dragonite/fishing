@@ -32,7 +32,7 @@
         </h1>
         <span style="float:right;margin-top: 20px;font-weight: bold;color:#6c757d">
           {% if current_user.is_anonymous %}
-            Log In/Register
+            Not Logged In
           {% else %}
             Logged in as {{ current_user.firstName }} {{ current_user.lastName }}
           {% endif %}
