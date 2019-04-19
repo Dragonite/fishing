@@ -40,50 +40,50 @@ def login():
 
 
 
-# @app.route('/create', methods=['GET', 'POST'])
-# def create():
-#     form = CreatePollForm()
-#     if form.validate_on_submit():
-#         # message = Markup(
-#         #     # '<script>Notify("Login requested for user {}, Remember me = {}", null, null, "danger")</script>'.format(
-#         #     #     form.username.data, form.remember_me.data))
-#         # flash(message)
-#         # flash('Login requested for user {}, remember_me={}'.format(
-#         #     form.username.data, form.remember_me.data))
-#         return redirect(url_for('index'))
-#     return render_template('create.html', title='Create a Poll', form=form, user=user)
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    form = CreatePollForm()
+    if form.validate_on_submit():
+        # message = Markup(
+        #     # '<script>Notify("Login requested for user {}, Remember me = {}", null, null, "danger")</script>'.format(
+        #     #     form.username.data, form.remember_me.data))
+        # flash(message)
+        # flash('Login requested for user {}, remember_me={}'.format(
+        #     form.username.data, form.remember_me.data))
+        return redirect(url_for('index'))
+    return render_template('create.html', title='Create a Poll', form=form)
 
 
 @app.route('/help')
 def help():
-    return render_template("help.html", title='Help', user=user)
+    return render_template("help.html", title='Help')
 
 
 @app.route('/current')
 def current():
-    return render_template("current.html", title='Current Polls', user=user)
+    return render_template("current.html", title='Current Polls')
 
 
 @app.route('/completed')
 def completed():
-    return render_template("completed.html", title='Completed Polls', user=user)
+    return render_template("completed.html", title='Completed Polls')
 
 
-@app.route('/create')
-# @login_required
-def create():
-    return render_template("create.html", title='Create A Poll', user=user)
+# @app.route('/create')
+# # @login_required
+# def create():
+#     return render_template("create.html", title='Create A Poll')
 
 @app.route('/users')
 # @login_required
 def users():
-    return render_template("users.html", title='Users', user=user)
+    return render_template("users.html", title='Users')
 
 
 @app.route('/profile')
 # @login_required
 def profile():
-    return render_template("profile.html", title='My Profile', user=user)
+    return render_template("profile.html", title='My Profile')
 
 @app.route('/logout')
 @login_required
