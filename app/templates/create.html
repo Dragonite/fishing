@@ -45,7 +45,7 @@
 
       <div style="margin-left:20%">
         <div style="font-weight:bold">Choices</div>
-        <div style="margin-top: 10px">
+        <div style="margin-top: 10px; max-width: 70%; word-break: break-word">
           <div class="poll-choice"></div>
           <div class="poll-choice"></div>
           <div class="poll-choice"></div>
@@ -58,16 +58,21 @@
           <div class="poll-choice"></div>
         </div>
       </div>
-      <script>
-
+    <div id="submit-choices-container">
+      {% for field in form.options %}
+        {{ field(class='choice') }}<br>
+      {% endfor %}
+    </div>
+    <br>
+    <script>
+        document.getElementById('submit-choices-container').hidden = true;
         document.getElementById('add-choice-button').addEventListener('click', handleAdd);
-
         function handleAdd() {
           console.log('clicked');
           var createChoice = document.getElementById('create-choice');
           var listChoices = document.getElementsByClassName('poll-choice');
           var submitChoices = document.getElementsByClassName('choice');
-          for (var i = 0; i < listChoices.length; i++) {
+          for (var i = 0; i < submitChoices.length; i++) {
             if (!submitChoices[i].value) {
               listChoices[i].innerHTML = createChoice.value;
               submitChoices[i].value = createChoice.value;
@@ -76,11 +81,6 @@
           }
         }
       </script>
-      <br>
-      <br>
-      {% for field in form.options %}
-        {{ field(class='choice') }}<br>
-      {% endfor %}
       <div style="text-align: center;">
         {{ form.isOpen }} {{ form.isOpen.label }}
         {% for error in form.isOpen.errors %}
