@@ -4,3 +4,7 @@
 flask
 app/__pycache__
 __pycache__
+*.db
+migrations
+test.py
+*.sql

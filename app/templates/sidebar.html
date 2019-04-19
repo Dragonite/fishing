@@ -15,7 +15,7 @@
         Completed Polls
       </a>
       <!-- If the user is logged in -->
-      {% if user.id %}
+      {% if current_user.is_authenticated %}
         <a href="{{ url_for('create') }}" class="nav-link">
           <i class="fa-fw fa fa-plus"></i>
           Create Poll
@@ -25,22 +25,24 @@
           My Profile
         </a>
         <!-- If the user is logged in AND an admin -->
-        {% if user.admin == True %}
+        {% if current_user.isAdmin == True %}
           <a href="{{ url_for('users') }}" class="nav-link">
             <i class="fa-fw fa fa-users"></i>
             Users
           </a>
         {% endif %}
-        <a href="{{ url_for('index') }}" class="nav-link">
+        <a href="{{ url_for('logout') }}" class="nav-link">
           <i class="fa-fw fa fa-sign-out-alt"></i>
           Log Out
         </a>
       {% else %}
         <!-- If the user is not logged in -->
+        {% if current_user.is_anonymous %}
         <a href="{{ url_for('login') }}" class="nav-link">
           <i class="fa-fw fa fa-sign-in-alt"></i>
           Login
         </a>
+        {% endif %}
       {% endif %}
       <a href="{{ url_for('help') }}" class="nav-link">
         <i class="fa-fw fa fa-question-circle"></i>
