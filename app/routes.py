@@ -89,8 +89,7 @@ def profile():
 @login_required
 def logout():
     logout_user()
-
-    flash('You have successfully logged yourself out.')
+    flash(Markup('<script>Notify("You have successfully logged yourself out.", null, null, "success")</script>'))
     return redirect(url_for('index'))        
 
 
