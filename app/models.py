@@ -6,10 +6,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Enum
 
 
-@login.user_loader
-def load_user(username):
-  return (db.session.query(User).filter(User.username==username).first())
 
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 class User(UserMixin, db.Model):
     
     __tablename__ = 'users'
@@ -54,3 +54,6 @@ class User(UserMixin, db.Model):
 
     def is_committed(self):
         return self.project_id is not None
+
+
+

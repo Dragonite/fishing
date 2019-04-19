@@ -3,10 +3,10 @@
 
   <div class="card mb-3">
     <div class="card-body">
-      <h5 class="card-title">{% if current_user.is_authenticated %}
-        Welcome back, {{ current_user.firstName }}
-      {% else %}
-        Welcome
+      <h5 class="card-title">
+          {% if current_user.is_anonymous %}Welcome
+          {% else %}
+           Welcome back, {{ current_user.firstName }}        
       {% endif %}</h5>
       <p class="card-text">Please login if you want to create a poll or view poll results.</p>
       

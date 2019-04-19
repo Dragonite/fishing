@@ -1,35 +1,14 @@
 from flask import render_template, flash, redirect, url_for, Markup, request
 from app import app, db
 from app.forms import LoginForm, CreatePollForm
-from flask_login import current_user, login_user
+from flask_login import login_required, current_user, login_user, logout_user
 from app.models import User
-from flask_login import login_required
 
-
-# Mimic Admin User
-#user = {'firstName': 'Haolin', 'isActive': True, 'id': 1}
-
-# Mimic Logged In User
-# user = {'nickname': 'Leon', 'admin': False, 'id': 2}
-
-# Mimic Default User
-#user = {}
-#user=User.query.filter_by(username='Luna').first()
 
 @app.route('/')
 @app.route('/index')
 def index():
-    posts = [  # fake array of posts
-        {
-            'author': {'nickname': 'Haolin'},
-            'body': 'I caught a herring!'
-        },
-        {
-            'author': {'nickname': 'Luna'},
-            'body': 'I caught a snapper!'
-        }
-    ]
-    return render_template("index.html", title='Home',  posts=posts)
+    return render_template("index.html", title='Home')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -39,15 +18,23 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
+        # if user is None or not user.check_password(form.password.data):
+        #     flash('Invalid username or password')
+        #     return redirect(url_for('login'))
+        # login_user(user, remember=form.remember_me.data)
        # next_page = request.args.get('next')   #########
        # if not next_page or url_parse(next_page).netloc != '':
        #      next_page = url_for('index')
         #return redirect(url_for('next_page')) 
-        return redirect(url_for('index'))
+
+        if user:
+            login_user(user, remember=form.remember_me.data)
+            #session['was_once_logged_in'] = True
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+
     return render_template('login.html', title='Sign In', form=form)
 
 
@@ -99,9 +86,11 @@ def profile():
     return render_template("profile.html", title='My Profile', user=user)
 
 @app.route('/logout')
-# @login_required
+@login_required
 def logout():
     logout_user()
+
+    flash('You have successfully logged yourself out.')
     return redirect(url_for('index'))        
 
 
