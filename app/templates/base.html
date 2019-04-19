@@ -1,42 +1,44 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/base.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.6.0"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="/static/javascript/notify.js"></script>
-    <script src="/static/javascript/tabs.js"></script>
-    <script src="/static/javascript/jq.js"></script>
-    <title>Fishing App - {% block title %}{{ title }}{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/base.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.6.0"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="/static/javascript/notify.js"></script>
+  <script src="/static/javascript/tabs.js"></script>
+  <script src="/static/javascript/function.js"></script>
+  <script src="/static/javascript/jq.js"></script>
+  <title>Fishing App - {% block title %}{{ title }}{% endblock %}</title>
 </head>
 
 <body>
-    <!-- https://stackoverflow.com/questions/40497288/how-to-create-a-fixed-sidebar-layout-with-bootstrap-4 -->
-    <div id="notifications"></div>
-    <div class="container-fluid">
-        <div class="row">
-            {% include "sidebar.html" %}
-            <div class="col" id="main">
-                <h1 class="header-title">{{ title }}</h1>
-                <hr>
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                {% for message in messages %}
-                {{ message }}
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
-                {% block content %}{% endblock %}
-            </div>
-        </div>
+<!-- https://stackoverflow.com/questions/40497288/how-to-create-a-fixed-sidebar-layout-with-bootstrap-4 -->
+<div id="notifications"></div>
+<div class="container-fluid">
+  <div class="row">
+    {% include "sidebar.html" %}
+    <div class="col-sm-10" id="main">
+      <h1 class="header-title">{{ title }}</h1>
+      <hr>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
     </div>
+  </div>
+</div>
 </body>
 
 </html>

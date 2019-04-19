@@ -2,23 +2,23 @@
 
 {% block content %}
 
-<!-- Tab links -->
-<div class="tab">
-  <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'About')">About</button>
-  <button class="tablinks" onclick="openTab(event, 'Algorithm')">Algorithm</button>
-  <button class="tablinks" onclick="openTab(event, 'Acknowledgements')">Acknowledgements</button>
-</div>
+  <!-- Tab links -->
+  <div class="tab">
+    <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'About')">About</button>
+    <button class="tablinks" onclick="openTab(event, 'Algorithm')">Algorithm</button>
+    <button class="tablinks" onclick="openTab(event, 'Acknowledgements')">Acknowledgements</button>
+  </div>
 
-<!-- Tab content -->
-{% include "/help-tabs/about.html" %}
+  <!-- Tab content -->
+  {% include "/help-tabs/about.html" %}
 
-{% include "/help-tabs/algorithm.html" %}
+  {% include "/help-tabs/algorithm.html" %}
 
-{% include "/help-tabs/acknowledgements.html" %}
+  {% include "/help-tabs/acknowledgements.html" %}
 
-<script>
-  // Get the element with id="defaultOpen" and click on it
-  document.getElementById("defaultOpen").click();
-</script>
+  <script>
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+  </script>
 
 {% endblock %}

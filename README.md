@@ -3,13 +3,14 @@
 Fishing Poll application written for CITS3403's [Project](http://teaching.csse.uwa.edu.au/units/CITS3403/index.php?fname=projects&project=yes) in Semester 1 2019.
 
 ## Libraries Used
-
+- [Bootstrap](https://getbootstrap.com/)
+- [jQuery](https://jquery.com/)
 - [Font Awesome](https://fontawesome.com/)
 - [Notify.js](https://github.com/msroot/Notify.js/)
 - [Chart.js](https://www.chartjs.org/)
 - [Chart.js Datalabels](https://github.com/chartjs/chartjs-plugin-datalabels)
 - [DataTables](https://datatables.net/)
-- [W3Schools JS Tabs](https://www.w3schools.com/howto/howto_js_tabs.asp)
+- [W3Schools](https://www.w3schools.com/)
 
 ## Authors
 - Haolin Wu ([21706137](https://github.com/dragonite)) 

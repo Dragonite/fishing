@@ -6,41 +6,41 @@
         <i class="fa-fw fa fa-home"></i>
         Home
       </a>
-      <a href="{{ url_for('current')}}" class="nav-link">
+      <a href="{{ url_for('current') }}" class="nav-link">
         <i class="fa-fw fa fa-bell"></i>
         Current Polls
       </a>
-      <a href="{{ url_for('completed')}}" class="nav-link">
+      <a href="{{ url_for('completed') }}" class="nav-link">
         <i class="fa-fw fa fa-poll"></i>
         Completed Polls
       </a>
       <!-- If the user is logged in -->
       {% if user.id %}
-      <a href="{{ url_for('create')}}" class="nav-link">
-        <i class="fa-fw fa fa-plus"></i>
-        Create Poll
-      </a>
-      <a href="{{ url_for('profile')}}" class="nav-link">
-        <i class="fa-fw fa fa-user"></i>
-        My Profile
-      </a>
-      <!-- If the user is logged in AND an admin -->
-      {% if user.admin == True %}
-      <a href="{{ url_for('users') }}" class="nav-link">
-        <i class="fa-fw fa fa-users"></i>
-        Users
-      </a>
-      {% endif %}
-      <a href="{{ url_for('index') }}" class="nav-link">
-        <i class="fa-fw fa fa-sign-out-alt"></i>
-        Log Out
-      </a>
+        <a href="{{ url_for('create') }}" class="nav-link">
+          <i class="fa-fw fa fa-plus"></i>
+          Create Poll
+        </a>
+        <a href="{{ url_for('profile') }}" class="nav-link">
+          <i class="fa-fw fa fa-user"></i>
+          My Profile
+        </a>
+        <!-- If the user is logged in AND an admin -->
+        {% if user.admin == True %}
+          <a href="{{ url_for('users') }}" class="nav-link">
+            <i class="fa-fw fa fa-users"></i>
+            Users
+          </a>
+        {% endif %}
+        <a href="{{ url_for('index') }}" class="nav-link">
+          <i class="fa-fw fa fa-sign-out-alt"></i>
+          Log Out
+        </a>
       {% else %}
-      <!-- If the user is not logged in -->
-      <a href="{{ url_for('login') }}" class="nav-link">
-        <i class="fa-fw fa fa-sign-in-alt"></i>
-        Login
-      </a>
+        <!-- If the user is not logged in -->
+        <a href="{{ url_for('login') }}" class="nav-link">
+          <i class="fa-fw fa fa-sign-in-alt"></i>
+          Login
+        </a>
       {% endif %}
       <a href="{{ url_for('help') }}" class="nav-link">
         <i class="fa-fw fa fa-question-circle"></i>

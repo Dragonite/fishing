@@ -2,25 +2,25 @@
 
 {% block content %}
 
-<!-- Tab links -->
-<div class="tab">
-  <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Active')">Active</button>
-  <button class="tablinks" onclick="openTab(event, 'Inactive')">Inactive</button>
-</div>
+  <!-- Tab links -->
+  <div class="tab">
+    <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Active')">Active</button>
+    <button class="tablinks" onclick="openTab(event, 'Inactive')">Inactive</button>
+  </div>
 
-<!-- Tab content -->
-<div id="Active" class="tabcontent" style="background-color: white">
-  <!-- Active -->
-  <h4 style="margin-top: 10px; margin-bottom: 20px">Active Users</h4>
+  <!-- Tab content -->
+  <div id="Active" class="tabcontent" style="background-color: white">
+    <!-- Active -->
+    <h4 style="margin-top: 10px; margin-bottom: 20px">Active Users</h4>
 
-  <table id="table-active" class="display">
-    <thead>
+    <table id="table-active" class="display">
+      <thead>
       <tr>
         <th>Name</th>
         <th>Email</th>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       <tr>
         <td>Haolin Wu</td>
         <td>21706137@student.uwa.edu.au</td>
@@ -29,34 +29,34 @@
         <td>Luna Sohee Lee</td>
         <td>22187554@student.uwa.edu.au</td>
       </tr>
-    </tbody>
-  </table>
-</div>
+      </tbody>
+    </table>
+  </div>
 
-<div id="Inactive" class="tabcontent" style="background-color: white">
-  <!-- Inactive -->
-  <h4 style="margin-top: 10px; margin-bottom: 20px">Inactive Users</h4>
+  <div id="Inactive" class="tabcontent" style="background-color: white">
+    <!-- Inactive -->
+    <h4 style="margin-top: 10px; margin-bottom: 20px">Inactive Users</h4>
 
-  <table id="table-inactive" class="display">
-    <thead>
+    <table id="table-inactive" class="display">
+      <thead>
       <tr>
         <th>Name</th>
         <th>Email</th>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       <tr>
         <td>Tim French</td>
         <td>tim.french@uwa.edu.au</td>
       </tr>
-    </tbody>
-  </table>
-</div>
-</div>
+      </tbody>
+    </table>
+  </div>
+  </div>
 
-<script>
-  // Get the element with id="defaultOpen" and click on it
-  document.getElementById("defaultOpen").click();
-</script>
+  <script>
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+  </script>
 
 {% endblock %}

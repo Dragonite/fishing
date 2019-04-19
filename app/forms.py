@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FieldList, IntegerField
+from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, NumberRange
 from wtforms.fields.html5 import EmailField
 from app.models import User
+
+
 
 
 class LoginForm(FlaskForm):
@@ -27,3 +29,11 @@ class LoginForm(FlaskForm):
             raise ValidationError('Please use a different email address.')
 
 # https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-v-user-logins
+
+class CreatePollForm(FlaskForm):
+    title = TextAreaField('Title', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    choice = StringField('Create Choices', validators=[DataRequired()])
+    options = FieldList(StringField('Choice'), min_entries=10,max_entries=10)
+    isOpen = BooleanField('Open Poll', validators=[DataRequired()])
+    submit = SubmitField('Create Poll')
