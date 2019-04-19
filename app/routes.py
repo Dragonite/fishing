@@ -40,7 +40,6 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-<<<<<<< HEAD
         user = User.query.filter_by(logInId=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
@@ -53,16 +52,6 @@ def login():
         return redirect(url_for('next_page'))
     return render_template('login.html', title='Sign In', form=form, user=User)
 
-=======
-        message = Markup(
-            '<script>Notify("Login requested for user {}, Remember me = {}", null, null, "danger")</script>'.format(
-                form.username.data, form.remember_me.data))
-        flash(message)
-        # flash('Login requested for user {}, remember_me={}'.format(
-        #     form.username.data, form.remember_me.data))
-        return redirect(url_for('index'))
-    return render_template('login.html', title='Sign In', form=form, user=user)
->>>>>>> 46deec04f50f3bccd011a231da4ae7f68e9fa189
 
 
 @app.route('/create', methods=['GET', 'POST'])
@@ -94,14 +83,11 @@ def completed():
     return render_template("completed.html", title='Completed Polls', user=user)
 
 
-<<<<<<< HEAD
 @app.route('/create')
 @login_required
 def create():
     return render_template("create.html", title='Create A Poll', user=user)
 
-=======
->>>>>>> 46deec04f50f3bccd011a231da4ae7f68e9fa189
 @app.route('/users')
 @login_required
 def users():
@@ -112,7 +98,6 @@ def users():
 @login_required
 def profile():
     return render_template("profile.html", title='My Profile', user=user)
-<<<<<<< HEAD
 
 @app.route('/logout')
 @login_required
@@ -136,5 +121,3 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
-=======
->>>>>>> 46deec04f50f3bccd011a231da4ae7f68e9fa189
