@@ -16,7 +16,7 @@ user = {'nickname': 'Haolin', 'admin': True, 'id': 1}
 
 @app.route('/')
 @app.route('/index')
-@login_required
+
 def index():
     posts = [  # fake array of posts
         { 
@@ -46,7 +46,7 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(url_for('next_page'))
-    return render_template('login.html', title='Sign In', form=form, user=user)
+    return render_template('login.html', title='Sign In', form=form, user=User)
 
 
 @app.route('/help')
