@@ -1,0 +1,13 @@
+<div style="margin-top: 20px">
+  <h1 class="header-title" style="display:inline">
+    {{ title }}
+  </h1>
+  <span style="float:right;margin-top: 20px;font-weight: bold;color:#6c757d">
+    {% if current_user.is_anonymous %}
+      Not Logged In
+    {% else %}
+      Logged in as {{ current_user.firstName }} {{ current_user.lastName }}
+    {% endif %}
+  </span>
+</div>
+<hr>
