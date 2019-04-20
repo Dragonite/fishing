@@ -1,54 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">
-          {% if current_user.is_anonymous %}Welcome
-          {% else %}
-           Welcome back, {{ current_user.firstName }}        
-      {% endif %}</h5>
-      <p class="card-text">Please login if you want to create a poll or view poll results.</p>
-      
-      <p class="card-text">
-        <small class="text-muted">Last logged in 3 minutes ago</small>
-      </p>
-    </div>
-  </div>
-  <div class="card-container">
-    <div style="width:23%">
-      <div class="card" style="color:#212529; background-color: #ffe082; text-align: center">
-        <div class="card-header"><strong>Current Polls</strong></div>
-        <div class="card-body">
-          <h5 class="card-title">6</h5>
-        </div>
-      </div>
-    </div>
-    <div style="width:23%">
-      <div class="card" style="color:#212529; background-color: #81d4fa; text-align: center">
-        <div class="card-header"><strong>Completed Polls</strong></div>
-        <div class="card-body">
-          <h5 class="card-title">15</h5>
-        </div>
-      </div>
-    </div>
-    <div style="width:23%">
-      <div class="card" style="color:#212529; background-color: #c5e1a5; text-align: center">
-        <div class="card-header"><strong>Online Users</strong></div>
-        <div class="card-body">
-          <h5 class="card-title">5</h5>
-        </div>
-      </div>
-    </div>
-    <div style="width:23%">
-      <div class="card" style="color:#212529; background-color: #ef9a9a; text-align: center">
-        <div class="card-header"><strong>All Users</strong></div>
-        <div class="card-body">
-          <h5 class="card-title">20</h5>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% include "index/card-login.html" %}
+  {% include "index/card-group.html" %}
   <div class="card-container">
     <div class="card" style="margin-top: 20px;width: 49%; height:48%">
       <div class="card-body">
