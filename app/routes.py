@@ -3,8 +3,8 @@ from flask_login import login_required, current_user, login_user, logout_user
 
 from app import app, db
 from app.forms import LoginForm, CreatePollForm
-from app.models import User
-
+from app.models import User, Poll
+from sqlalchemy.orm.attributes import flag_modified
 
 @app.route('/')
 @app.route('/index')
@@ -77,6 +77,19 @@ def completed():
 def users():
     return render_template("users.html", title='Users')
 
+# @app.route('/userUpdate', methods=['GET', 'POST'])
+# # @login_required
+# def userUpdate():
+#     if current_user.is_authenticated:
+#         user = User.query().filter(User.name==form.username.data)
+#         data = user.data
+#         data["filedname"] =data
+#         user.data = data
+#         flag_modified(user, "data")
+#         db.session.merge(user)
+#         db.session.flush()
+#         db.session.commit() 
+#         return render_template("users.html", title='Users')
 
 @app.route('/profile')
 # @login_required
