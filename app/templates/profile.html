@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <!-- Tab links -->
+  <div class="tab">
+    <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Info')">My Info</button>
+    <button class="tablinks" onclick="openTab(event, 'Settings')">Settings</button>
+  </div>
+
+  <!-- Tab content -->
+  <div id="Info" class="tabcontent" style="background-color: white">
+    <!-- Active -->
+    <h4 style="margin-top: 10px; margin-bottom: 20px">My Info</h4>
+    {{ current_user.username }}<br>
+  {{ current_user.firstName }} {{ current_user.lastName }}<br>
+  {{ current_user.email }}<br>
+  {{ current_user.ad_country }}<br>
+  {{ current_user.createdAt }}<br>
+  {{ current_user.lastModifiedAt }}<br>
+{{ current_user.isActive }}<br>
+  {{ current_user.isAdmin }}<br>
+  </div>
+
+
+  <div id="Settings" class="tabcontent" style="background-color: white">
+    <!-- Inactive -->
+    <h4 style="margin-top: 10px; margin-bottom: 20px">Settings</h4>
+
+  </div>
+
+  <script>
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+  </script>
+
+{% endblock %}
