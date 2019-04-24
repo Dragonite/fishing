@@ -53,12 +53,14 @@ class User(UserMixin, db.Model):
     def check_password(self, pwd):
         return check_password_hash(self.pwdHash, pwd)
 
-    def delete_user(self)
+    def delete_user(self):
         if self.isAdmin:
             raise ValueError('You cannot delete Admin user!!')
         else: 
             self.lastModifiedAt=datetime.utcnow()
             self.isActive=False
+    def get_id(self):
+            return(self.userId)
 
 
 
@@ -165,7 +167,22 @@ class Poll(db.Model):
                 candidate.displayOrder=displayOrder
                 candidate.pollId=self.pollId
                 self.Candidate.append(candidate)
+     
+    def createResponse(self, userId, candidateId, preference):
+        response=Poll.Response()
+        response.userId=userId
+        response.candidateId=candidateId
+        response.response=preference
+        response.createdAt=datetime.utcnow()
+        return response
+    
+    def addResponse(self, User, candidateXresponses):
+        for key, value in candidateXresponses:
+             self.Responses.append(createResponse( User.userId, key, value))
 
+
+    
+    
     def howManyCandidates(self):
         return len(self.Candidate)
 
