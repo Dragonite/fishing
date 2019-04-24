@@ -33,6 +33,14 @@ def archiveUser(User):
             return True
         except:
             return 'archiveUser exception raised: ' + sys.exc_info()[0]
+def getUserById(userId):
+    user = User.query.filter_by(userId=userId).first()
+    return user
+
+def getUserByUsername(username):
+    user = User.query.filter_by(username=username).first()
+    return user
+
 
 def createPoll(Poll):
     if Poll.validate():
@@ -73,3 +81,43 @@ def archivePoll(Poll):
         raise ValueError('You need to close this poll before you delete')
         return False
 
+def getPollById(pollId):
+    poll=Poll.query.filter_by(pollId=pollId).first() 
+    poll.Candidate=Poll.Candidate.query.filter_by(pollId=poll.pollId).all()
+    poll.Response=Poll.Response.query.filter_by(pollId=poll.pollId).all()
+    return poll
+
+def createResponse(userId, preferenceXresponses):
+    responses=Poll.Response()
+    responses=[]
+    if preference==None:
+        raise ValueError('You must enter preference order for each option')
+        return False
+    else:
+        for key, value in preferenceXresponses:
+            response=Poll.Response()
+            response.userId=userId
+            response.candidateId=key
+            if value not in range(1, self.howManyCandidates()):
+                response.response=0
+            else:
+                response.response=value
+            response.createdAt=datetime.utcnow()
+            response.isActive=True
+            responses.append(response)
+    if responses:
+        return responses
+    else:
+        return False
+
+def addResponse(Poll, responses):
+    if Poll.isClosed:
+         raise ValueError('This poll has been closed since ', Poll.completedOn)
+    else:
+
+        for item in responses:
+            try:
+                db.session.add(Poll.responses)
+                db.session.commit()
+            except: 
+                return 'addResponse exception raised: '+ str(sys.exc_info()[0])

@@ -121,6 +121,7 @@ class Poll(db.Model):
         pollId=db.Column(db.Integer, db.ForeignKey('polls.pollId'), nullable=False)
         candidateId=db.Column(db.Integer, db.ForeignKey('candidates.candidateId'), nullable=False)
         
+        isActive=db.Column(db.Boolean)
         response=db.Column(db.Integer)
         createdAt=db.Column(db.DateTime)
 
@@ -178,7 +179,10 @@ class Poll(db.Model):
         return len(self.Candidate)
 
     def howManyResponses(self):
-        return len(self.Response)
+        if len(self.Response)==0:
+            return 0
+        else:
+            return len(self.Response)/self.howManyCandidates()
     
     def close(self):
         self.completedAt=datetime.utcnow()
@@ -194,7 +198,7 @@ class Poll(db.Model):
             return True
         else: 
             return False
-
+    
     def get_id(self):
             return(self.pollId)
 
@@ -218,26 +222,4 @@ class Poll(db.Model):
             if item.candidateDescription == key:
                 return item.candidateId
 
-    def createResponse(self, userId, candidateId, preference):
-        response=Poll.Response()
-        response.userId=userId
-        response.candidateId=candidateId
-        response.response=preference
-        response.createdAt=datetime.utcnow()
-        return response
-    
-    def addResponse(self, User, candidateXresponses):
-        for key, value in candidateXresponses:
-             self.Responses.append(createResponse(User.userId, candidateId, value))
-
-
-    
-    
-
-
-
-
-
-
-           
-
+    # def addResponse(self, responses):
