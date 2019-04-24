@@ -9,19 +9,7 @@
   </div>
 
   <!-- Tab content -->
-  <div id="Info" class="tabcontent" style="background-color: white">
-    <!-- Active -->
-    <h4 style="margin-top: 10px; margin-bottom: 20px">My Info</h4>
-    {{ current_user.username }}<br>
-  {{ current_user.firstName }} {{ current_user.lastName }}<br>
-  {{ current_user.email }}<br>
-  {{ current_user.ad_country }}<br>
-  {{ current_user.createdAt }}<br>
-  {{ current_user.lastModifiedAt }}<br>
-{{ current_user.isActive }}<br>
-  {{ current_user.isAdmin }}<br>
-  </div>
-
+   {% include "/profile/info.html" %}
 
   <div id="Settings" class="tabcontent" style="background-color: white">
     <!-- Inactive -->
