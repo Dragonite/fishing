@@ -25,7 +25,7 @@ Fishing Poll application written for CITS3403's [Project](http://teaching.csse.u
 
 
 ## Project Management Details
-Please see the ([wiki](https://github.com/Dragonite/CITS3403-Project/wiki)) 
+Please see the [wiki](https://github.com/Dragonite/CITS3403-Project/wiki) 
 
 
 
