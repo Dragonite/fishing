@@ -209,6 +209,7 @@ class Poll(db.Model):
                 candidate.candidateDescription=candidateDescription
                 candidate.displayOrder=displayOrder
                 candidate.pollId=self.get_id()
+                candidate.isActive=True
                 self.Candidate.append(candidate)
                 
 
