@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     __table_args__ = {'sqlite_autoincrement': True}
     
 
-    ################property definitions#########################
+    ################User property definitions#########################
 
     userId=db.Column(db.Integer, primary_key=True, autoincrement=True)
     
@@ -40,10 +40,22 @@ class User(UserMixin, db.Model):
     isActive=db.Column(db.Boolean) 
     isAdmin=db.Column(db.Boolean)
 
-    #############################################
+    #################################################################
     
 
-    ######### method definition #################
+    ################### User method definition ######################
+    def __init__(self):
+        self.createdAt=datetime.utcnow()
+        self.lastModifiedAt=None
+        self.isActive=True
+        self.isAdmin=False
+    
+    def validate(self):
+        if self.firstName and self.lastName and self.email:
+            return True
+        else:
+            return False
+    
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -53,12 +65,6 @@ class User(UserMixin, db.Model):
     def check_password(self, pwd):
         return check_password_hash(self.pwdHash, pwd)
 
-    def delete_user(self):
-        if self.isAdmin:
-            raise ValueError('You cannot delete Admin user!!')
-        else: 
-            self.lastModifiedAt=datetime.utcnow()
-            self.isActive=False
     def get_id(self):
             return(self.userId)
 
@@ -70,9 +76,10 @@ class Poll(db.Model):
     __tablename__ = 'polls'
     __table_args__ = {'sqlite_autoincrement': True}
 
+    ################Poll property definitions#########################
     pollId=db.Column(db.Integer, primary_key=True, autoincrement=True)
     
-    title=db.Column(db.String(64), nullable=False)
+    title=db.Column(db.String(64), nullable=False, unique=True)
     description=db.Column(db.String(250))
 
     createdAt=db.Column(db.DateTime)
@@ -92,7 +99,7 @@ class Poll(db.Model):
     class Candidate(db.Model):
         
         __tablename__ = 'candidates'
-        __table_args__ = {'sqlite_autoincrement': True}
+        __table_args__ = (db.UniqueConstraint('pollId', 'candidateDescription', name='unique_candidates'),{'sqlite_autoincrement': True})
 
         candidateId=db.Column(db.Integer, primary_key=True, autoincrement=True)
         candidateDescription=db.Column(db.String(128), nullable=False)
@@ -100,7 +107,10 @@ class Poll(db.Model):
         isActive=db.Column(db.Boolean) 
         pollId=db.Column(db.Integer, db.ForeignKey('polls.pollId'), nullable=False)
         
-       
+        def get_id(self):
+            return(self.candidateId)
+
+
     class Response(db.Model):
 
         __tablename__ = 'responses'
@@ -114,6 +124,15 @@ class Poll(db.Model):
         response=db.Column(db.Integer)
         createdAt=db.Column(db.DateTime)
 
+        def get_id(self):
+            return(self.responseId)
+
+        def validate(self):   
+            if userId and pollId and candidateId:
+                return True
+            else:
+                return False
+    ################### Poll method definition ######################
     def __init__(self, title, description, minResponses, orderCandidatesBy, isOpenPoll, openAt, closeAt, User):
         self.Candidate=self.Candidate()
         self.Candidate=[]
@@ -154,6 +173,30 @@ class Poll(db.Model):
         self.createdByUserId=User.userId
         self.createdAt=datetime.utcnow()
         self.isActive=1
+    
+    def howManyCandidates(self):
+        return len(self.Candidate)
+
+    def howManyResponses(self):
+        return len(self.Response)
+    
+    def close(self):
+        self.completedAt=datetime.utcnow()
+    
+    def isClosed(self):
+        if self.completedAt:
+            return True
+        else:
+            return False
+
+    def validate(self):    
+        if self.title and self.orderCandidatesBy and self.createdByUserId and self.howManyCandidates()>0:
+            return True
+        else: 
+            return False
+
+    def get_id(self):
+            return(self.pollId)
 
     def addCandidate(self, candidateDescription, displayOrder):
         if candidateDescription==None:
@@ -165,9 +208,15 @@ class Poll(db.Model):
                 candidate = Poll.Candidate()
                 candidate.candidateDescription=candidateDescription
                 candidate.displayOrder=displayOrder
-                candidate.pollId=self.pollId
+                candidate.pollId=self.get_id()
                 self.Candidate.append(candidate)
-     
+                
+
+    def getCandidateId(self, key):
+        for item in self.Candidate:
+            if item.candidateDescription == key:
+                return item.candidateId
+
     def createResponse(self, userId, candidateId, preference):
         response=Poll.Response()
         response.userId=userId
@@ -178,16 +227,12 @@ class Poll(db.Model):
     
     def addResponse(self, User, candidateXresponses):
         for key, value in candidateXresponses:
-             self.Responses.append(createResponse( User.userId, key, value))
+             self.Responses.append(createResponse(User.userId, candidateId, value))
 
 
     
     
-    def howManyCandidates(self):
-        return len(self.Candidate)
 
-    def howManyResponses(self):
-        return len(self.Response)
 
 
 
