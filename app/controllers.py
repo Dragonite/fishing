@@ -13,14 +13,16 @@ def createUser(User, pwd):
         db.session.commit()
         return True
     except:      
-        return sys.exc_info()[0]
+        return 'createUser exception raised: ' + sys.exc_info()[0]
+
 def modifyUser(User):
     try:
         User.lastModifiedAt=datetime.utcnow()
         db.session.commit()
         return True
     except:
-        return sys.exc_info()[0]
+        return 'modifyUser exception raised: ' +sys.exc_info()[0]
+
 def archiveUser(User):
     if User.isAdmin:
         raise ValueError('You cannot delete Admin user!!')
@@ -33,6 +35,7 @@ def archiveUser(User):
             return True
         except:
             return 'archiveUser exception raised: ' + sys.exc_info()[0]
+
 def getUserById(userId):
     user = User.query.filter_by(userId=userId).first()
     return user
@@ -66,7 +69,7 @@ def modifyPoll(Poll):
         db.session.commit()
         return True
     except:
-        return sys.exc_info()[0]
+        return 'modifyPoll exception raised: ' + sys.exc_info()[0]
 
 def archivePoll(Poll):
     if Poll.isClosed:
@@ -76,7 +79,7 @@ def archivePoll(Poll):
             db.session.commit()
             return True
         except:
-            return sys.exc_info()[0]
+            return 'archivePoll exception raised: ' + sys.exc_info()[0]
     else: 
         raise ValueError('You need to close this poll before you delete')
         return False
