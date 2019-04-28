@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Enum
-
+import sys
 
 
 @login.user_loader
@@ -222,4 +222,30 @@ class Poll(db.Model):
             if item.candidateDescription == key:
                 return item.candidateId
 
-    # def addResponse(self, responses):
+    def addResponse(self, userId, preferenceXresponses):
+        if self.isClosed():
+            raise ValueError('This poll has been closed since ', Poll.completedAt)
+            return False
+        else:
+            if preferenceXresponses==None:
+                raise ValueError('You must enter preference order for each option')
+                return False
+            else:
+                for key, value in preferenceXresponses.items():
+                    response=Poll.Response()
+                    response.userId=userId
+                    response.pollId=self.pollId
+                    response.candidateId=key
+                    response.response=value
+                    response.createdAt=datetime.utcnow()
+                    response.isActive=True
+                    self.Response.append(response)
+                    try:
+                        db.session.add(response)
+                        db.session.commit()
+                    except: 
+                        return 'addResponse exception raised: '+ str(sys.exc_info()[0])
+            return True
+
+
+           
