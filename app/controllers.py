@@ -43,6 +43,10 @@ def getUserById(userId):
     user = User.query.filter_by(userId=userId).first()
     return user
 
+
+
+
+
 def getUserByUsername(username):
     user = User.query.filter_by(username=username).first()
     return user

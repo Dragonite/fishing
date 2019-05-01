@@ -1,4 +1,5 @@
 import unittest, os
+from unittest import TestSuite, TestCase
 from app import app, db
 from app.models import User, Poll
 from app.controllers import *
@@ -14,17 +15,17 @@ class userControllerCase(unittest.TestCase):
         db.create_all()
     
         luna=User()
-        luna.username='abcluna'
+        luna.username='abclsdwrfuna'
         luna.firstName='Luna'
         luna.lastName='Lee'
-        luna.email='abc22187554@student.edu.au'
+        luna.email='abc2218sdfsdf7554@student.edu.au'
         luna.isAdmin=True
         
         haolin=User()
-        haolin.username='abchaolin'
+        haolin.username='abcwerhasdfolin'
         haolin.firstName='abcHaolin'
         haolin.lastName='Wu'
-        haolin.email='abc21706137@student.edu.au'
+        haolin.email='abc21706sdsfdf137@student.edu.au'
         haolin.isAdmin=True
 
         db.session.add(luna)
@@ -38,10 +39,10 @@ class userControllerCase(unittest.TestCase):
 
     def test_createUser(self):
         validUser=User()
-        validUser.username='a123dsddsd2424aaaaaluna'
+        validUser.username='a123dsddsfdsd2424aaaaaluna'
         validUser.firstName='a24aaaaLuna'
         validUser.lastName='Lee'
-        validUser.email='a22187554@student.edu.au'
+        validUser.email='a221875dfs54@student.edu.au'
         validUser.isAdmin=True
         valid_pwd='1234'
         invalid_pwd=''
@@ -64,15 +65,37 @@ class userControllerCase(unittest.TestCase):
         assert_that(getUserById(userId).userId).is_equal_to(userId)
     
     def test_getUserByUsername(self): 
-        username='abchaolin'
-        assert_that(getUserbyUsername(username).username).is_equal_to(username)
+        username='abcwerhasdfolin'
+        assert_that(getUserByUsername(username).username).is_equal_to(username)
 
 
 
-
+class userModelCase(unittest.TestCase):
+    def setUp(self):
+        luna=User()
+        luna.username='abclsdwrfuna'
+        luna.firstName='Luna'
+        luna.lastName='Lee'
+        luna.email='abc2218sdfsdf7554@student.edu.au'
+        luna.isAdmin=True
+        
+        haolin=User()
+        haolin.username='abcwerhasdfolin'
+        haolin.firstName='abcHaolin'
+        haolin.lastName='Wu'
+        haolin.email='abc21706sdsfdf137@student.edu.au'
+        haolin.isAdmin=True
+    def test_user_properties(self):
+        user=User()
+        for attr, value in user.items():
+            value="abc"
+            assert_that(user[attr]=value).is_equal_to(user[attr])
+   
+        
 def suite():
     
     suite = unittest.TestSuite()
+    suite.addTest(userModelCase('test_user_properties'))
     suite.addTest(userControllerCase('test_createUser'))
     suite.addTest(userControllerCase('test_modifyUser'))
     suite.addTest(userControllerCase('test_archiveUser'))
