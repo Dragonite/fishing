@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
     
     firstName=db.Column(db.String(64), nullable=False)
     lastName=db.Column(db.String(64))
-    username=db.Column(db.String(64),nullable=False, unique=True)
+    username=db.Column(db.String(64), nullable=False, unique=True)
     pwdHash=db.Column(db.String(128))
 
     email=db.Column(db.String(128), nullable=False, unique=True)
