@@ -3,8 +3,8 @@ from flask_login import login_required, current_user, login_user, logout_user
 
 from app import app, db
 from app.forms import LoginForm, CreatePollForm
-from app.models import User
-
+from app.models import User, Poll
+from sqlalchemy.orm.attributes import flag_modified
 
 @app.route('/')
 @app.route('/index')
@@ -77,6 +77,19 @@ def completed():
 def users():
     return render_template("users.html", title='Users')
 
+# @app.route('/userUpdate', methods=['GET', 'POST'])
+# # @login_required
+# def userUpdate():
+#     if current_user.is_authenticated:
+#         user = User.query().filter(User.name==form.username.data)
+#         data = user.data
+#         data["filedname"] =data
+#         user.data = data
+#         flag_modified(user, "data")
+#         db.session.merge(user)
+#         db.session.flush()
+#         db.session.commit() 
+#         return render_template("users.html", title='Users')
 
 @app.route('/profile')
 # @login_required
@@ -98,7 +111,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, firstName=form.firstName.data, lastName=form.lastName.data, ad_street=form.ad_street.data, ad_suburb=form.ad_suburb.data, ad_state=form.ad_state.data, createdAt=datetime.utcnow(), isActive=1, isAdmin=0)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
