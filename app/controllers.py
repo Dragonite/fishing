@@ -7,13 +7,16 @@ import sys
 from datetime import datetime
 
 def createUser(User, pwd):
-    try:
-        User.set_password(pwd)
-        db.session.add(User)
-        db.session.commit()
-        return True
-    except:      
-        return 'createUser exception raised: ' + sys.exc_info()[0]
+    if User.validate():
+        try:
+            User.set_password(pwd)
+            db.session.add(User)
+            db.session.commit()
+            return True
+        except:      
+            return 'createUser exception raised: ' + sys.exc_info()[0]
+    else:
+        return 'createUser exception raised: Mandatory data is missing' 
 
 def modifyUser(User):
     try:
@@ -89,6 +92,10 @@ def getPollById(pollId):
     poll.Candidate=Poll.Candidate.query.filter_by(pollId=poll.pollId).all()
     poll.Response=Poll.Response.query.filter_by(pollId=poll.pollId).all()
     return poll
+
+
+
+
 def getResults(Poll):
     results={}
     return results
