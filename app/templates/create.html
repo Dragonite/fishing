@@ -53,7 +53,6 @@
           </div>
         </div>
       </div>
-
       <div style="margin-left:15%">
         <div id="choice-title" style="font-weight:bold; margin-bottom: 10px">Choices <i class="fa fa-info-circle"></i>
         </div>
@@ -95,6 +94,18 @@
               break;
             }
           }
+        }
+      </script>
+      <script>
+        let options = [];
+        for(let i=0; i<document.getElementsByClassName('input-group mb-3 choice-inputs').length; i++){
+          options[i] = document.getElementById('options-'+[i]).parentNode.children[1].children[0];
+        }
+        options[0].addEventListener('click', handleRemove);
+        options[1].addEventListener('click', handleRemove);
+
+        function handleRemove() {
+          alert('hi')
         }
       </script>
       <div style="text-align: center;">
