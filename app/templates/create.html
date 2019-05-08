@@ -54,43 +54,43 @@
         </div>
       </div>
 
-      <div style="margin-left:20%">
-        <div style="font-weight:bold">Choices</div>
-        <small class="text-muted">These are the options for your poll.</small>
-        <div class="list-group" style="margin-top: 10px; max-width: 70%; word-break: break-word">
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
-          <div class="list-group-item poll-choice"></div>
+      <div style="margin-left:15%">
+        <div id="choice-title" style="font-weight:bold; margin-bottom: 10px">Choices <i class="fa fa-info-circle"></i>
         </div>
-      </div>
-      <div id="submit-choices-container">
-        {% for field in form.options %}
-          {{ field(class='choice') }}<br>
-        {% endfor %}
+        <div id="submit-choices-container" style="width: 80%">
+          {% for field in form.options %}
+            <div class="input-group mb-3 choice-inputs">
+              {{ field(class='form-control choice') }}
+              <div class="input-group-append">
+                <button class="btn btn-danger" type="button"><i class="fa fa-plus"></i></button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
       <br>
       <script>
-        document.getElementById('submit-choices-container').hidden = true;
-        Array.from(document.getElementsByClassName('poll-choice')).map(e => e.hidden = true);
+        document.getElementById('choice-title').hidden = true;
+        {#document.getElementById('submit-choices-container').hidden = true;#}
+        {#Array.from(document.getElementsByClassName('poll-choice')).map(e => e.hidden = true);#}
+        Array.from(document.getElementsByClassName('choice')).map(e => e.style.display = 'none');
+        Array.from(document.getElementsByClassName('input-group mb-3 choice-inputs')).map(e => e.style.display = 'none');
         document.getElementById('add-choice-button').addEventListener('click', handleAdd);
 
         function handleAdd() {
           console.log('clicked');
           var createChoice = document.getElementById('create-choice');
-          var listChoices = document.getElementsByClassName('poll-choice');
+          var choiceInputs = document.getElementsByClassName('input-group mb-3 choice-inputs');
+          {#var listChoices = document.getElementsByClassName('poll-choice');#}
           var submitChoices = document.getElementsByClassName('choice');
           for (var i = 0; i < submitChoices.length; i++) {
-            if (!submitChoices[i].value) {
-              listChoices[i].innerHTML = createChoice.value;
-              listChoices[i].hidden = false;
+            if (!submitChoices[i].value && createChoice.value) {
+              document.getElementById('choice-title').hidden = false;
+              {#listChoices[i].innerHTML = createChoice.value;#}
+              {#listChoices[i].hidden = false;#}
               submitChoices[i].value = createChoice.value;
+              submitChoices[i].style.display = 'block';
+              choiceInputs[i].style.display = 'flex';
               createChoice.value = "";
               break;
             }
