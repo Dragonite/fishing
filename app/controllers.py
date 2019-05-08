@@ -7,74 +7,96 @@ import sys
 from datetime import datetime
 
 def createUser(User, pwd):
-    if User.validate():
-        try:
-            User.set_password(pwd)
-            db.session.add(User)
-            db.session.commit()
-            return True
-        except:      
-            return 'createUser exception raised: ' + sys.exc_info()[0]
+    if User==None:
+        raise ValueError('User object is empty ')
     else:
-        return 'createUser exception raised: Mandatory data is missing' 
+        if User.validate():
+            try:
+                User.set_password(pwd)
+                db.session.add(User)
+                db.session.commit()
+                return True
+            except:      
+                return 'createUser exception raised: ' + sys.exc_info()[0]
+        else:
+            return 'createUser exception raised: Mandatory data is missing' 
 
 def modifyUser(User):
-    try:
-        User.lastModifiedAt=datetime.utcnow()
-        db.session.commit()
-        return True
-    except:
-        return 'modifyUser exception raised: ' +sys.exc_info()[0]
-
-def archiveUser(User):
-    if User.isAdmin:
-        raise ValueError('You cannot delete Admin user!!')
-        return False
-    else: 
+    if User==None:
+        raise ValueError('User object is empty ')
+    else:
         try:
             User.lastModifiedAt=datetime.utcnow()
-            User.isActive=False
             db.session.commit()
             return True
         except:
-            return 'archiveUser exception raised: ' + sys.exc_info()[0]
+            return 'modifyUser exception raised: ' +sys.exc_info()[0]
+
+def archiveUser(User):
+    if User==None:
+        raise ValueError('User object is empty ')
+    else:
+        if User.isAdmin:
+            raise ValueError('You cannot delete Admin user!!')
+            return False
+        else: 
+            try:
+                User.lastModifiedAt=datetime.utcnow()
+                User.isActive=False
+                db.session.commit()
+                return True
+            except:
+                return 'archiveUser exception raised: ' + sys.exc_info()[0]
 
 def getUserById(userId):
     user = User.query.filter_by(userId=userId).first()
-    return user
+    if user==None:
+        raise ValueError('cannot find the user with user id - ', userId)
+    else:
+        return user
 
 def getUserByUsername(username):
     user = User.query.filter_by(username=username).first()
-    return user
+    if user==None:
+        raise ValueError('cannot find the user with username - ', username)
+    else:
+        return user
 
 
 def createPoll(Poll):
-    if Poll.validate():
-        try:
-            db.session.add(Poll)
-            db.session.commit()
-            for index in range(Poll.howManyCandidates()):
-                Poll.Candidate[index].pollId=Poll.get_id()
-                try:
-                    db.session.add(Poll.Candidate[index])
-                    db.session.commit()
-                except: 
-                    return 'create candidate exception raised: '+ str(sys.exc_info()[0])
-            return True
-        except:
-            return 'createPoll exception raised: '+ str(sys.exc_info()[0])
+    if Poll==None:
+        raise ValueError('Poll object is empty')
     else:
-        raise ValueError('Mandatory data for a poll missing')
+        if Poll.validate():
+            try:
+                db.session.add(Poll)
+                db.session.commit()
+                for index in range(Poll.howManyCandidates()):
+                    Poll.Candidate[index].pollId=Poll.get_id()
+                    try:
+                        db.session.add(Poll.Candidate[index])
+                        db.session.commit()
+                    except: 
+                        return 'create candidate exception raised: '+ str(sys.exc_info()[0])
+                return True
+            except:
+                return 'createPoll exception raised: '+ str(sys.exc_info()[0])
+        else:
+            raise ValueError('Mandatory data for a poll missing')
 
 def modifyPoll(Poll):
-    try:
-        Poll.lastModifiedAt=datetime.utcnow()
-        db.session.commit()
-        return True
-    except:
-        return 'modifyPoll exception raised: ' + sys.exc_info()[0]
+    if Poll==None:
+        raise ValueError('Poll object is empty')
+    else:
+        try:
+            Poll.lastModifiedAt=datetime.utcnow()
+            db.session.commit()
+            return True
+        except:
+            return 'modifyPoll exception raised: ' + sys.exc_info()[0]
 
 def archivePoll(Poll):
+
     if Poll.isClosed:
         try:
             Poll.lastModifiedAt=datetime.utcnow()
@@ -83,14 +105,19 @@ def archivePoll(Poll):
             return True
         except:
             return 'archivePoll exception raised: ' + sys.exc_info()[0]
+    elif Poll==None:
+        raise ValueError('Poll object is empty')
     else: 
         raise ValueError('You need to close this poll before you delete')
         return False
 
 def getPollById(pollId):
     poll=Poll.query.filter_by(pollId=pollId).first() 
-    poll.Candidate=Poll.Candidate.query.filter_by(pollId=poll.pollId).all()
-    poll.Response=Poll.Response.query.filter_by(pollId=poll.pollId).all()
+    if poll==None:
+        raise ValueError('There is no poll with poll ID:', pollId)
+    else:
+        poll.Candidate=Poll.Candidate.query.filter_by(pollId=poll.pollId).all()
+        poll.Response=Poll.Response.query.filter_by(pollId=poll.pollId).all()
     return poll
 
 

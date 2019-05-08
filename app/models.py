@@ -170,19 +170,26 @@ class Poll(db.Model):
             self.closeAt=datetime.utcnow()+timedelta(days=7)
         else:
             self.closeAt=closeAt
-               
-        self.createdByUserId=User.userId
+        try:
+            self.createdByUserId=User.userId
+        except:
+             raise ValueError('User object is empty')
         self.createdAt=datetime.utcnow()
         self.isActive=1
     
     def howManyCandidates(self):
-        return len(self.Candidate)
-
-    def howManyResponses(self):
-        if len(self.Response)==0:
+        if self.Candidate == None:
             return 0
         else:
-            return len(self.Response)/self.howManyCandidates()
+            return len(self.Candidate)
+
+    def howManyResponses(self):
+        if self.Response==None:
+            return 0
+        elif self.Candidate==None:
+             raise ValueError('There is no candidate saved yet')
+        else:
+            return int(len(self.Response)/self.howManyCandidates())
     
     def close(self):
         self.completedAt=datetime.utcnow()
@@ -212,7 +219,10 @@ class Poll(db.Model):
                 candidate = Poll.Candidate()
                 candidate.candidateDescription=candidateDescription
                 candidate.displayOrder=displayOrder
-                candidate.pollId=self.get_id()
+                # if self.get_id() != None:
+                #     candidate.pollId=self.get_id()
+                # else: 
+                #      raise ValueError('Poll needs to be commited to DB before add candidate')
                 candidate.isActive=True
                 self.Candidate.append(candidate)
                 
