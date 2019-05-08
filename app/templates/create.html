@@ -59,15 +59,16 @@
           <div class="poll-choice"></div>
         </div>
       </div>
-    <div id="submit-choices-container">
-      {% for field in form.options %}
-        {{ field(class='choice') }}<br>
-      {% endfor %}
-    </div>
-    <br>
-    <script>
+      <div id="submit-choices-container">
+        {% for field in form.options %}
+          {{ field(class='choice') }}<br>
+        {% endfor %}
+      </div>
+      <br>
+      <script>
         document.getElementById('submit-choices-container').hidden = true;
         document.getElementById('add-choice-button').addEventListener('click', handleAdd);
+
         function handleAdd() {
           console.log('clicked');
           var createChoice = document.getElementById('create-choice');
@@ -96,9 +97,34 @@
           {# <span style="color: red;">[{{ error }}]</span> #}
         {% endfor %}
         <br>
-        {{ form.submit(class_="btn btn-primary") }}
+        <div id="button-container" style="margin-top: 10px; margin-bottom: 20px">
+          <button type="button" class="btn btn-secondary" id="clear-button">
+            Clear
+          </button>
+          <button type="button" class="btn btn-secondary" id="save-button">
+            Save
+          </button>
+          {{ form.submit(class_="btn btn-secondary", id="submit-button") }}
+        </div>
       </div>
       <p></p>
     </form>
   </div>
+  <script>
+    $(document).ready(function () {
+      $('#title').val(JSON.parse(localStorage.createForm).title);
+      $('#description').val(JSON.parse(localStorage.createForm).description);
+    });
+  </script>
+  <script>
+    document.getElementById('save-button').addEventListener('click', handleSave);
+
+    function handleSave() {
+      let createFormAttributes = JSON.parse(localStorage.createForm);
+      createFormAttributes.title = document.getElementById('title').value;
+      createFormAttributes.description = document.getElementById('description').value;
+      localStorage.setItem('createForm', JSON.stringify(createFormAttributes));
+      Notify("Form Saved!", null, null, 'success');
+    }
+  </script>
 {% endblock %}
