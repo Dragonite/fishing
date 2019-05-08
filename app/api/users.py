@@ -5,14 +5,15 @@ from app.models import User
 from flask import jsonify, url_for, request, g, abort
 # from app.api.auth import token_auth
 from app.api import bp
-
+from app.controllers import getUserById
 
 
 @bp.route('/users/<int:userId>', methods=['GET'])
 def get_user(userId):
     # if g.current_user != userId:
     #      abort(403)
-    user=User.query.get_or_404(userId).to_dict()
+    # user=User.query.get_or_404(userId).to_dict()
+    user=getUserById(userId)
     return jsonify(user)
 
 
@@ -24,8 +25,8 @@ def get_users():
     data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
     return jsonify(data)
 
-# @app.route('/users', methods=['POST'])
-# def create_user():
+@bp.route('/users', methods=['POST'])
+def create_user():
 #     pass
 
 # @app.route('/users/<int:id>', methods=['PUT'])
