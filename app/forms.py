@@ -35,7 +35,7 @@ class RegistrationForm(FlaskForm):
 class CreatePollForm(FlaskForm):
     title = TextAreaField('Title', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
-    choice = StringField('Create Choices', validators=[DataRequired()])
-    options = FieldList(StringField('Choice'), min_entries=10,max_entries=10)
-    isOpen = BooleanField('Open Poll', validators=[DataRequired()])
+    choice = StringField('Create Choices')
+    options = FieldList(StringField('Choice'), min_entries=10, max_entries=10)
+    isOpen = BooleanField('Open Poll')
     submit = SubmitField('Create Poll')
