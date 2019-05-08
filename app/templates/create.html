@@ -110,21 +110,5 @@
       <p></p>
     </form>
   </div>
-  <script>
-    $(document).ready(function () {
-      $('#title').val(JSON.parse(localStorage.createForm).title);
-      $('#description').val(JSON.parse(localStorage.createForm).description);
-    });
-  </script>
-  <script>
-    document.getElementById('save-button').addEventListener('click', handleSave);
-
-    function handleSave() {
-      let createFormAttributes = JSON.parse(localStorage.createForm);
-      createFormAttributes.title = document.getElementById('title').value;
-      createFormAttributes.description = document.getElementById('description').value;
-      localStorage.setItem('createForm', JSON.stringify(createFormAttributes));
-      Notify("Form Saved!", null, null, 'success');
-    }
-  </script>
+  <script type="text/javascript" src="static/javascript/create_form_storage.js"></script>
 {% endblock %}
