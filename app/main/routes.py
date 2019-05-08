@@ -10,7 +10,7 @@ from app import db
 from app.models import User, Poll
 from app.main import bp
 
-
+from app.pollForm import CreatePollForm
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
