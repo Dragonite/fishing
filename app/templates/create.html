@@ -5,10 +5,13 @@
   <div class="form-container">
     <form id="login-form" action="" method="post" novalidate>
       {{ form.hidden_tag() }}
-      <div style="margin-left: 20%;">
+      <div style="margin-left: 15%;">
         {{ form.title.label(style="font-weight: bold") }}<br>
-        {{ form.title(id='title', size=32, maxlength=50, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;", oninput="countCharacters(50, 'title', 'title-counter')") }}<br>
-        <small id="title-counter" class="text-muted">0 of 50 characters used.</small>
+        <div style="width: 80%">
+          {{ form.title(class="form-control", id='title', size=32, maxlength=50, oninput="countCharacters(50, 'title', 'title-counter')") }}
+          <small style="float: right; margin-top: 5px" id="title-counter" class="text-muted">0 of 50 characters used.
+          </small>
+        </div>
       </div>
       <br>
       {% for error in form.title.errors %}
@@ -20,10 +23,14 @@
         </script>
         {# <span style="color: red;">[{{ error }}]</span> #}
       {% endfor %}
-      <div style="margin-left: 20%;">
+      <div style="margin-left: 15%;">
         {{ form.description.label(style="font-weight: bold") }}<br>
-        {{ form.description(id='description', size=32, maxlength=200, style="border-radius:5px; border:1px solid #e2e2e2; width: 70%;", oninput="countCharacters(200, 'description', 'description-counter')") }}<br>
-        <small id="description-counter" class="text-muted">0 of 200 characters used.</small>
+        <div style="width: 80%">
+          {{ form.description(class="form-control",id='description', size=32, maxlength=200, oninput="countCharacters(200, 'description', 'description-counter')") }}
+          <small style="float: right; margin-top: 5px" id="description-counter" class="text-muted">0 of 200 characters
+            used.
+          </small>
+        </div>
       </div>
       <br>
       {% for error in form.description.errors %}
@@ -35,13 +42,17 @@
         </script>
         {# <span style="color: red;">[{{ error }}]</span> #}
       {% endfor %}
-      <div style="margin-left: 20%;">
+      <div style="margin-left: 15%;">
         {{ form.choice.label(style="font-weight: bold") }}<br>
-        {{ form.choice(id='create-choice',size=32, style="border-radius:5px; border:1px solid #D8D8D8; width: 70%") }}
-        <span id="add-choice-button" style="margin-left: 5px"><i class="fa fa-plus-circle"
-                                                                 style="font-size:24px"></i></span>
+        <div style="width: 80%">
+          <div class="input-group mb-3">
+            {{ form.choice(class="form-control", id='create-choice',size=32) }}
+            <div class="input-group-append">
+              <button class="btn btn-info" type="button" id="add-choice-button"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+        </div>
       </div>
-      <br>
 
       <div style="margin-left:20%">
         <div style="font-weight:bold">Choices</div>
@@ -98,13 +109,13 @@
         {% endfor %}
         <br>
         <div id="button-container" style="margin-top: 10px; margin-bottom: 20px">
-          <button type="button" class="btn btn-secondary" id="clear-button">
+          <button type="button" class="btn btn-info" id="clear-button">
             Clear
           </button>
-          <button type="button" class="btn btn-secondary" id="save-button">
+          <button type="button" class="btn btn-info" id="save-button">
             Save
           </button>
-          {{ form.submit(class_="btn btn-secondary", id="submit-button") }}
+          {{ form.submit(class_="btn btn-info", id="submit-button") }}
         </div>
       </div>
       <p></p>
