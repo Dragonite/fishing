@@ -94,7 +94,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
 
     def to_dict(self, include_email=False, as_admin=False):
         data = {
-            'id': self.id,
+            'userId': self.userId,
             'username': self.username,
             'firstName': self.firstName,
             'lastName': self.lastName,
@@ -102,11 +102,11 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             'ad_suburb':self.ad_suburb,
             'ad_state':self.ad_state,
             'ad_country':self.ad_country,
-            'last_seen': self.last_seen.isoformat() + 'Z',
+            # 'last_seen': self.last_seen.isoformat() + 'Z',
         }
         if include_email:
             data['email'] = self.email
-        if is_admin:
+        if as_admin:
             data['createdAt']=self.createdAt
             data['lastModifiedAt']=self.lastModifiedAt
             data['isActive']=self.isActive
