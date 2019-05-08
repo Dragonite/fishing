@@ -57,17 +57,17 @@
       <div style="margin-left:20%">
         <div style="font-weight:bold">Choices</div>
         <small class="text-muted">These are the options for your poll.</small>
-        <div style="margin-top: 10px; max-width: 70%; word-break: break-word">
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
-          <div class="poll-choice"></div>
+        <div class="list-group" style="margin-top: 10px; max-width: 70%; word-break: break-word">
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
+          <div class="list-group-item poll-choice"></div>
         </div>
       </div>
       <div id="submit-choices-container">
@@ -78,6 +78,7 @@
       <br>
       <script>
         document.getElementById('submit-choices-container').hidden = true;
+        Array.from(document.getElementsByClassName('poll-choice')).map(e => e.hidden = true);
         document.getElementById('add-choice-button').addEventListener('click', handleAdd);
 
         function handleAdd() {
@@ -88,6 +89,7 @@
           for (var i = 0; i < submitChoices.length; i++) {
             if (!submitChoices[i].value) {
               listChoices[i].innerHTML = createChoice.value;
+              listChoices[i].hidden = false;
               submitChoices[i].value = createChoice.value;
               createChoice.value = "";
               break;
