@@ -10,10 +10,11 @@ from app.api import bp
 
 @bp.route('/users/<int:userId>', methods=['GET'])
 def get_user(userId):
-    # if g.current_user != id:
+    # if g.current_user != userId:
     #     abor(403)
-    # return jsonify({1:1})
-    return jsonify(User.query.get_or_404(userId).to_dict())
+    user=User.query.get_or_404(userId).to_dict()
+    return jsonify(user)
+    # return jsonify(User.query.get_or_404(userId).to_dict())
 
 
 # @app.route('/users', methods=['GET'])
