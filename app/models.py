@@ -7,11 +7,35 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Enum
 import sys
 
+from flask import url_for
 
+
+class PaginatedAPIMixin(object):
+    @staticmethod
+    def to_collection_dict(query, page, per_page, endpoint, **kwargs):
+        resources = query.paginate(page, per_page, False)
+        data = {
+            'items': [item.to_dict() for item in resources.items],
+            '_meta': {
+                'page': page,
+                'per_page': per_page,
+                'total_pages': resources.pages,
+                'total_items': resources.total
+            },
+            '_links': {
+                'self': url_for(endpoint, page=page, per_page=per_page,
+                                **kwargs),
+                'next': url_for(endpoint, page=page + 1, per_page=per_page,
+                                **kwargs) if resources.has_next else None,
+                'prev': url_for(endpoint, page=page - 1, per_page=per_page,
+                                **kwargs) if resources.has_prev else None
+            }
+        }
+        return data           
 @login.user_loader
 def load_user(userId):
     return User.query.get(int(userId))
-class User(UserMixin, db.Model):
+class User(PaginatedAPIMixin, UserMixin, db.Model):
     
     __tablename__ = 'users'
     __table_args__ = {'sqlite_autoincrement': True}
@@ -68,7 +92,33 @@ class User(UserMixin, db.Model):
     def get_id(self):
             return(self.userId)
 
+    def to_dict(self, include_email=False, as_admin=False):
+        data = {
+            'id': self.id,
+            'username': self.username,
+            'firstName': self.firstName,
+            'lastName': self.lastName,
+            'ad_street':self.ad_state,
+            'ad_suburb':self.ad_suburb,
+            'ad_state':self.ad_state,
+            'ad_country':self.ad_country,
+            'last_seen': self.last_seen.isoformat() + 'Z',
+        }
+        if include_email:
+            data['email'] = self.email
+        if is_admin:
+            data['createdAt']=self.createdAt
+            data['lastModifiedAt']=self.lastModifiedAt
+            data['isActive']=self.isActive
+            data['isAdmin']=self.isAdmin
+        return data
 
+        def from_dict(self, data, new_user=False):
+            for field in ['username', 'email','firstName','lastName','ad_street', 'ad_suburb','ad_state']:
+                if field in data:
+                    setattr(self, field, data[field]) ###############################################
+            if new_user and 'password' in data:
+                self.set_password(data['password'])
 
 
 class Poll(db.Model):
@@ -257,5 +307,3 @@ class Poll(db.Model):
                         return 'addResponse exception raised: '+ str(sys.exc_info()[0])
             return True
 
-
-           
