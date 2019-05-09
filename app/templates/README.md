@@ -70,3 +70,68 @@ still keep their information in the system, so that it shows on their votes and 
 `Algorithm` explains the algorithm behind the calculation of the winner.
 
 `Acknowledgements` explains the Libraries and Tutorials used, as well as acknowledging contributions by individuals.
+
+---
+
+## Directories
+
+All elaborations for the following files inside the directories below will be included in individual `README.md`'s in each directory.
+
+### `auth`
+
+A directory for authorization modules.
+
+Contains:
+- `login.html`
+
+---
+
+### `components`
+
+A directory for base components.
+
+Contains: 
+- `header.html`
+- `imports.html`
+- `sidebar.html`
+
+---
+
+### `errors`
+
+A directory for errors in the application.
+
+Contains:
+- `404.html`
+- `500.html`
+
+---
+
+### `help`
+
+A directory that contains the tabs in the `help.html` page.
+
+Contains:
+- `about.html`
+- `acknowledgements.html`
+- `algorithm.html`
+
+---
+
+### `index`
+
+A directory for `index.html`'s widgets.
+
+Contains:
+- `card-group.html`
+- `card-login.html`
+
+---
+
+### `profile`
+
+A directory that contains the tabs in the `profile.html` page.
+
+Contains:
+- `info.html`
+- `statistics.html`
