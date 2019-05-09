@@ -43,3 +43,30 @@ needed. On `Save`, the form will save its contents. On `Clear`, all fields will 
 will be run.
 
 ---
+
+### `profile.html`
+
+`profile` is broken into two parts, *My Info* and *Statistics*. `profile` is a page that gives an overview of the current user. 
+The fields are rendered as inputs, and the `Update` button allows a `Post` request to fire to update the user. `Statistics` uses
+`Chart.js` to render linkable charts that link to the user's total amount of polls, their open and closed polls. The individual
+tabs are further elaborated in the `profile` directory.
+
+---
+
+### `users`
+
+`users` is a page that provides an overview of all the users in the system. They are split into two tabs, `Active` and 
+`Inactive`. As user accounts are never fully deleted, marking them as `false` for `isActive` will disable the account, but
+still keep their information in the system, so that it shows on their votes and polls.
+
+---
+
+### `help`
+
+`help` provides information on the website in 3 tabs: `About`, `Algorithm` and `Acknowledgements`. 
+
+`About` explains the functionality of the website and how polls and votes are made.
+
+`Algorithm` explains the algorithm behind the calculation of the winner.
+
+`Acknowledgements` explains the Libraries and Tutorials used, as well as acknowledging contributions by individuals.
