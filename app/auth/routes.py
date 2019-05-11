@@ -1,13 +1,11 @@
-
-from flask import render_template, redirect, url_for, flash, request, Markup
-from werkzeug.urls import url_parse
+from flask import render_template, redirect, url_for, flash, Markup
 from flask_login import login_user, logout_user, current_user
-from flask_babel import _
+
 from app import db
 from app.auth import bp
-from app.auth.forms import LoginForm, RegistrationForm#,  ResetPasswordRequestForm, ResetPasswordForm
-
+from app.auth.forms import LoginForm, RegistrationForm  # ,  ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User
+import datetime
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -42,15 +40,15 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-
-
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, firstName=form.firstName.data, lastName=form.lastName.data, ad_street=form.ad_street.data, ad_suburb=form.ad_suburb.data, ad_state=form.ad_state.data, createdAt=datetime.utcnow(), isActive=1, isAdmin=0)
+        user = User(username=form.username.data, email=form.email.data, firstName=form.firstName.data,
+                    lastName=form.lastName.data, ad_street=form.ad_street.data, ad_suburb=form.ad_suburb.data,
+                    ad_state=form.ad_state.data, createdAt=datetime.utcnow(), isActive=1, isAdmin=0)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
