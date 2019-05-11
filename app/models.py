@@ -65,6 +65,8 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     isActive=db.Column(db.Boolean) 
     isAdmin=db.Column(db.Boolean)
 
+    lastLogin=db.Column(db.DateTime)
+    currentLogin=db.Column(db.DateTime)
     #################################################################
     
 
@@ -72,6 +74,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     def __init__(self):
         self.createdAt=datetime.utcnow()
         self.lastModifiedAt=None
+        self.lastLoginAt=None
         self.isActive=True
         self.isAdmin=False
     
@@ -93,6 +96,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     def get_id(self):
             return(self.userId)
 
+
     def to_dict(self, include_email=False, as_admin=False):
         data = {
             'userId': self.userId,
@@ -103,8 +107,8 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             'ad_suburb':self.ad_suburb,
             'ad_state':self.ad_state,
             'ad_country':self.ad_country,
-            'ad_country_code': pycountry.countries.get(name=self.ad_country).alpha_2.lower()
-            # 'last_seen': self.last_seen.isoformat() + 'Z',
+            'ad_country_code': pycountry.countries.get(name=self.ad_country).alpha_2.lower(),
+            'lastLogin':self.lastLogin
         }
         if include_email:
             data['email'] = self.email
@@ -115,12 +119,12 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             data['isAdmin']=self.isAdmin
         return data
 
-        def from_dict(self, data, new_user=False):
-            for field in ['username', 'email','firstName','lastName','ad_street', 'ad_suburb','ad_state']:
-                if field in data:
-                    setattr(self, field, data[field]) ###############################################
-            if new_user and 'password' in data:
-                self.set_password(data['password'])
+    def from_dict(self, data, new_user=False):
+        for field in ['username', 'email','firstName','lastName','ad_street', 'ad_suburb','ad_state']:
+            if field in data:
+                setattr(self, field, data[field]) ###############################################
+        if new_user and 'password' in data:
+            self.set_password(data['password'])
 
 
 class Poll(db.Model):

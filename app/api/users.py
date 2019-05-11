@@ -1,7 +1,7 @@
 # from app.api import bp
 from app import db
 from app.models import User
-# from app.api.errors import bad_request, error_response
+from app.api.errors import bad_request, error_response
 from flask import jsonify, url_for, request, g, abort
 # from app.api.auth import token_auth
 from app.api import bp
@@ -10,9 +10,6 @@ from app.controllers import getUserById
 
 @bp.route('/users/<int:userId>', methods=['GET'])
 def get_user(userId):
-    # if g.current_user != userId:
-    #      abort(403)
-    # user=User.query.get_or_404(userId).to_dict()
     user=getUserById(userId)
     return jsonify(user)
 
@@ -27,7 +24,21 @@ def get_users():
 
 @bp.route('/users', methods=['POST'])
 def create_user():
-#     pass
+    data = request.get_json() or {}
+    if 'username' not in data or 'email' not in data or 'password' not in data or 'firstName' not in data:
+        return bad_request('must include username, firstName, email and password fields')
+    if User.query.filter_by(username=data['username']).first():
+        return bad_request('please use a different username')
+    if User.query.filter_by(email=data['email']).first():
+        return bad_request('please use a different email address')
+    user = User()
+    user.from_dict(data, new_user=True)
+    db.session.add(user)
+    db.session.commit()
+    response = jsonify(user.to_dict())
+    response.status_code = 201
+    response.headers['Location'] = url_for('api.get_user', userId=user.userId)
+    return response
 
 # @app.route('/users/<int:id>', methods=['PUT'])
 # def update_user(id):
