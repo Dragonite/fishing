@@ -10,6 +10,10 @@ from app.auth.forms import LoginForm, RegistrationForm#,  ResetPasswordRequestFo
 from app.models import User
 from app.controllers import login_succss
 
+from app.api.auth import verify_password
+
+
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
