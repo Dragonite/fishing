@@ -33,7 +33,10 @@ def modifyUser(User):
             return True
         except:
             return 'modifyUser exception raised: ' + str(sys.exc_info()[0])
-def login_succss(User):
+
+
+
+def login_time(User):
     if User.currentLogin!=None:
         User.lastLogin=User.currentLogin
         User.currentLogin=datetime.utcnow()
@@ -45,6 +48,10 @@ def login_succss(User):
         db.session.commit()
     except:
         return 'modifyUser exception raised: ' + str(sys.exc_info()[0])    
+
+
+
+
 def archiveUser(User):
     if User==None:
         raise ValueError('User object is empty ')

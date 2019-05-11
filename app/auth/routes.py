@@ -8,9 +8,9 @@ from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm#,  ResetPasswordRequestForm, ResetPasswordForm
 
 from app.models import User
-from app.controllers import login_succss
+from app.controllers import login_time
 
-from app.api.auth import verify_password
+
 
 
 
@@ -27,7 +27,7 @@ def login():
             # session['was_once_logged_in'] = True
         login_user(user, remember=form.remember_me.data)
         flash(Markup('<script>Notify("You have successfully logged in.", null, null, "success")</script>'))
-        login_succss(user)
+        login_time(user)
         return redirect(url_for('main.index'))
     return render_template('auth/login.html', title='Sign In', form=form)
 
