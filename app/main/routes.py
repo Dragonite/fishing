@@ -1,6 +1,5 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app
+from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 # from guess_language import guess_language
@@ -25,7 +24,13 @@ def index():
 def create():
     form = CreatePollForm()
     if form.validate_on_submit():
-        return redirect(url_for('main.index'))
+        poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=g.current_user)
+        if createPoll(poll):
+            flash('Poll has been created successfully!')
+            return redirect(url_for('main.index'))
+        else:
+            flash('something is wrong!')
+            return redirect(url_for('main.create'))
     return render_template('create.html', title='Create a Poll', form=form)
 
 
@@ -43,11 +48,6 @@ def current():
 def completed():
     return render_template("completed.html", title='Completed Polls')
 
-
-# @bp.route('/create')
-# # @login_required
-# def create():
-#     return render_template("create.html", title='Create A Poll')
 
 @bp.route('/users')
 # @login_required

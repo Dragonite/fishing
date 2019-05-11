@@ -1,7 +1,7 @@
 
 from app import db
 from app.models import User
-
+from flask_login import login_user, logout_user, current_user
 from app.api.errors import bad_request, error_response
 from flask import jsonify, url_for, request, g, abort
 from app.api.auth import token_auth, basic_auth, verify_password
@@ -11,7 +11,7 @@ from app.api import bp
 from flask_httpauth import HTTPTokenAuth
 from flask_login import login_user, logout_user, current_user
 
-from app.controllers import login_time
+from app.controllers import login_time, getUserById
 @bp.route('/users/login', methods=['POST'])
 def API_login():
     data = request.get_json() or {}
@@ -27,15 +27,18 @@ def API_login():
     
 
 @bp.route('/users/<int:userId>', methods=['GET'])
-@token_auth.login_required
+# @token_auth.login_required
 # @auth.login_required
 def get_user(userId):
     user=getUserById(userId)
-    return jsonify(user)
+    if user:
+        return jsonify(user.to_dict())
+    else: 
+        bad_request('userId does not exists')
 
 
 @bp.route('/users', methods=['GET'])
-@token_auth.login_required
+# @token_auth.login_required
 def get_users():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -61,7 +64,7 @@ def create_user():
     return response
 
 @bp.route('/users/<int:userId>', methods=['PUT'])
-@token_auth.login_required
+# @token_auth.login_required
 def update_user(userId):
     user = User.query.get_or_404(userId)
     data = request.get_json() or {}
