@@ -6,6 +6,9 @@ from flask_login import UserMixin
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Enum
 import sys
+import pycountry
+import base64
+import os
 
 from flask import url_for
 
@@ -35,12 +38,17 @@ class PaginatedAPIMixin(object):
 @login.user_loader
 def load_user(userId):
     return User.query.get(int(userId))
+
 class User(PaginatedAPIMixin, UserMixin, db.Model):
     
     __tablename__ = 'users'
     __table_args__ = {'sqlite_autoincrement': True}
     
 
+    token = db.Column(db.String(32), index=True, unique=True)
+    token_expiration = db.Column(db.DateTime)
+    
+    
     ################User property definitions#########################
 
     userId=db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -64,6 +72,8 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     isActive=db.Column(db.Boolean) 
     isAdmin=db.Column(db.Boolean)
 
+    lastLogin=db.Column(db.DateTime)
+    currentLogin=db.Column(db.DateTime)
     #################################################################
     
 
@@ -71,6 +81,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     def __init__(self):
         self.createdAt=datetime.utcnow()
         self.lastModifiedAt=None
+        self.lastLoginAt=None
         self.isActive=True
         self.isAdmin=False
     
@@ -92,6 +103,24 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
     def get_id(self):
             return(self.userId)
 
+    def get_token(self, expires_in=3600):
+        now = datetime.utcnow()
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
+            return self.token
+        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token_expiration = now + timedelta(seconds=expires_in)
+        db.session.add(self)
+        return self.token
+    def revoke_token(self):
+        self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
+
+    @staticmethod
+    def check_token(token):
+        user = User.query.filter_by(token=token).first()
+        if user is None or user.token_expiration < datetime.utcnow():
+            return None
+        return user
+
     def to_dict(self, include_email=False, as_admin=False):
         data = {
             'userId': self.userId,
@@ -101,8 +130,12 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             'ad_street':self.ad_state,
             'ad_suburb':self.ad_suburb,
             'ad_state':self.ad_state,
-            'ad_country':self.ad_country
-            # 'last_seen': self.last_seen.isoformat() + 'Z',
+            'ad_country':self.ad_country,
+            'ad_country_code': pycountry.countries.get(name=self.ad_country).alpha_2.lower(),
+            'lastLogin':self.lastLogin,
+            'currentLogin':self.currentLogin,
+            'token': self.token,
+            'token_expiration': self.token_expiration 
         }
         if include_email:
             data['email'] = self.email
@@ -113,12 +146,12 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             data['isAdmin']=self.isAdmin
         return data
 
-        def from_dict(self, data, new_user=False):
-            for field in ['username', 'email','firstName','lastName','ad_street', 'ad_suburb','ad_state']:
-                if field in data:
-                    setattr(self, field, data[field]) ###############################################
-            if new_user and 'password' in data:
-                self.set_password(data['password'])
+    def from_dict(self, data, new_user=False):
+        for field in ['username', 'email','firstName','lastName','ad_street', 'ad_suburb','ad_state','token','token_expiration', ]:
+            if field in data:
+                setattr(self, field, data[field]) ###############################################
+        if new_user and 'password' in data:
+            self.set_password(data['password'])
 
 
 class Poll(db.Model):
@@ -307,3 +340,30 @@ class Poll(db.Model):
                         return 'addResponse exception raised: '+ str(sys.exc_info()[0])
             return True
 
+    def to_dict(self, as_admin=False):
+        data = {
+            'userId': self.userId,
+            'username': self.username,
+            'firstName': self.firstName,
+            'lastName': self.lastName,
+            'ad_street':self.ad_state,
+            'ad_suburb':self.ad_suburb,
+            'ad_state':self.ad_state,
+            'ad_country':self.ad_country,
+            'ad_country_code': pycountry.countries.get(name=self.ad_country).alpha_2.lower(),
+            'lastLogin':self.lastLogin,
+            'currentLogin':self.currentLogin
+        }
+        if as_admin:
+            data['createdAt']=self.createdAt
+            data['lastModifiedAt']=self.lastModifiedAt
+            data['isActive']=self.isActive
+            data['isAdmin']=self.isAdmin
+        return data
+
+    def from_dict(self, data, new_user=False):
+        for field in ['username', 'email','firstName','lastName','ad_street', 'ad_suburb','ad_state']:
+            if field in data:
+                setattr(self, field, data[field]) ###############################################
+        if new_user and 'password' in data:
+            self.set_password(data['password'])

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FieldList, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FieldList, IntegerField, SelectField
 from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, NumberRange
 from wtforms.fields.html5 import EmailField
 from app.models import User
@@ -17,9 +17,18 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     firstName = StringField('First Name', validators=[DataRequired()])
+    lastName= StringField('Last Name')
+
     email = EmailField('Email address', validators=[DataRequired(), Email()])
     # password2 =PasswordField('Repeat Password', validators=[DataRequired(), EqualTo('password')])
     password2 = PasswordField(_l('Repeat Password'), validators=[DataRequired(),  EqualTo('password')])
+    
+    ad_street=StringField('Street Address')
+    ad_suburb=StringField('City/Suburb')
+    ad_state=SelectField('State', choices=[('WA','Western Australia'), ('QLD','Queensland'), ('SA','South Australia'),('ACT','Australian Capital Territory'),('NT','Northern Territory'), ('TAS','Tasmania')])
+    ad_country=SelectField('Country', choices=[('Aus','Western Australia')])
+
+    
     submit = SubmitField('Sign up')
 
     def validate_username(self, username):

@@ -1,6 +1,6 @@
 from app.models import User, Poll
-from app import app, db
-from flask import render_template, flash, redirect, url_for, Markup
+from app import db
+from flask import render_template, flash, redirect, url_for, Markup, current_app
 from flask_login import login_required, current_user, login_user, logout_user
 from sqlalchemy.orm.attributes import flag_modified
 import sys
@@ -12,12 +12,13 @@ def createUser(User, pwd):
     else:
         if User.validate():
             try:
+                # with app.app_context():
                 User.set_password(pwd)
                 db.session.add(User)
                 db.session.commit()
                 return True
             except:      
-                return 'createUser exception raised: ' + sys.exc_info()[0]
+                return 'createUser exception raised: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1])
         else:
             return 'createUser exception raised: Mandatory data is missing' 
 
@@ -27,10 +28,29 @@ def modifyUser(User):
     else:
         try:
             User.lastModifiedAt=datetime.utcnow()
+            db.session.add(User)
             db.session.commit()
             return True
         except:
-            return 'modifyUser exception raised: ' +sys.exc_info()[0]
+            return 'modifyUser exception raised: ' + str(sys.exc_info()[0])
+
+
+
+def login_time(User):
+    if User.currentLogin!=None:
+        User.lastLogin=User.currentLogin
+        User.currentLogin=datetime.utcnow()
+    else:
+        User.currentLogin=datetime.utcnow()
+    try:
+        User.lastModifiedAt=datetime.utcnow()
+        db.session.add(User)
+        db.session.commit()
+    except:
+        return 'modifyUser exception raised: ' + str(sys.exc_info()[0])    
+
+
+
 
 def archiveUser(User):
     if User==None:
@@ -46,7 +66,7 @@ def archiveUser(User):
                 db.session.commit()
                 return True
             except:
-                return 'archiveUser exception raised: ' + sys.exc_info()[0]
+                return 'archiveUser exception raised: ' + str(sys.exc_info()[0])
 
 def getUserById(userId):
     user = User.query.filter_by(userId=userId).first()
@@ -93,7 +113,7 @@ def modifyPoll(Poll):
             db.session.commit()
             return True
         except:
-            return 'modifyPoll exception raised: ' + sys.exc_info()[0]
+            return 'modifyPoll exception raised: ' + str(sys.exc_info()[0])
 
 def archivePoll(Poll):
 
@@ -104,7 +124,7 @@ def archivePoll(Poll):
             db.session.commit()
             return True
         except:
-            return 'archivePoll exception raised: ' + sys.exc_info()[0]
+            return 'archivePoll exception raised: ' + str(sys.exc_info()[0])
     elif Poll==None:
         raise ValueError('Poll object is empty')
     else: 
