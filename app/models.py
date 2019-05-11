@@ -10,7 +10,6 @@ import pycountry
 import base64
 import os
 
-
 from flask import url_for
 
 
