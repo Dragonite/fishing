@@ -6,7 +6,13 @@
     {% if current_user.is_anonymous %}
       Not Logged In
     {% else %}
-      Logged in as {{ current_user.firstName }} {{ current_user.lastName }}
+      Logged in
+      {% if current_user.firstName %}
+        as {{ current_user.firstName }}
+        {% if current_user.lastName %}
+          {{ current_user.lastName }}
+        {% endif %}
+      {% endif %}
     {% endif %}
   </span>
 </div>
