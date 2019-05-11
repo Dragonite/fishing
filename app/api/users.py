@@ -1,4 +1,4 @@
-# from app.api import bp
+
 from app import db
 from app.models import User
 # 
@@ -10,7 +10,7 @@ from app.api import bp
 
 from flask_httpauth import HTTPTokenAuth
 from flask_login import login_user, logout_user, current_user
-from app.controllers import *
+# from app.controllers import login_success
 
 @bp.route('/users/login', methods=['POST'])
 def API_login():
@@ -20,12 +20,12 @@ def API_login():
     user = User.query.filter_by(username=data['username']).first()
     if user is None or not verify_password(data['username'], data['password']): 
        return bad_request('Invalid username or password')
-    login_success(user)
+    # login_success(user)
     response={
-        "access_token":g.current_user.get_token(),
+        "access_token": g.current_user.get_token(),
         "message": "login successful"
     }
-    return response
+    return  jsonify(response)
         
     
 
