@@ -10,6 +10,7 @@ from app.models import User, Poll
 from app.main import bp
 
 from app.pollForm import CreatePollForm
+from app.registrationForm import RegistrationForm
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
@@ -74,3 +75,20 @@ def profile():
     return render_template("profile.html", title='My Profile')
 
 
+
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data, firstName=form.firstName.data,
+                    lastName=form.lastName.data, ad_street=form.ad_street.data, ad_suburb=form.ad_suburb.data,
+                    ad_state=form.ad_state.data)
+        # user.set_password(form.password.data)
+        if createUser(user,form.password.data):
+            flash('Congratulations, you are now a registered user!')
+            return redirect(url_for('auth.login'))
+        else:
+            return redirect(url_for('register'))
+    return render_template('register.html', title='Register', form=form)
