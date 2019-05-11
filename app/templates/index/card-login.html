@@ -1,14 +1,23 @@
 <div class="card mb-3">
   <div class="card-body">
-    <h5 class="card-title">
-      {% if current_user.is_anonymous %}Welcome
-      {% else %}
-        Welcome back, {{ current_user.firstName }}
-      {% endif %}</h5>
-    <p class="card-text">Please login if you want to create a poll or view poll results.</p>
+    {% if current_user.is_anonymous %}
+      <h5 class="card-title">Welcome</h5>
+      <p class="card-text">
+        Please login if you want to create a poll or view poll results.
+      </p>
+      <small class="text-muted">Not logged in.</small>
+    {% else %}
+      <h5 class="card-title">
+        Welcome back, {{ current_user.firstName }}.
+      </h5>
+      <p class="card-text">
+        This Fishing Polling application has polls regarding fishing.
+      </p>
+      <small class="text-muted">
+        Last logged in{% if current_user.lastModifiedAt %} {{ current_user.lastModifiedAt }} ago.{% else %}:
+        Never.{% endif %}
+      </small>
+    {% endif %}
 
-    <p class="card-text">
-      <small class="text-muted">Last logged in 3 minutes ago</small>
-    </p>
   </div>
 </div>
