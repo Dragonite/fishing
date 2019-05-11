@@ -6,7 +6,6 @@ from flask_login import UserMixin
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Enum
 import sys
-import pycountry
 
 from flask import url_for
 
@@ -102,8 +101,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             'ad_street':self.ad_state,
             'ad_suburb':self.ad_suburb,
             'ad_state':self.ad_state,
-            'ad_country':self.ad_country,
-            'ad_country_code': pycountry.countries.get(name=self.ad_country).alpha_2.lower()
+            'ad_country':self.ad_country
             # 'last_seen': self.last_seen.isoformat() + 'Z',
         }
         if include_email:

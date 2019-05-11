@@ -5,7 +5,7 @@
   <b>Full Name</b>: {{ current_user.firstName }} {{ current_user.lastName }}<br>
   <b>Email</b>: {{ current_user.email }}<br>
   <script>
-    console.log("{{ current_user.ad_country }}")
+    console.log("{{ current_user.ad_country_code }}")
   </script>
   <b>Address</b>: {{ current_user.ad_country }} <i class="famfamfam-flag-{{ current_user.ad_country_code }}"></i><br>
   <b>Creation Time</b>: {{ current_user.createdAt }}<br>
