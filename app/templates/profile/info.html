@@ -7,9 +7,32 @@
   <script>
     console.log("{{ current_user.ad_country_code }}")
   </script>
-  <b>Address</b>: {{ current_user.ad_country }} <i class="famfamfam-flag-{{ current_user.ad_country_code }}"></i><br>
+  <b>Address</b>: {{ current_user.ad_country }} <i class="famfamfam-flag-{{ current_user.ad_country }}"></i><br>
   <b>Creation Time</b>: {{ current_user.createdAt }}<br>
   <b>Last Logged in</b>: {{ current_user.lastModifiedAt }}<br>
-  <b>Active Account</b>: {{ current_user.isActive }}<br>
+  <b>Active Account</b>:
+  {% if current_user.isActive %}
+    <i class="fa-fw fa fa-circle text-success"></i>
+  {% else %}
+    <i class="fa-fw fa fa-circle text-danger"></i>
+  {% endif %}
+  <br>
   <b>Admin Account</b>: {{ current_user.isAdmin }}<br>
+  <script>
+    console.log('{{ current_user.userId }}')
+  </script>
+  <script>
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      headers: {
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      url: '/api/users/{{ current_user.userId }}',
+      success: function (data) {
+        console.log(data)
+      }
+    });
+  </script>
 </div>
