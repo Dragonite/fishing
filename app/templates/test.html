@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="test">Test</div>
+  <div>{{ poll.description}} </div>
+  <div>{{ poll.get_rawResult()}} </div>
+{% endblock %}
