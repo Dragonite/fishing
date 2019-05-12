@@ -8,6 +8,12 @@
     <button class="tablinks" onclick="openTab(event, 'Inactive')">Inactive</button>
   </div>
 
+  <script>
+  $(document).ready(function () {
+    $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+  })
+  </script>
+
   <!-- Tab content -->
   <div id="Active" class="tabcontent" style="background-color: white">
     <!-- Active -->
@@ -15,17 +21,25 @@
 
     <table id="table-active" class="display">
       <thead>
-      <tr>
+      <tr style="text-align: center">
         <th>Name</th>
         <th>Email</th>
+        <th>Admin Account</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody style="text-align: center">
       {% for user in users %}
         {% if user.isActive == True %}
           <tr>
             <td>{{ user.firstName }}</td>
             <td>{{ user.email }}</td>
+            <td>
+              {% if user.isAdmin %}
+                <i class="fa-fw fa fa-circle text-success"></i>
+              {% else %}
+                <i class="fa-fw fa fa-circle text-danger"></i>
+              {% endif %}
+            </td>
           </tr>
         {% endif %}
       {% endfor %}
