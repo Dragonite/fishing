@@ -170,113 +170,113 @@ def getCurrentPolls():
     return poll
 
 
-def getResults(Poll):
+# def getResults(Poll):
     
 
-    def getCanIndex(canList, key):
-        listLen=len(canList)
-        for index in range(listLen):
-            if canList[index][1]==key:
-                return canList[index][0]
+#     def getCanIndex(canList, key):
+#         listLen=len(canList)
+#         for index in range(listLen):
+#             if canList[index][1]==key:
+#                 return canList[index][0]
 
-    def getCanList(Poll):
-        CList=[]
-        howManyCandidates=Poll.howManyCandidates()
-        howManyResponses =Poll.howManyResponses()
+#     def getCanList(Poll):
+#         CList=[]
+#         howManyCandidates=Poll.howManyCandidates()
+#         howManyResponses =Poll.howManyResponses()
         
-        for candidate in Poll.Candidate:
-            temp=[]
-            temp.append(0)
-            temp.append(candidate.candidateId)
-            temp.append(candidate.candidateDescription)
-            CList.append(temp)
+#         for candidate in Poll.Candidate:
+#             temp=[]
+#             temp.append(0)
+#             temp.append(candidate.candidateId)
+#             temp.append(candidate.candidateDescription)
+#             CList.append(temp)
             
-        CList.sort()
-        for index in range(len(CList)):
-            CList[index][0]=index
-        return CList
+#         CList.sort()
+#         for index in range(len(CList)):
+#             CList[index][0]=index
+#         return CList
 
-    def getResList(Poll):
-        Result={}
-        RList=[]
-        howManyCandidates=Poll.howManyCandidates()
-        howManyResponses =Poll.howManyResponses()
-        for response in Poll.Response:
-            if response.isActive:
-                if Result.get(response.userId)==None:
-                    Result[response.userId]=[]
-                    for index in range(howManyCandidates):
-                        Result[response.userId].append(0)
-                    Result[response.userId][getCanIndex(getCanList(Poll),response.candidateId)]=response.response
-                else:
-                    Result[response.userId][getCanIndex(getCanList(Poll),response.candidateId)]=response.response
-        for key, value in Result.items():
-            RList.append(value)
-        return RList
+#     def getResList(Poll):
+#         Result={}
+#         RList=[]
+#         howManyCandidates=Poll.howManyCandidates()
+#         howManyResponses =Poll.howManyResponses()
+#         for response in Poll.Response:
+#             if response.isActive:
+#                 if Result.get(response.userId)==None:
+#                     Result[response.userId]=[]
+#                     for index in range(howManyCandidates):
+#                         Result[response.userId].append(0)
+#                     Result[response.userId][getCanIndex(getCanList(Poll),response.candidateId)]=response.response
+#                 else:
+#                     Result[response.userId][getCanIndex(getCanList(Poll),response.candidateId)]=response.response
+#         for key, value in Result.items():
+#             RList.append(value)
+#         return RList
     
-    def findSN(list): 
-        temp=[]
-        if sum(list) != 0:
-            if 0 in list:
-                for i in list:
-                    if i!= 0:
-                        temp.append(i)  
-                return min(temp)
-            else:
-                return min(list)
-        else:
-            return -1
+#     def findSN(list): 
+#         temp=[]
+#         if sum(list) != 0:
+#             if 0 in list:
+#                 for i in list:
+#                     if i!= 0:
+#                         temp.append(i)  
+#                 return min(temp)
+#             else:
+#                 return min(list)
+#         else:
+#             return -1
 
 
-    def decision(count, totalCount, CList): 
-        global msg
-        result=(sorted(count, key=o.itemgetter(1), reverse=True))
+#     def decision(count, totalCount, CList): 
+#         global msg
+#         result=(sorted(count, key=o.itemgetter(1), reverse=True))
 
-        for i in range(len(result)):
-            msg+=str(result[i][1])+"\t"+ str(result[i][0]) + "\n"
+#         for i in range(len(result)):
+#             msg+=str(result[i][1])+"\t"+ str(result[i][0]) + "\n"
        
-        if(len(result)<=1):
-            return list(result[0]), True
+#         if(len(result)<=1):
+#             return list(result[0]), True
 
-        elif(totalCount==0):
-            return [], False
-        else:
-            if (result[0][1] / totalCount) <= 0.5:
-                return list(result[len(result)-1]), False
-            else:
-                return list(result[0]), True
+#         elif(totalCount==0):
+#             return [], False
+#         else:
+#             if (result[0][1] / totalCount) <= 0.5:
+#                 return list(result[len(result)-1]), False
+#             else:
+#                 return list(result[0]), True
         
-    def prefResult( RList, CList, voteCount):
-        global msg
-        responseCount=len(RList)
-        candidateCount=len(CList)
-        count=[]
-        totalCount=0
-        voteCount += 1
+#     def prefResult( RList, CList, voteCount):
+#         global msg
+#         responseCount=len(RList)
+#         candidateCount=len(CList)
+#         count=[]
+#         totalCount=0
+#         voteCount += 1
         
-        for item in CList:
-            count.append([item, 0])
+#         for item in CList:
+#             count.append([item, 0])
  
-        for index in range(responseCount):
-            tempindex=RList[index].index(findSN(RList[index]))
-            count[tempindex][1]+=1
-            totalCount+=1     
+#         for index in range(responseCount):
+#             tempindex=RList[index].index(findSN(RList[index]))
+#             count[tempindex][1]+=1
+#             totalCount+=1     
         
-        results, decisionFlag = decision(count, totalCount, CList)
+#         results, decisionFlag = decision(count, totalCount, CList)
 
 
-        if decisionFlag is False:
-            if (results!=[]):
-                msg += "\nCandidate " + str(CList[count.index(results)][2]) + " has the smallest number of votes and is eliminated from the count\n\n"
-                del (CList[count.index(results)])
-                for index in range(responseCount):
-                    del (RList[index][count.index(results)])
-                prefResult(RList, CList, totalCount)
-            # else:
-            #     return msg
-        else:
-            msg+="\n"+str(count[0][1])+"\t"+ str(count[0][0]) + "\n"
-            msg += "\nCandidate " + str(results[0][2]) + " is elected\n"
+#         if decisionFlag is False:
+#             if (results!=[]):
+#                 msg += "\nCandidate " + str(CList[count.index(results)][2]) + " has the smallest number of votes and is eliminated from the count\n\n"
+#                 del (CList[count.index(results)])
+#                 for index in range(responseCount):
+#                     del (RList[index][count.index(results)])
+#                 prefResult(RList, CList, totalCount)
+#             # else:
+#             #     return msg
+#         else:
+#             msg+="\n"+str(count[0][1])+"\t"+ str(count[0][0]) + "\n"
+#             msg += "\nCandidate " + str(results[0][2]) + " is elected\n"
         
 
 
@@ -284,14 +284,14 @@ def getResults(Poll):
 
 
 
-    global msg
-    msg=""
-    CList=getCanList(Poll)
-    RList=getResList(Poll)
-    # voteCount=0
+#     global msg
+#     msg=""
+#     CList=getCanList(Poll)
+#     RList=getResList(Poll)
+#     # voteCount=0
 
-    prefResult(RList, CList,0)
-    print("final:  ", msg)
+#     prefResult(RList, CList,0)
+#     print("final:  ", msg)
 
 
 

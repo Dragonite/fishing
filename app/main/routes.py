@@ -10,7 +10,7 @@ from app.models import User, Poll
 from app.controllers import createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById
 from app.main import bp
 
-from app.pollForm import CreatePollForm
+from app.pollForm import CreatePollForm,CreateResponseForm
 from app.registrationForm import RegistrationForm
 
 
@@ -49,17 +49,39 @@ def help():
     return render_template("help.html", title='Help')
 
 
-@bp.route('/current')
+@bp.route('/current', methods=['GET', 'POST'])
 def current():
     polls=getCurrentPolls()
     users=getAllUsers()
     return render_template("current.html", title='Current Polls', polls=polls, users=users)
 
+@bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
+def current_view(pollId):
+    print(pollId)
+    poll=getPollById(pollId)
+    form=CreateResponseForm()
+    myResponse={}
+    if form.validate_on_submit():
+        response=form.response
+        poll=getPollById(form.pollId)
+        if poll==None:
+            flash('something is wrong!')
+            return redirect(url_for('main.current'))
+        # for item in response:
+        #     myResponse[item.]
+        #     poll.addResponse(g.current_user.userId,)
+    return render_template("currentPollView.html", title=poll.title, poll=poll)
 
-@bp.route('/completed')
+@bp.route('/completed', methods=['GET', 'POST'])
 def completed():
     polls=getClosedPolls()
     return render_template("completed.html", title='Completed Polls', polls=polls)
+
+@bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
+def completed_view(pollId):
+    polls=getPollById(pollId)
+    return render_template("completedPollView.html", title=poll.title, poll=poll)
+
 
 
 @bp.route('/users')
