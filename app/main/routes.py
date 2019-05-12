@@ -7,7 +7,7 @@ from app import db
 
 
 from app.models import User, Poll
-from app.controllers import createPoll, getCurrentPoll, getClosedPoll, getAllUsers, getPollById,getResults,getUserById
+from app.controllers import createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById
 from app.main import bp
 
 from app.pollForm import CreatePollForm
@@ -51,14 +51,14 @@ def help():
 
 @bp.route('/current')
 def current():
-    poll=getCurrentPolls()
-    return render_template("current.html", title='Current Polls', poll=poll)
+    polls=getCurrentPolls()
+    return render_template("current.html", title='Current Polls', poll=polls)
 
 
 @bp.route('/completed')
 def completed():
-    poll=getClosedPolls()
-    return render_template("completed.html", title='Completed Polls', poll=poll)
+    polls=getClosedPolls()
+    return render_template("completed.html", title='Completed Polls', poll=polls)
 
 
 @bp.route('/users')
