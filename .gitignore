@@ -6,9 +6,11 @@ app/__pycache__
 __pycache__
 *.db
 migrations
-test.py
+
 dataLoad.py
 *.sql
 app/__init__.pyc
 
+legacy-unitTest_poll.py
+legacy-unitTest_user.py
 test.html
