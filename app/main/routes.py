@@ -52,13 +52,14 @@ def help():
 @bp.route('/current')
 def current():
     polls=getCurrentPolls()
-    return render_template("current.html", title='Current Polls', poll=polls)
+    users=getAllUsers()
+    return render_template("current.html", title='Current Polls', polls=polls, users=users)
 
 
 @bp.route('/completed')
 def completed():
     polls=getClosedPolls()
-    return render_template("completed.html", title='Completed Polls', poll=polls)
+    return render_template("completed.html", title='Completed Polls', polls=polls)
 
 
 @bp.route('/users')
