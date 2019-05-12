@@ -2,4 +2,10 @@
 
 {% block content %}
   <div class="test">Test</div>
+  {% for poll in polls %}
+    {% for candidate in poll.Candidate %}
+      <div>{{ candidate.candidateDescription }}</div>
+    {% endfor %}
+
+  {% endfor %}
 {% endblock %}

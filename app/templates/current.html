@@ -2,4 +2,43 @@
 
 {% block content %}
   <div class="test">Test</div>
+  <div>hi</div>
+  {% for poll in polls %}
+    <div class="card" style="width: 80%; margin: 0 auto">
+      <div class="card-header">
+        <strong>Poll: {{ poll.get_id() }}</strong>
+        <span style="float:right" class="badge badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ poll.title }}
+        </h5>
+        {{ poll.description }}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span></li>
+        <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span></li>
+        <li class="list-group-item"><strong>Created By: </strong>
+          {% for user in users %}
+            {% if user.userId == poll.createdByUserId %}
+              {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+            {% endif %}
+          {% endfor %}
+        </li>
+      </ul>
+      <div class="card-body">
+        <a href="#" class="btn btn-info"><i class="fa-fw fa fa-envelope"></i> Vote</a>
+        {% if current_user.isAdmin %}
+          <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+  <script>
+    let timeElements = document.getElementsByClassName('modify-time');
+    for(let i=0; i<timeElements.length; i++){
+      let unformattedTime = timeElements[i].innerHTML;
+      timeElements[i].innerHTML = moment.utc(unformattedTime, 'YYYY-MM-DD HH:mm:ss').local().format('DD/MM/YYYY HH:mm')
+    }
+  </script>
 {% endblock %}
