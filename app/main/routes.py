@@ -7,7 +7,7 @@ from app import db
 
 
 from app.models import User, Poll
-from app.controllers import createPoll, getCurrentPoll, getClosedPoll, getAllUsers, getPollById,getResults
+from app.controllers import createPoll, getCurrentPoll, getClosedPoll, getAllUsers, getPollById,getResults,getUserById
 from app.main import bp
 
 from app.pollForm import CreatePollForm
@@ -76,6 +76,13 @@ def profile():
 def test():
     poll=getPollById(1)
     getResults(poll)
+    user=getUserById(1)
+    print(user.howManyPolls())
+    print(user.howManyResponses())
+    print(len(user.howManyPolls()))
+    print(len(user.howManyResponses()))
+    allres, summary=user.howManyResponses()
+    print(summary)
     return render_template("test.html", title='test', poll=poll)
 
 @bp.route('/register', methods=['GET', 'POST'])

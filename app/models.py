@@ -121,6 +121,31 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             return None
         return user
 
+    def howManyResponses(self):
+        responses=Poll.Response.query.filter_by(userId=self.userId).all()
+        polls=[]
+        current=None
+        totalResponses=0
+        pollIds=[]
+
+        for item in responses:
+            if current==item.pollId:
+                pass
+            else:
+                current=item.pollId
+                pollIds.append(current)
+                totalResponses +=1
+        returnData = {
+            'userId' : self.userId,
+            'totalResponses': totalResponses, 
+            'pollIds': pollIds
+        }
+        return responses, returnData
+
+    def howManyPolls(self):
+        poll=Poll.query.filter_by(createdByUserId=self.userId).all()
+        return(poll)
+
     def to_dict(self, include_email=False, as_admin=False):
         data = {
             'userId': self.userId,
@@ -230,6 +255,8 @@ class Poll(PaginatedAPIMixin, db.Model):
                 return True
             else:
                 return False
+
+
         def to_dict(self):
             data = {
             'responseId': self.responseId,
