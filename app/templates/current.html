@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="test">Test</div>
-  <div>hi</div>
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+    This is a collection of <strong>Active</strong> polls.
+    {% if current_user.is_anonymous %}
+      You are currently not registered. You will only be able to vote on <strong>Open</strong> polls.
+      To register, click <a style="color: #0c5460" href="{{ url_for('main.register') }}"><strong>here</strong></a>. <br>
+      <br>For more information on the algorithm that determines the winner, please click
+      <a style="color: #0c5460" href="{{ url_for('main.help') }}"><strong>here</strong></a>.
+    {% else %}
+      Click the <strong><i class="fa-fw fa fa-envelope"></i> Vote</strong> button to vote on a poll. <br> <br> For more
+      information on the algorithm that determines the winner,
+      please click <a style="color: #0c5460" href="{{ url_for('main.help') }}"><strong>here</strong></a>.
+    {% endif %}
+    <br><br>
+    {% if current_user.isAdmin %}
+      As an Admin User, you are able to <strong>Delete</strong> polls. Please click the
+      <strong><i class="fa-fw fa fa-trash-alt"></i> Delete</strong> button to delete a poll.
+    {% endif %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
   {% for poll in polls %}
-    <div class="card" style="width: 80%; margin: 0 auto">
+    <div class="card">
       <div class="card-header">
         <strong>Poll: {{ poll.get_id() }}</strong>
         <span style="float:right" class="badge badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
@@ -16,7 +35,8 @@
         {{ poll.description }}
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span></li>
+        <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span>
+        </li>
         <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span></li>
         <li class="list-group-item"><strong>Created By: </strong>
           {% for user in users %}
@@ -27,7 +47,9 @@
         </li>
       </ul>
       <div class="card-body">
-        <a href="#" class="btn btn-info"><i class="fa-fw fa fa-envelope"></i> Vote</a>
+        <a href="#"
+           class="btn btn-info {% if current_user.is_anonymous and not poll.isOpenPoll %}disabled{% endif %}"><i
+          class="fa-fw fa fa-envelope"></i> Vote</a>
         {% if current_user.isAdmin %}
           <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
         {% endif %}
@@ -36,7 +58,7 @@
   {% endfor %}
   <script>
     let timeElements = document.getElementsByClassName('modify-time');
-    for(let i=0; i<timeElements.length; i++){
+    for (let i = 0; i < timeElements.length; i++) {
       let unformattedTime = timeElements[i].innerHTML;
       timeElements[i].innerHTML = moment.utc(unformattedTime, 'YYYY-MM-DD HH:mm:ss').local().format('DD/MM/YYYY HH:mm')
     }
