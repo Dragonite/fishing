@@ -16,5 +16,5 @@ class CreatePollForm(FlaskForm):
     isOpen = BooleanField('Open Poll')
 
     minResponses=IntegerField('Minimum responses to collect')
-
+    # candidates=
     submit = SubmitField('Create Poll')

@@ -1,4 +1,5 @@
 from flask import g
+
 from flask_httpauth import HTTPBasicAuth
 from app.models import User
 from app.api.errors import error_response
@@ -11,10 +12,10 @@ token_auth = HTTPTokenAuth()
 @basic_auth.verify_password
 def verify_password(username, password):
     user = User.query.filter_by(username=username).first()
-    if user is None:
+    if user is None  or not user.verify_password(password):
         return False
     g.current_user = user
-    return user.check_password(password)
+    return True #user.check_password(password)
 
 @basic_auth.error_handler
 def basic_auth_error():
