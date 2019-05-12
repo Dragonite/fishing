@@ -169,6 +169,11 @@ def getCurrentPoll():
 
 
 def getResults(Poll):
-    results={}
-    return results
+    CList=[]
+    voteCount=[]
+    voteResult=[]
+    results=voteCount
+    results.append(voteResult)
+    poll=Poll
+    return 
 
