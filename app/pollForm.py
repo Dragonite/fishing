@@ -18,3 +18,12 @@ class CreatePollForm(FlaskForm):
     minResponses=IntegerField('Minimum responses to collect')
 
     submit = SubmitField('Create Poll')
+
+
+
+class CreateResponseForm(FlaskForm):
+    pollId=IntegerField()
+    userId=IntegerField()
+    candidateId=IntegerField()
+    response=IntegerField()
+    submit = SubmitField('Submit my response')

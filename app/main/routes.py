@@ -10,7 +10,7 @@ from app.models import User, Poll
 from app.controllers import createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById
 from app.main import bp
 
-from app.pollForm import CreatePollForm
+from app.pollForm import CreatePollForm,CreateResponseForm
 from app.registrationForm import RegistrationForm
 
 
@@ -52,6 +52,18 @@ def help():
 @bp.route('/current')
 def current():
     polls=getCurrentPolls()
+    form=CreateResponseForm()
+    myResponse={}
+    if form.validate_on_submit():
+        response=form.response
+        poll=getPollById(form.pollId)
+        if poll==None:
+            flash('something is wrong!')
+            return redirect(url_for('main.current'))
+        # for item in response:
+        #     myResponse[item.]
+        #     poll.addResponse(g.current_user.userId,)
+
     return render_template("current.html", title='Current Polls', poll=polls)
 
 
