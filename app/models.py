@@ -397,6 +397,19 @@ class Poll(PaginatedAPIMixin, db.Model):
                     except: 
                         return 'addResponse exception raised: '+ str(sys.exc_info()[0])
             return True
+    def get_rawResult(self):
+        rawResult={}
+        tempdic={}
+        for candidate in self.Candidate:
+            for i in range(self.howManyCandidates()):
+                tempdic[i+1]=tempdic.get(i+1 ,0)
+            rawResult[candidate.candidateId]=rawResult.get(candidate.candidateId, tempdic)
+            tempdic={}
+        for response in self.Response:
+            rawResult[response.candidateId][response.response]+=1
+
+        return rawResult
+
 
     def to_dict(self):
         noCandidates=self.howManyCandidates()
@@ -420,7 +433,8 @@ class Poll(PaginatedAPIMixin, db.Model):
             'noCandidates' : noCandidates,
             'noResponses' : noResponses,
             'candidates': [item.to_dict() for item in self.Candidate],
-            'responses': [item.to_dict() for item in self.Response]
+            'responses': [item.to_dict() for item in self.Response],
+            'rawResult': self.get_rawResult()
         }
         return data
 
