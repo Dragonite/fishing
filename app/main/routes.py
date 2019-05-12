@@ -61,8 +61,8 @@ def completed():
 @bp.route('/users')
 # @login_required
 def users():
-    user=getAllUsers()
-    return render_template("users.html", title='Users', user=user)
+    users=getAllUsers()
+    return render_template("users.html", title='Users', users=users)
 
 
 @bp.route('/profile')

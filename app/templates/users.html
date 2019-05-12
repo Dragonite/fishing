@@ -21,14 +21,14 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>Haolin Wu</td>
-        <td>21706137@student.uwa.edu.au</td>
-      </tr>
-      <tr>
-        <td>Luna Sohee Lee</td>
-        <td>22187554@student.uwa.edu.au</td>
-      </tr>
+      {% for user in users %}
+        {% if user.isActive == True %}
+          <tr>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
       </tbody>
     </table>
   </div>
