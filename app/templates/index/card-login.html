@@ -1,4 +1,5 @@
 <div class="card mb-3">
+
   <div class="card-body">
     {% if current_user.is_anonymous %}
       <h5 class="card-title">Welcome</h5>
@@ -13,11 +14,29 @@
       <p class="card-text">
         This Fishing Polling application has polls regarding fishing.
       </p>
-      <small class="text-muted">
-        Last logged in{% if current_user.lastModifiedAt %} {{ current_user.lastModifiedAt }} ago.{% else %}:
+      <small id="last-logged-in-container" class="text-muted">
+        Last logged in{% if current_user.lastModifiedAt %} <span id="last-logged-in">{{ current_user.lastModifiedAt }}</span> ago.{% else %}:
         Never.{% endif %}
       </small>
     {% endif %}
 
   </div>
+  {% if not current_user.is_anonymous %}
+    <script>
+      let lastLoggedIn = moment(document.getElementById('last-logged-in').innerHTML).format('YYYY-MM-DD HH:mm:ss');
+      let now = moment().utcOffset(0).format('YYYY-MM-DD HH:mm:ss');
+      let timeInSeconds = moment(now).diff(moment(lastLoggedIn), 'seconds');
+      if(timeInSeconds < 1) {
+        document.getElementById('last-logged-in-container').innerHTML = "Logged in just now."
+      } else if(timeInSeconds < 60){
+        document.getElementById('last-logged-in').innerHTML = moment(now).diff(moment(lastLoggedIn), 'seconds') + " seconds"
+      } else if (timeInSeconds >= 60 && timeInSeconds < 3600){
+        document.getElementById('last-logged-in').innerHTML = moment(now).diff(moment(lastLoggedIn), 'minutes') + " minutes"
+      } else if (timeInSeconds >= 3600 && timeInSeconds < 86400) {
+        document.getElementById('last-logged-in').innerHTML = moment(now).diff(moment(lastLoggedIn), 'hours') + " hours"
+      } else {
+        document.getElementById('last-logged-in').innerHTML = moment(now).diff(moment(lastLoggedIn), 'days') + " days"
+      }
+    </script>
+  {% endif %}
 </div>
