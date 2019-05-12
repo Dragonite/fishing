@@ -15,7 +15,7 @@
         This Fishing Polling application has polls regarding fishing.
       </p>
       <small id="last-logged-in-container" class="text-muted">
-        Last logged in{% if current_user.lastModifiedAt %} <span id="last-logged-in">{{ current_user.lastModifiedAt }}</span> ago.{% else %}:
+        Last logged in{% if current_user.lastLogin %} <span id="last-logged-in">{{ current_user.lastLogin }}</span> ago.{% else %}:
         Never.{% endif %}
       </small>
     {% endif %}
