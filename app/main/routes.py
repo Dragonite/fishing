@@ -27,8 +27,9 @@ def create():
     form = CreatePollForm()
     if form.validate_on_submit():
         poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=current_user)
-        for item in form.option:
-            poll.addCandidate(item)
+        
+        for item in form.options:
+            poll.addCandidate(item, None)
 
         if createPoll(poll):
             flash('Poll has been created successfully!')
