@@ -8,6 +8,12 @@
     <button class="tablinks" onclick="openTab(event, 'Inactive')">Inactive</button>
   </div>
 
+  <script>
+  $(document).ready(function () {
+    $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+  })
+  </script>
+
   <!-- Tab content -->
   <div id="Active" class="tabcontent" style="background-color: white">
     <!-- Active -->
@@ -15,20 +21,35 @@
 
     <table id="table-active" class="display">
       <thead>
-      <tr>
+      <tr style="text-align: center">
         <th>Name</th>
         <th>Email</th>
+        <th>Poll Count</th>
+        <th>Response Count</th>
+        <th>Admin Account</th>
       </tr>
       </thead>
-      <tbody>
-      <tr>
-        <td>Haolin Wu</td>
-        <td>21706137@student.uwa.edu.au</td>
-      </tr>
-      <tr>
-        <td>Luna Sohee Lee</td>
-        <td>22187554@student.uwa.edu.au</td>
-      </tr>
+      <tbody style="text-align: center">
+      {% for user in users %}
+{#        <script>#}
+{#         console.log({{ user.howManyPolls()|length }})#}
+{#        </script>#}
+        {% if user.isActive == True %}
+          <tr>
+            <td>{{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.howManyPolls()|length }}</td>
+            <td>{{ user.howManyResponses()|length }}</td>
+            <td>
+              {% if user.isAdmin %}
+                <i class="fa-fw fa fa-circle text-success"></i>
+              {% else %}
+                <i class="fa-fw fa fa-circle text-danger"></i>
+              {% endif %}
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
       </tbody>
     </table>
   </div>

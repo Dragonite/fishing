@@ -9,3 +9,6 @@ migrations
 test.py
 dataLoad.py
 *.sql
+app/__init__.pyc
+
+test.html
