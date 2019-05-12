@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, current_user
 
 from app import db
 from app.auth import bp
-from app.auth.forms import LoginForm, RegistrationForm  # ,  ResetPasswordRequestForm, ResetPasswordForm
+from app.auth.forms import LoginForm#, RegistrationForm  ,  ResetPasswordRequestForm, ResetPasswordForm
 from app.models import User
 from app.controllers import login_time
 
@@ -31,19 +31,3 @@ def logout():
     flash(Markup('<script>Notify("You have successfully logged yourself out.", null, null, "success")</script>'))
     return redirect(url_for('main.index'))
 
-
-@bp.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, firstName=form.firstName.data,
-                    lastName=form.lastName.data, ad_street=form.ad_street.data, ad_suburb=form.ad_suburb.data,
-                    ad_state=form.ad_state.data, createdAt=datetime.utcnow(), isActive=1, isAdmin=0)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', title='Register', form=form)

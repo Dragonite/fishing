@@ -82,6 +82,9 @@ def getUserByUsername(username):
     else:
         return user
 
+def getAllUsers():
+    user = User.query.all()
+    return user
 
 def createPoll(Poll):
     if Poll==None:
@@ -140,43 +143,32 @@ def getPollById(pollId):
         poll.Response=Poll.Response.query.filter_by(pollId=poll.pollId).all()
     return poll
 
+def getAllPolls():
+    poll=Poll.query.all()
+    noPoll=len(poll)
+    for index in range(noPoll):
+        poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
+        poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
+    return poll
 
+def getClosedPoll():
+    poll=Poll.query.filter(Poll.completedAt.isnot(None)).all()
+    noPoll=len(poll)
+    for index in range(noPoll):
+        poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
+        poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
+    return poll
+
+def getCurrentPoll():
+    poll=Poll.query.filter_by(completedAt=None).all()
+    noPoll=len(poll)
+    for index in range(noPoll):
+        poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
+        poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
+    return poll
 
 
 def getResults(Poll):
     results={}
     return results
 
-
-
-# def createResponse(userId, preferenceXresponses):
-#     responses=Poll.Response()
-#     responses=[]
-#     if preferenceXresponses==None:
-#         raise ValueError('You must enter preference order for each option')
-#         return False
-#     else:
-#         for key, value in preferenceXresponses.items():
-#             response=Poll.Response()
-#             response.userId=userId
-#             response.candidateId=key
-#             response.response=value
-#             response.createdAt=datetime.utcnow()
-#             response.isActive=True
-#             responses.append(response)
-#     if responses:
-#         return responses
-#     else:
-#         return False
-
-# def addResponse(Poll, responses):
-#     if Poll.isClosed():
-#          raise ValueError('This poll has been closed since ', Poll.completedAt)
-#     else:
-
-#         for item in responses:
-#             try:
-#                 db.session.add(item)
-#                 db.session.commit()
-#             except: 
-#                 return 'addResponse exception raised: '+ str(sys.exc_info()[0])

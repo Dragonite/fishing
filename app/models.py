@@ -9,7 +9,7 @@ import sys
 import pycountry
 import base64
 import os
-
+import json
 from flask import url_for
 
 
@@ -154,7 +154,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
             self.set_password(data['password'])
 
 
-class Poll(db.Model):
+class Poll(PaginatedAPIMixin, db.Model):
     
     __tablename__ = 'polls'
     __table_args__ = {'sqlite_autoincrement': True}
@@ -193,6 +193,20 @@ class Poll(db.Model):
         def get_id(self):
             return(self.candidateId)
 
+        def to_dict(self):
+            data = {
+            'candidateDescription': self.candidateDescription,
+            'displayOrder': self.displayOrder,
+            'pollId': self.pollId,
+            'candidateId': self.candidateId,
+            'isActive':self.isActive
+            }
+            return data
+
+        def from_dict(self, data):
+            for field in ['pollId','displayOrder','candidateId', 'isActive', 'candidateDescription']:
+                if field in data:
+                    setattr(self, field, data[field])
 
     class Response(db.Model):
 
@@ -216,6 +230,23 @@ class Poll(db.Model):
                 return True
             else:
                 return False
+        def to_dict(self):
+            data = {
+            'responseId': self.responseId,
+            'userId': self.userId,
+            'pollId': self.pollId,
+            'candidateId': self.candidateId,
+            'isActive':self.isActive,
+            'response':self.response,     
+            'createdAt':self.createdAt,
+            }
+            return data
+        def from_dict(self, data):
+            for field in ['pollId','userId','candidateId', 'isActive', 'response', 'createdAt']:
+                if field in data:
+                    setattr(self, field, data[field])
+
+
     ################### Poll method definition ######################
     def __init__(self, title, description, minResponses, orderCandidatesBy, isOpenPoll, openAt, closeAt, User):
         self.Candidate=self.Candidate()
@@ -340,30 +371,33 @@ class Poll(db.Model):
                         return 'addResponse exception raised: '+ str(sys.exc_info()[0])
             return True
 
-    def to_dict(self, as_admin=False):
+    def to_dict(self):
+        noCandidates=self.howManyCandidates()
+        noResponses=self.howManyResponses()
+        canlist=self.Candidate
+        # 'items': [item.to_dict() for item in resources.items],
         data = {
-            'userId': self.userId,
-            'username': self.username,
-            'firstName': self.firstName,
-            'lastName': self.lastName,
-            'ad_street':self.ad_state,
-            'ad_suburb':self.ad_suburb,
-            'ad_state':self.ad_state,
-            'ad_country':self.ad_country,
-            'ad_country_code': pycountry.countries.get(name=self.ad_country).alpha_2.lower(),
-            'lastLogin':self.lastLogin,
-            'currentLogin':self.currentLogin
+            'pollId': self.pollId,
+            'title': self.title,
+            'description': self.description,
+            'createdAt': self.createdAt,
+            'lastModifiedAt':self.lastModifiedAt,
+            'completedAt':self.completedAt,
+            'orderCandidatesBy':self.orderCandidatesBy,
+            'minResponses':self.minResponses,
+            'openAt': self.openAt,
+            'closeAt':self.closeAt,
+            'createdByUserId':self.createdByUserId,
+            'isOpenPoll':self.isOpenPoll,
+            'isActive': self.isActive,
+            'noCandidates' : noCandidates,
+            'noResponses' : noResponses,
+            'candidates': [item.to_dict() for item in self.Candidate],
+            'responses': [item.to_dict() for item in self.Response]
         }
-        if as_admin:
-            data['createdAt']=self.createdAt
-            data['lastModifiedAt']=self.lastModifiedAt
-            data['isActive']=self.isActive
-            data['isAdmin']=self.isAdmin
         return data
 
-    def from_dict(self, data, new_user=False):
-        for field in ['username', 'email','firstName','lastName','ad_street', 'ad_suburb','ad_state']:
+    def from_dict(self, data):
+        for field in ['pollId','title','discription','lastModifiedAt','completedAt','orderCandidatesBy','minResponses', 'openAt', 'closeAt','createdByUserId','isOpenPoll', 'isActive']:
             if field in data:
                 setattr(self, field, data[field]) ###############################################
-        if new_user and 'password' in data:
-            self.set_password(data['password'])

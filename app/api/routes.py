@@ -1,6 +1,6 @@
 
 from app import db
-from app.models import User
+from app.models import User, Poll
 from flask_login import login_user, logout_user, current_user
 from app.api.errors import bad_request, error_response
 from flask import jsonify, url_for, request, g, abort
@@ -11,7 +11,8 @@ from app.api import bp
 from flask_httpauth import HTTPTokenAuth
 from flask_login import login_user, logout_user, current_user
 
-from app.controllers import login_time, getUserById
+from app.controllers import login_time, getUserById, getPollById,getAllPolls
+
 @bp.route('/users/login', methods=['POST'])
 def API_login():
     data = request.get_json() or {}
@@ -22,13 +23,13 @@ def API_login():
        return bad_request('Invalid username or password')
     login_time(user)
 
-    return  jsonify(userId=g.current_user.userId, username=g.current_user.username, access_token=g.current_user.get_token(), message= "login successful")
+    return  jsonify(user.to_dict())
         
     
 
 @bp.route('/users/<int:userId>', methods=['GET'])
 # @token_auth.login_required
-# @auth.login_required
+#@auth.login_required
 def get_user(userId):
     user=getUserById(userId)
     if user:
@@ -44,6 +45,7 @@ def get_users():
     per_page = min(request.args.get('per_page', 10, type=int), 100)
     data = User.to_collection_dict(User.query, page, per_page, 'api.get_users')
     return jsonify(data)
+
 
 @bp.route('/users', methods=['POST'])
 def create_user():
@@ -77,3 +79,28 @@ def update_user(userId):
     user.from_dict(data, new_user=False)
     db.session.commit()
     return jsonify(user.to_dict())
+
+
+    
+
+
+@bp.route('/polls/<int:pollId>', methods=['GET'])
+def get_poll(pollId):
+    poll=getPollById(pollId)
+    if poll:
+        return jsonify(poll.to_dict())
+    else: 
+        bad_request('pollId does not exists')
+
+
+
+@bp.route('/polls', methods=['GET'])
+def get_polls():
+    page = request.args.get('page', 1, type=int)
+    per_page = min(request.args.get('per_page', 10, type=int), 100)
+    #data = Poll.to_collection_dict(getAllPolls(), page, per_page, 'api.get_polls')
+    resources= getAllPolls()
+    data={}
+    for index in range(len(resources)):
+        data[index]=(resources[index].to_dict())
+    return jsonify(data)
