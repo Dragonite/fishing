@@ -153,7 +153,7 @@ def getAllPolls():
         poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
     return poll
 
-def getClosedPoll():
+def getClosedPolls():
     poll=Poll.query.filter(Poll.completedAt.isnot(None)).all()
     noPoll=len(poll)
     for index in range(noPoll):
@@ -161,7 +161,7 @@ def getClosedPoll():
         poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
     return poll
 
-def getCurrentPoll():
+def getCurrentPolls():
     poll=Poll.query.filter_by(completedAt=None).all()
     noPoll=len(poll)
     for index in range(noPoll):
