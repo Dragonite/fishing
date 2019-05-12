@@ -170,10 +170,40 @@ def getCurrentPoll():
 
 def getResults(Poll):
     CList=[]
+    temp=[]
+    RList=[]
     voteCount=[]
     voteResult=[]
     results=voteCount
     results.append(voteResult)
-    poll=Poll
-    return 
+
+    howManyCandidates=Poll.howManyCandidates()
+
+    for candidate in Poll.Candidate:
+        temp.append(candidate.candidateId)
+        temp.append(candidate.candidateDescription)
+        temp.append(0)
+        CList.append(temp)
+        temp=[]
+    for response in Poll.Response:
+        if response.isActive:
+            temp.append(response.candidateId)
+            temp.append(response.userId)
+            temp.append(response.response)
+            RList.append(temp)
+            temp=[]
+
+    rawResult={}
+    tempdic={}
+    for candidate in Poll.Candidate:
+        for i in range(Poll.howManyCandidates()):
+            tempdic[i+1]=tempdic.get(i+1 ,0)
+        rawResult[candidate.candidateId]=rawResult.get(candidate.candidateId, tempdic)
+        tempdic={}
+    for response in Poll.Response:
+        rawResult[response.candidateId][response.response]+=1
+    
+    # for key, value in rawResult.items():
+    #     print(key, value)   
+    return rawResult
 

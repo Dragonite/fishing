@@ -75,14 +75,6 @@ def profile():
 @bp.route('/test', methods=['GET', 'POST'])
 def test():
     poll=getPollById(1)
-    getResults(poll)
-    user=getUserById(1)
-    print(user.howManyPolls())
-    print(user.howManyResponses())
-    print(len(user.howManyPolls()))
-    print(len(user.howManyResponses()))
-    allres, summary=user.howManyResponses()
-    print(summary)
     return render_template("test.html", title='test', poll=poll)
 
 @bp.route('/register', methods=['GET', 'POST'])
