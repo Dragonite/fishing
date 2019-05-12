@@ -24,15 +24,22 @@
       <tr style="text-align: center">
         <th>Name</th>
         <th>Email</th>
+        <th>Poll Count</th>
+        <th>Response Count</th>
         <th>Admin Account</th>
       </tr>
       </thead>
       <tbody style="text-align: center">
       {% for user in users %}
+{#        <script>#}
+{#         console.log({{ user.howManyPolls()|length }})#}
+{#        </script>#}
         {% if user.isActive == True %}
           <tr>
-            <td>{{ user.firstName }}</td>
+            <td>{{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}</td>
             <td>{{ user.email }}</td>
+            <td>{{ user.howManyPolls()|length }}</td>
+            <td>{{ user.howManyResponses()|length }}</td>
             <td>
               {% if user.isAdmin %}
                 <i class="fa-fw fa fa-circle text-success"></i>
