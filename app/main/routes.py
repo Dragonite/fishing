@@ -13,6 +13,9 @@ from app.main import bp
 from app.pollForm import CreatePollForm
 from app.registrationForm import RegistrationForm
 
+
+
+
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 
@@ -75,6 +78,10 @@ def profile():
 @bp.route('/test', methods=['GET', 'POST'])
 def test():
     poll=getPollById(1)
+    getResults(poll)
+    for item in poll.get_prefResult():
+        print(item)
+    print("short",poll.get_prefResult(False))
     return render_template("test.html", title='test', poll=poll)
 
 @bp.route('/register', methods=['GET', 'POST'])
