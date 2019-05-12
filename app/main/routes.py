@@ -49,9 +49,17 @@ def help():
     return render_template("help.html", title='Help')
 
 
-@bp.route('/current')
+@bp.route('/current', methods=['GET', 'POST'])
 def current():
     polls=getCurrentPolls()
+    
+
+    return render_template("current.html", title='Current Polls', poll=polls)
+
+@bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
+def current_view(pollId):
+    print(pollId)
+    poll=getPollById(pollId)
     form=CreateResponseForm()
     myResponse={}
     if form.validate_on_submit():
@@ -63,14 +71,18 @@ def current():
         # for item in response:
         #     myResponse[item.]
         #     poll.addResponse(g.current_user.userId,)
+    return render_template("currentPollView.html", title=poll.title, poll=poll)
 
-    return render_template("current.html", title='Current Polls', poll=polls)
-
-
-@bp.route('/completed')
+@bp.route('/completed', methods=['GET', 'POST'])
 def completed():
     polls=getClosedPolls()
     return render_template("completed.html", title='Completed Polls', poll=polls)
+
+@bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
+def completed_view(pollId):
+    polls=getPollById(pollId)
+    return render_template("completedPollView.html", title=poll.title, poll=poll)
+
 
 
 @bp.route('/users')
