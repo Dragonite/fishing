@@ -325,9 +325,9 @@ class Poll(PaginatedAPIMixin, db.Model):
             return len(self.Candidate)
 
     def howManyResponses(self):
-        if self.Response==None:
+        if self.Response==None or self.Response==0 :
             return 0
-        elif self.Candidate==None:
+        elif self.Candidate==None or self.Candidate==0:
              raise ValueError('There is no candidate saved yet')
         else:
             return int(len(self.Response)/self.howManyCandidates())

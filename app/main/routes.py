@@ -30,19 +30,34 @@ def index():
 def create():
     form = CreatePollForm()
     if form.validate_on_submit():
-        poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=current_user)
-        candidates=form.options
-        for item in candidates:
-            if item.data != None:
-                poll.addCandidate(item.data, None)
+        
+        validationPoll=Poll.query.filter_by(title=form.title.data).first()
+        if validationPoll!= None:
 
-        if createPoll(poll):
-            flash('Poll has been created successfully!')
-            return render_template("currentPollView.html", title=poll.title, poll=poll)
-            # return redirect(url_for('main.index'))
-        else:
-            flash('something is wrong!')
+            flash('There is alreay a poll created with the same title.')
             return redirect(url_for('main.create'))
+
+        else:
+            poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=current_user)
+            candidates=form.options
+            nullCount=len(form.options)
+
+            for item in candidates:
+                if item.data != None and item.data != "":
+                    poll.addCandidate(item.data, None)
+                    nullCount-=1
+            if nullCount > (len(form.options)-2):
+                flash('There is not enough choice to make this poll.')
+                return redirect(url_for('main.create'))
+            else:  
+                print("create",nullCount)
+                if createPoll(poll)==True:
+                    flash('Poll has been created successfully!')
+                    return render_template("currentPollView.html", title=pol.title, poll=poll)
+
+                else:
+                    flash('something is wrong!')
+                    return redirect(url_for('main.create'))
     return render_template('create.html', title='Create a Poll', form=form)
 
 
@@ -81,7 +96,7 @@ def completed():
 
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
-    polls=getPollById(pollId)
+    poll=getPollById(pollId)
     return render_template("completedPollView.html", title=poll.title, poll=poll)
 
 
