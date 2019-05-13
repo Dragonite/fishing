@@ -37,12 +37,8 @@
     </a>
   </div>
   <br>
+  <script type="text/javascript" src="/static/javascript/ordinal.js"></script>
   <script>
-    function ordinalInWord(cardinal) {
-      const ordinals = ['Zeroth', 'First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth'];
-      return ordinals[cardinal];
-    }
-
     let colorArray = ['rgba(255,0,0,0.5)', '#ffe082', '#81d4fa', '#c5e1a5', '#ffcc80', 'rgba(213, 184, 255, 1)',
       'rgba(189, 195, 199, 1)', 'rgba(101, 198, 187, 1)', 'rgba(103, 128, 159, 1)', 'rgba(218, 223, 225, 1)'];
     let ctx = document.getElementById('poll-chart-2').getContext('2d');

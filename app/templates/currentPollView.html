@@ -10,9 +10,19 @@
 
 
 
-
-  <div> {{ form.pref() }}</div>
-  
+  {% for field in form.preferences %}
+    <span class="cardinal">{{ loop.index }}</span>
+    {{ field.label }}{{ field(class="form-control") }}<br>
+  {% endfor %}
+{#  <div> {{ form.preferences }}</div>#}
+  <script type="text/javascript" src="/static/javascript/ordinal.js"></script>
+  <script>
+    let cardinals = document.getElementsByClassName('cardinal');
+    for(var i=0; i<cardinals.length; i++){
+      cardinals[i].innerText = ordinalInWord(cardinals[i].innerText);
+      console.log(cardinals[i])
+    }
+  </script>
   <div> {{ form.submit() }}</div>
 
 {% endblock %}
