@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 # from flask_babel import _, get_locale
 # from guess_language import guess_language
 from app import db
-
+import json
 
 from app.models import User, Poll
 from app.controllers import createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById

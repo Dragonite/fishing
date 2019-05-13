@@ -397,7 +397,7 @@ class Poll(PaginatedAPIMixin, db.Model):
                     except: 
                         return 'addResponse exception raised: '+ str(sys.exc_info()[0])
             return True
-    def get_rawResult(self):
+    def get_rawResult(self, jsonPayload=False):
         rawResult={}
         tempdic={}
         for candidate in self.Candidate:
@@ -407,7 +407,12 @@ class Poll(PaginatedAPIMixin, db.Model):
             tempdic={}
         for response in self.Response:
             rawResult[response.candidateId][response.response]+=1
-        return jsonify(rawResult)
+        
+        if jsonPayload:
+            json.dumps(rawResult)
+            return (rawResult)
+        else:
+            return rawResult
 
     
     def to_dict(self):
