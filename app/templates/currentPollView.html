@@ -6,4 +6,13 @@
   <div>{{ poll.get_rawResult(jsonPayload=True)}} </div>
   <div>{{ poll.get_rawResult(jsonPayload=False)}} </div>
   <div>{{ poll.get_prefResult(details=False)}} </div>
+  <div>{{ poll.get_prefResult(details=False)}} </div>
+
+
+
+
+  <div> {{ form.pref() }}</div>
+  
+  <div> {{ form.submit() }}</div>
+
 {% endblock %}

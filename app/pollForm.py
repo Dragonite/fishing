@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FieldList, IntegerField
+from wtforms import StringField, SelectField,PasswordField, BooleanField, SubmitField, TextAreaField, FieldList, IntegerField
 from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, NumberRange
 from wtforms.fields.html5 import EmailField
 from app.models import User, Poll
@@ -21,16 +21,11 @@ class CreatePollForm(FlaskForm):
     submit = SubmitField('Create Poll')
 
 
-
-class CreateResponseForm(FlaskForm):
-    parameter=[]
-    def __init__(self, candidateParameter):
-        self.parameter=candidateParameter
-
-
-    pollId=IntegerField()
-    userId=IntegerField()
-    candidateId= FieldList(IntegerField())
-    response= FieldList(IntegerField())
-    submit = SubmitField('Submit my response')
-    responses = FieldList('Responses', choices=[(c[0], c[1]) for c in parameter], coerce=int)
+def makeResponseForm(responseParameter):
+    class ResponseForm(FlaskForm):
+        # responses=SelectField('choices', choices=responseParameter)
+        # # pref = FieldList(StringField('Preference'), min_entries=len(responseParameter), max_entries=len(responseParameter))
+        pref=  FieldList(SelectField('Preference', choices=responseParameter)
+ , min_entries=len(responseParameter), max_entries=len(responseParameter))
+        submit = SubmitField('Submit my response')
+    return ResponseForm()
