@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app
 from flask_login import current_user, login_required
-from flask_babel import _, get_locale
+# from flask_babel import _, get_locale
 # from guess_language import guess_language
 from app import db
 
@@ -26,21 +26,36 @@ def index():
 
 
 @bp.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     form = CreatePollForm()
     if form.validate_on_submit():
-        poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=current_user)
-        candidates=form.options
-        for item in candidates:
-            # print(item.data)
-            poll.addCandidate(item.data, None)
+        validationPoll=Poll.query.filter_by(title=form.title.data).first()
+        if validationPoll!= None:
 
-        if createPoll(poll):
-            flash('Poll has been created successfully!')
-            return redirect(url_for('main.index'))
-        else:
-            flash('something is wrong!')
+            flash('There is alreay a poll created with the same title.')
             return redirect(url_for('main.create'))
+
+        else:
+            poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=current_user)
+            candidates=form.options
+            nullCount=len(form.options)
+
+            for item in candidates:
+                if item.data != None and item.data != "":
+                    poll.addCandidate(item.data, None)
+                    nullCount-=1
+            if nullCount > (len(form.options)-2):
+                flash('There is not enough choice to make this poll.')
+                return redirect(url_for('main.create'))
+            else:  
+                if createPoll(poll)==True:
+                    flash('Poll has been created successfully!')
+                    return render_template("currentPollView.html", title=pol.title, poll=poll)
+
+                else:
+                    flash('something is wrong!')
+                    return redirect(url_for('main.create'))
     return render_template('create.html', title='Create a Poll', form=form)
 
 
@@ -57,8 +72,9 @@ def current():
 
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
 def current_view(pollId):
-    print(pollId)
+    
     poll=getPollById(pollId)
+    
     form=CreateResponseForm()
     myResponse={}
     if form.validate_on_submit():
@@ -86,15 +102,15 @@ def completed_view(pollId):
 
 
 
-@bp.route('/users')
-# @login_required
+@bp.route('/users', methods=['GET', 'POST'])
+@login_required
 def users():
     users=getAllUsers()
     return render_template("users.html", title='Users', users=users)
 
 
-@bp.route('/profile')
-# @login_required
+@bp.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     return render_template("profile.html", title='My Profile')
 

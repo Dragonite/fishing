@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextA
 from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, NumberRange
 from wtforms.fields.html5 import EmailField
 from app.models import User
-from flask_babel import _, lazy_gettext as _l
+# from flask_babel import _, lazy_gettext as _l
 
 
 
