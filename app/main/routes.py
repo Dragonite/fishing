@@ -79,13 +79,18 @@ def current():
 def current_view(pollId):
     
     poll=getPollById(pollId)
-    form=CreateResponseForm(poll)
+    
     myResponse={}
 
-
+    responseParameter=[]
     for item in poll.Candidate:
-        print("sdfjdsfsf",item.candidateId, item.candidateDescription)
-
+        temp=[]
+        temp.append(item.candidateId)
+        temp.append(item.candidateDescription)
+        responseParameter.append(temp)
+    
+    print("sdfjdsfsf",responseParameter)
+    form=CreateResponseForm(responseParameter)
     if form.validate_on_submit():
         response=form.response
         res={}
