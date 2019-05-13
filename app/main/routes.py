@@ -89,8 +89,14 @@ def current_view(pollId):
         temp.append(item.candidateDescription)
         responseParameter.append(temp)
     
-    print("sdfjdsfsf",responseParameter)
+    # print("sdfjdsfsf",responseParameter)
     form=CreateResponseForm(responseParameter)
+
+    # test=form.responses
+    # print("dfsdfs",len(test))
+    # for item in test:
+    #     print(item.data)
+
     if form.validate_on_submit():
         response=form.response
         res={}
