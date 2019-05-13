@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app
+from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app, Markup
 from flask_login import current_user, login_required
 # from flask_babel import _, get_locale
 # from guess_language import guess_language
@@ -129,7 +129,7 @@ def users():
         users=getAllUsers()
         return render_template("users.html", title='Users', users=users)
     else:
-        flash('Only an admin user can view this page!')
+        flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
         return redirect(url_for('main.index'))
 
 

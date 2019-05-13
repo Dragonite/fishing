@@ -19,7 +19,7 @@ migrate = Migrate()
 login = LoginManager()
 login.login_view = 'auth.login'
 # login.login_message = _l('Please log in to access this page.')
-login.login_message=('Please log in to access this page.')
+login.login_message=('')
 
 def create_app(config_class=Config):
     app = Flask(__name__)
