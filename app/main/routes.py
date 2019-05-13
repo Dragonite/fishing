@@ -7,7 +7,7 @@ from app import db
 import json
 
 from app.models import User, Poll
-from app.controllers import createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById
+from app.controllers import createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById
 from app.main import bp
 
 from app.pollForm import CreatePollForm,CreateResponseForm
@@ -80,18 +80,24 @@ def current():
 def current_view(pollId):
     
     poll=getPollById(pollId)
-    
-    form=CreateResponseForm()
+    form=CreateResponseForm(poll)
     myResponse={}
+
+
+    for item in poll.Candidate:
+        print("sdfjdsfsf",item.candidateId, item.candidateDescription)
+
     if form.validate_on_submit():
         response=form.response
-        poll=getPollById(form.pollId)
-        if poll==None:
-            flash('something is wrong!')
-            return redirect(url_for('main.current'))
-        # for item in response:
-        #     myResponse[item.]
-        #     poll.addResponse(g.current_user.userId,)
+        res={}
+        if Poll.Response.query.filter_by(userId=current_user.userId).all() != None:
+            flash('you have voted for this poll already.')
+        else:
+            if poll.addResponse(current_user.userId, res):
+                flash('you have successfully voted for this poll')
+                return redirect(url_for('main.current'))
+            else:
+                flash('Something went wrong')
     return render_template("currentPollView.html", title=poll.title, poll=poll)
 
 @bp.route('/completed', methods=['GET', 'POST'])
