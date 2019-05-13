@@ -83,7 +83,7 @@ def current():
 
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
 def current_view(pollId):
-    
+    users = getAllUsers()
     poll=getPollById(pollId)
     if poll:
         responseParameter=[]
@@ -105,12 +105,11 @@ def current_view(pollId):
                 #     else:
                 #         flash('Something went wrong')
         renderedtitle=poll.title
-        return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form)
+        return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form, users=users)
 
     else:
-        renderedtitle="Oops, something is wrong"
         flash('Poll does not exist')    
-    return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form)
+    return redirect(url_for('main.current'))
 
 @bp.route('/completed', methods=['GET', 'POST'])
 def completed():
