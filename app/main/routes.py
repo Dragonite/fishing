@@ -72,8 +72,8 @@ def current():
         return render_template("current.html", title='Current Polls', polls=polls, users=users)
     else:
         polls=getCurrentPolls()
-        # users=getAllUsers()
-        return render_template("current.html", title='Current Polls', polls=polls)
+        users=getAllUsers()
+        return render_template("current.html", title='Current Polls', polls=polls, users=users)
 
 
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
@@ -108,7 +108,8 @@ def completed():
         return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
     else:
         polls=getClosedPolls(isAdmin=False)
-        return render_template("completed.html", title='Completed Polls', polls=polls)
+        users = getAllUsers()
+        return render_template("completed.html", title='Completed Polls', polls=polls,users=users)
 
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
