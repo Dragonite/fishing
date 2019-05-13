@@ -22,8 +22,14 @@ class CreatePollForm(FlaskForm):
 
 
 class CreateResponseForm(FlaskForm):
+    # poll=Poll()
+    def __init__(self, poll):
+        self.poll=poll
+
+
     pollId=IntegerField()
     userId=IntegerField()
-    candidateId=IntegerField()
-    response=IntegerField()
+    candidateId= FieldList(IntegerField())
+    response= FieldList(IntegerField())
     submit = SubmitField('Submit my response')
+    # phonetype = SelectField(gettext("Type"), choices=[(c.candidateId, c.candidateDescription) for c in poll.Candidate]
