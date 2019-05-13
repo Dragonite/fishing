@@ -10,7 +10,7 @@
     </button>
   </div>
   {% if polls|length == 0 %}
-    <div>There are no current polls. Click here to create one!</div>
+    <div>There are no completed polls. Click here to create an active poll!</div>
   {% endif %}
   {% for poll in polls %}
     <div class="card">
@@ -38,9 +38,7 @@
       </ul>
       {% if not current_user.is_anonymous %}
         <div class="card-body">
-          <a href="#"
-             class="btn btn-info {% if current_user.is_anonymous and not poll.isOpenPoll %}disabled{% endif %}"><i
-            class="fa-fw fa fa-envelope"></i> Vote</a>
+          <a href="completed/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-chart-bar"></i> View Results</a>
           {% if current_user.isAdmin %}
             <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
           {% endif %}

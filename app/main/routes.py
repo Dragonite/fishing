@@ -80,8 +80,9 @@ def completed():
 
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
-    polls=getPollById(pollId)
-    return render_template("completedPollView.html", title=poll.title, poll=poll)
+    poll=getPollById(pollId)
+    users = getAllUsers()
+    return render_template("completedPollView.html", title=poll.title, poll=poll, users=users)
 
 
 

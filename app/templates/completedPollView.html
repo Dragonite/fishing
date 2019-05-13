@@ -1,8 +1,68 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="test">Test</div>
-  <div>{{ poll.description}} </div>
-  <div>{{ poll.get_rawResult()}} </div>
-  <div>{{ poll.get_prefResult(details=False)}} </div>
+  <div class="col-md-6" style="margin: 0 auto">
+    <div class="card">
+      <div class="card-body">
+        <span class="badge badge-info" style="float:right; margin-bottom: 20px">First Preference Votes</span>
+        <canvas id="poll-chart-2"></canvas>
+      </div>
+      <div class="card-body">
+        {% for candidate in poll.Candidate %}
+          <div>{{ candidate.candidateDescription }}</div>
+        {% endfor %}
+        <button type="button">Hi</button>
+      </div>
+    </div>
+    <br>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Description:</strong> {{ poll.description }} </li>
+      <li class="list-group-item"><strong>Poll Winner:</strong> {{ poll.get_prefResult(details=false)|last }}</li>
+      <li class="list-group-item"><strong>Total Votes Casted:</strong> {{ poll.howManyResponses() }}</li>
+      <li class="list-group-item"><strong>Created At:</strong> {{ poll.createdAt }}</li>
+      <li class="list-group-item"><strong>Completed At:</strong> {{ poll.completedAt }}</li>
+      <li class="list-group-item"><strong>Created By:</strong>
+        {% for user in users %}
+            {% if user.userId == poll.createdByUserId %}
+              {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+            {% endif %}
+          {% endfor %}
+      </li>
+    </ul>
+    <br>
+    <a class="btn btn-info" href="{{ url_for('main.completed') }}">
+      Back
+    </a>
+
+  </div>
+
+  <div>{{ poll.description }} </div>
+  <div>{{ poll.get_rawResult() }} </div>
+  <div>{{ poll.get_prefResult(details=False) }} </div>
+  <script>
+    var ctx = document.getElementById('poll-chart-2').getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Fremantle', 'Coogee', 'Claremont', 'Dalkeith', 'South Perth'],
+        datasets: [{
+          label: ['Polls'],
+          data: [39, 56, 22, 104, 79],
+          backgroundColor: ["rgba(255,0,0,0.5)", "#ffe082", "#81d4fa", '#c5e1a5', '#ffcc80'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        plugins: {
+          datalabels: {
+            color: '#212529'
+          }
+        },
+        legend: {
+          display: true,
+          position: 'bottom'
+        }
+      }
+    });
+  </script>
 {% endblock %}

@@ -51,9 +51,7 @@
       </ul>
       {% if not current_user.is_anonymous %}
         <div class="card-body">
-          <a href="#"
-             class="btn btn-info {% if current_user.is_anonymous and not poll.isOpenPoll %}disabled{% endif %}"><i
-            class="fa-fw fa fa-envelope"></i> Vote</a>
+          <a href="#" class="btn btn-info"><i class="fa-fw fa fa-envelope"></i> Vote</a>
           {% if current_user.isAdmin %}
             <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
           {% endif %}
