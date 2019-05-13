@@ -66,13 +66,11 @@ def help():
 
 @bp.route('/current', methods=['GET', 'POST'])
 def current():
+    polls=getCurrentPolls()
+    users=getAllUsers()
     if current_user.is_authenticated:
         if current_user.isAdmin:
             polls=getCurrentPolls(isAdmin=True)
-            users=getAllUsers()
-            return render_template("current.html", title='Current Polls', polls=polls, users=users)
-        else:
-            polls=getCurrentPolls()
             users=getAllUsers()
             return render_template("current.html", title='Current Polls', polls=polls, users=users)
     return render_template("current.html", title='Current Polls', polls=polls, users=users)
@@ -103,15 +101,13 @@ def current_view(pollId):
 
 @bp.route('/completed', methods=['GET', 'POST'])
 def completed():
+    polls=getClosedPolls(isAdmin=False)
+    users = getAllUsers()
     if current_user.is_authenticated:
         if current_user.isAdmin:
             polls=getClosedPolls(isAdmin=True)
             users = getAllUsers()
             return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
-        else:
-            polls=getClosedPolls(isAdmin=False)
-            users = getAllUsers()
-            return render_template("completed.html", title='Completed Polls', polls=polls,users=users)
     return render_template("current.html", title='Current Polls', polls=polls, users=users)
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
