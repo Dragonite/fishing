@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, FieldList, IntegerField
 from wtforms.validators import  ValidationError, DataRequired, Email, EqualTo, NumberRange
 from wtforms.fields.html5 import EmailField
-from app.models import User
+from app.models import User, Poll
 # from flask_babel import _, lazy_gettext as _l
 
 
@@ -22,9 +22,9 @@ class CreatePollForm(FlaskForm):
 
 
 class CreateResponseForm(FlaskForm):
-    # poll=Poll()
-    def __init__(self, poll):
-        self.poll=poll
+    
+    def __init__(self, pollId):
+        poll=Poll.query.filter_by(pollId=pollId).first() 
 
 
     pollId=IntegerField()
@@ -32,4 +32,4 @@ class CreateResponseForm(FlaskForm):
     candidateId= FieldList(IntegerField())
     response= FieldList(IntegerField())
     submit = SubmitField('Submit my response')
-    # phonetype = SelectField(gettext("Type"), choices=[(c.candidateId, c.candidateDescription) for c in poll.Candidate]
+    # responses = FieldList('Responses', choices=[(c.candidateId, c.candidateDescription) for c in self.poll.Candidate])
