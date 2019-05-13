@@ -108,7 +108,7 @@ def current_view(pollId):
         return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form, users=users)
 
     else:
-        flash('Poll does not exist')    
+        flash(Markup('<script>Notify("Poll does not exist.", null, null, "danger")</script>'))
     return redirect(url_for('main.current'))
 
 @bp.route('/completed', methods=['GET', 'POST'])
