@@ -13,11 +13,13 @@ def createUser(User, pwd):
         raise ValueError('User object is empty ')
     else:
         if User.validate():
+            
             try:
                 # with app.app_context():
                 User.set_password(pwd)
                 db.session.add(User)
                 db.session.commit()
+                User.get_token()
                 return True
             except:      
                 return 'createUser exception raised: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1])
@@ -153,21 +155,38 @@ def getAllPolls():
         poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
     return poll
 
-def getClosedPolls():
-    poll=Poll.query.filter(Poll.completedAt.isnot(None)).all()
-    noPoll=len(poll)
-    for index in range(noPoll):
-        poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
-        poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
-    return poll
+def getClosedPolls(isAdmin=False):
+    if isAdmin:
+        poll=Poll.query.filter(Poll.completedAt.isnot(None)).all()
+        noPoll=len(poll)
+        for index in range(noPoll):
+            poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
+            poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
+        return poll
+    else:
+        poll=Poll.query.filter(Poll.completedAt.isnot(None)).filter_by(isActive=1).all()
+        noPoll=len(poll)
+        for index in range(noPoll):
+            poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
+            poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
+        return poll
 
-def getCurrentPolls():
-    poll=Poll.query.filter_by(completedAt=None).all()
-    noPoll=len(poll)
-    for index in range(noPoll):
-        poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
-        poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
-    return poll
+def getCurrentPolls(isAdmin=False):
+    if isAdmin:
+        poll=Poll.query.filter_by(completedAt=None).all()
+        noPoll=len(poll)
+        for index in range(noPoll):
+            poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
+            poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
+        return poll
+    else:
+        poll=Poll.query.filter_by(completedAt=None).filter_by(isActive=1).all()
+        noPoll=len(poll)
+        for index in range(noPoll):
+            poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
+            poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
+        return poll
+
 
 
 # def getResults(Poll):

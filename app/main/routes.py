@@ -66,9 +66,15 @@ def help():
 
 @bp.route('/current', methods=['GET', 'POST'])
 def current():
-    polls=getCurrentPolls()
-    users=getAllUsers()
-    return render_template("current.html", title='Current Polls', polls=polls, users=users)
+    if current_user.isAdmin:
+        polls=getCurrentPolls(isAdmin=True)
+        users=getAllUsers()
+        return render_template("current.html", title='Current Polls', polls=polls, users=users)
+    else:
+        polls=getCurrentPolls()
+        # users=getAllUsers()
+        return render_template("current.html", title='Current Polls', polls=polls)
+
 
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
 def current_view(pollId):
@@ -90,9 +96,13 @@ def current_view(pollId):
 
 @bp.route('/completed', methods=['GET', 'POST'])
 def completed():
-    polls=getClosedPolls()
-    users = getAllUsers()
-    return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
+    if current_user.isAdmin:
+        polls=getClosedPolls(isAdmin=True)
+        users = getAllUsers()
+        return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
+    else:
+        polls=getClosedPolls(isAdmin=False)
+        return render_template("completed.html", title='Completed Polls', polls=polls)
 
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
@@ -105,8 +115,12 @@ def completed_view(pollId):
 @bp.route('/users', methods=['GET', 'POST'])
 @login_required
 def users():
-    users=getAllUsers()
-    return render_template("users.html", title='Users', users=users)
+    if current_user.isAdmin:
+        users=getAllUsers()
+        return render_template("users.html", title='Users', users=users)
+    else:
+        flash('Only an admin user can view this page!')
+        return redirect(url_for('main.index'))
 
 
 @bp.route('/profile', methods=['GET', 'POST'])
@@ -116,14 +130,14 @@ def profile():
 
 
 
-@bp.route('/test', methods=['GET', 'POST'])
-def test():
-    poll=getPollById(1)
-    getResults(poll)
-    for item in poll.get_prefResult():
-        print(item)
-    print("short",poll.get_prefResult(False))
-    return render_template("test.html", title='test', poll=poll)
+# @bp.route('/test', methods=['GET', 'POST'])
+# def test():
+#     poll=getPollById(1)
+#     getResults(poll)
+#     for item in poll.get_prefResult():
+#         print(item)
+#     print("short",poll.get_prefResult(False))
+#     return render_template("test.html", title='test', poll=poll)
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():

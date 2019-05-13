@@ -10,7 +10,7 @@ import pycountry
 import base64
 import os
 import json
-from flask import url_for, jsonify
+from flask import url_for, jsonify, make_response
 import operator as o
 
 class PaginatedAPIMixin(object):
@@ -409,8 +409,11 @@ class Poll(PaginatedAPIMixin, db.Model):
             rawResult[response.candidateId][response.response]+=1
         
         if jsonPayload:
+            # data={'rawResult':rawResult}
+            # return make_response(jsonify(data))
             json.dumps(rawResult)
             return (rawResult)
+
         else:
             return rawResult
 
