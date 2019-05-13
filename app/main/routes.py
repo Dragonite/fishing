@@ -30,7 +30,6 @@ def index():
 def create():
     form = CreatePollForm()
     if form.validate_on_submit():
-        
         validationPoll=Poll.query.filter_by(title=form.title.data).first()
         if validationPoll!= None:
 
@@ -101,15 +100,15 @@ def completed_view(pollId):
 
 
 
-@bp.route('/users')
-# @login_required
+@bp.route('/users', methods=['GET', 'POST'])
+@login_required
 def users():
     users=getAllUsers()
     return render_template("users.html", title='Users', users=users)
 
 
-@bp.route('/profile')
-# @login_required
+@bp.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     return render_template("profile.html", title='My Profile')
 
