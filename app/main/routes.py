@@ -32,12 +32,13 @@ def create():
         poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=current_user)
         candidates=form.options
         for item in candidates:
-            # print(item.data)
-            poll.addCandidate(item.data, None)
+            if item.data != None
+                poll.addCandidate(item.data, None)
 
         if createPoll(poll):
             flash('Poll has been created successfully!')
-            return redirect(url_for('main.index'))
+            return render_template("currentPollView.html", title=poll.title, poll=poll)
+            # return redirect(url_for('main.index'))
         else:
             flash('something is wrong!')
             return redirect(url_for('main.create'))
