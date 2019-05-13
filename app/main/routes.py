@@ -108,10 +108,7 @@ def completed():
             polls=getClosedPolls(isAdmin=True)
             users = getAllUsers()
             return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
-    return render_template("current.html", title='Current Polls', polls=polls, users=users)
-
-
-
+    return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
     poll=getPollById(pollId)
