@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, jsonify, current_app
 from flask_login import current_user, login_required
-from flask_babel import _, get_locale
+# from flask_babel import _, get_locale
 # from guess_language import guess_language
 from app import db
 
@@ -49,7 +49,6 @@ def create():
                 flash('There is not enough choice to make this poll.')
                 return redirect(url_for('main.create'))
             else:  
-                print("create",nullCount)
                 if createPoll(poll)==True:
                     flash('Poll has been created successfully!')
                     return render_template("currentPollView.html", title=pol.title, poll=poll)
@@ -73,8 +72,9 @@ def current():
 
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
 def current_view(pollId):
-    print(pollId)
+    
     poll=getPollById(pollId)
+    
     form=CreateResponseForm()
     myResponse={}
     if form.validate_on_submit():

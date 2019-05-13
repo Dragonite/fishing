@@ -10,7 +10,7 @@ import pycountry
 import base64
 import os
 import json
-from flask import url_for
+from flask import url_for, jsonify
 import operator as o
 
 class PaginatedAPIMixin(object):
@@ -407,7 +407,7 @@ class Poll(PaginatedAPIMixin, db.Model):
             tempdic={}
         for response in self.Response:
             rawResult[response.candidateId][response.response]+=1
-        return rawResult
+        return jsonify(rawResult)
 
     
     def to_dict(self):
