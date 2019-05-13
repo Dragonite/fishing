@@ -26,13 +26,14 @@ def index():
 
 
 @bp.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     form = CreatePollForm()
     if form.validate_on_submit():
         poll=Poll(title=form.title.data, description=form.description.data,  minResponses=0, orderCandidatesBy=None, isOpenPoll=form.isOpen.data, openAt=None, closeAt=None, User=current_user)
         candidates=form.options
         for item in candidates:
-            if item.data != None
+            if item.data != None:
                 poll.addCandidate(item.data, None)
 
         if createPoll(poll):
