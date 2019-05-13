@@ -20,7 +20,6 @@
     <br>
     <ul class="list-group">
       <li class="list-group-item"><strong>Description:</strong> {{ poll.description }} </li>
-      <li class="list-group-item"><strong>Poll Winner:</strong> {{ poll.get_prefResult(details=false)|last }}</li>
       <li class="list-group-item"><strong>Total Votes Casted:</strong> {{ poll.howManyResponses() }}</li>
       <li class="list-group-item"><strong>Created At:</strong> {{ poll.createdAt }}</li>
       <li class="list-group-item"><strong>Completed At:</strong> {{ poll.completedAt }}</li>
