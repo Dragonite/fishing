@@ -3,65 +3,87 @@
 {% block content %}
   <div class="col-md-8" style="margin: 0 auto">
     <div class="card">
-      <div class="card-body">
-        <span class="badge badge-info" style="float:right; margin-bottom: 20px">First Preference Votes</span>
+      <div class="card-body" style="text-align: center">
+        <h3>Poll Winner: <strong>{{ poll.get_prefResult(details=false)|last }}</strong></h3>
+        <br>
         <canvas id="poll-chart-2"></canvas>
       </div>
-      <div class="card-body">
-        {% for candidate in poll.Candidate %}
-          <div>{{ candidate.candidateDescription }}</div>
-        {% endfor %}
-        <button type="button">Hi</button>
+      <div class="card-body" style="text-align: center; padding-top: 0px">
+        <h5><span id="preference-badge" class="badge badge-info" style="margin-bottom: 20px">First Preference Votes</span></h5>
+        <div class="button-container">
+          {% for i in range(poll.Candidate|length) %}
+            <button class="preference-button btn btn-light" value="{{ i + 1 }}" type="button"> {{ i + 1 }}</button>
+          {% endfor %}
+        </div>
       </div>
     </div>
     <br>
     <ul class="list-group">
       <li class="list-group-item"><strong>Description:</strong> {{ poll.description }} </li>
-      <li class="list-group-item"><strong>Poll Winner:</strong> {{ poll.get_prefResult(details=false)|last }}</li>
       <li class="list-group-item"><strong>Total Votes Casted:</strong> {{ poll.howManyResponses() }}</li>
       <li class="list-group-item"><strong>Created At:</strong> {{ poll.createdAt }}</li>
       <li class="list-group-item"><strong>Completed At:</strong> {{ poll.completedAt }}</li>
       <li class="list-group-item"><strong>Created By:</strong>
         {% for user in users %}
-            {% if user.userId == poll.createdByUserId %}
-              {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
-            {% endif %}
-          {% endfor %}
+          {% if user.userId == poll.createdByUserId %}
+            {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+          {% endif %}
+        {% endfor %}
       </li>
     </ul>
     <br>
     <a class="btn btn-info" href="{{ url_for('main.completed') }}">
       Back
     </a>
-
   </div>
-
-  <div>{{ poll.description }} </div>
-  <div>{{ poll.get_rawResult() }} </div>
-  <div>{{ poll.get_prefResult(details=False) }} </div>
+  <br>
   <script>
+    function ordinalInWord(cardinal) {
+      const ordinals = ['Zeroth', 'First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth'];
+      return ordinals[cardinal];
+    }
+
+    let colorArray = ['rgba(255,0,0,0.5)', '#ffe082', '#81d4fa', '#c5e1a5', '#ffcc80', 'rgba(213, 184, 255, 1)',
+      'rgba(189, 195, 199, 1)', 'rgba(101, 198, 187, 1)', 'rgba(103, 128, 159, 1)', 'rgba(218, 223, 225, 1)'];
     let ctx = document.getElementById('poll-chart-2').getContext('2d');
     let labels = [];
+    let colors = [];
     {#let data = JSON.parse({{ poll.get_rawResult() }});#}
+    {% for i in range(poll.Candidate|length) %}
+      colors[{{ i }}] = colorArray[{{ i }}];
+    {% endfor %}
     {% for candidate in poll.Candidate %}
       labels.push('{{ candidate.candidateDescription }}');
     {% endfor %}
-    console.log(labels);
+    let rawResults = {{ poll.get_rawResult() }};
+    let finalData = [];
+    for (let i = 0; i <{{ poll.howManyCandidates() }}; i++) {
+      finalData.push([]);
+    }
+    for (var key in rawResults) {
+      for (var key2 in rawResults[key]) {
+        finalData[key - 1].push(rawResults[key2][key]);
+      }
+    }
+
     let myChart = new Chart(ctx, {
       type: 'pie',
       data: {
         labels: labels,
         datasets: [{
           label: ['Polls'],
-          data: [39, 56, 22, 104, 79, 82],
-          backgroundColor: ["rgba(255,0,0,0.5)", "#ffe082", "#81d4fa", '#c5e1a5', '#ffcc80', '#fff'],
+          data: finalData[0],
+          backgroundColor: colors,
           borderWidth: 2
         }]
       },
       options: {
         plugins: {
           datalabels: {
-            color: '#212529'
+            color: '#212529',
+            display: function (context) {
+              return context.dataset.data[context.dataIndex] !== 0;
+            }
           }
         },
         legend: {
@@ -69,6 +91,18 @@
           position: 'bottom'
         }
       }
+    });
+
+    function addData(chart, data) {
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data = data;
+      });
+      chart.update();
+    }
+
+    $("button.preference-button").click(function () {
+      addData(myChart, finalData[this.value - 1]);
+      document.getElementById('preference-badge').innerText = ordinalInWord(this.value) + " Preference Votes";
     });
   </script>
 {% endblock %}
