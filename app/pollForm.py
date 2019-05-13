@@ -32,4 +32,4 @@ class CreateResponseForm(FlaskForm):
     candidateId= FieldList(IntegerField())
     response= FieldList(IntegerField())
     submit = SubmitField('Submit my response')
-    # responses = FieldList('Responses', choices=[(c.candidateId, c.candidateDescription) for c in self.poll.Candidate])
+    responses = FieldList('Responses', choices=[(c.candidateId, c.candidateDescription) for c in self.poll.Candidate])

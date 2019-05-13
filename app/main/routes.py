@@ -79,12 +79,12 @@ def current():
 def current_view(pollId):
     
     poll=getPollById(pollId)
-    form=CreateResponseForm(poll)
+    form=CreateResponseForm(pollId)
     myResponse={}
 
 
     for item in poll.Candidate:
-        print("sdfjdsfsf",item.candidateId, item.candidateDescription)
+        print("sdfjdsfsf", item.candidateId, item.candidateDescription)
 
     if form.validate_on_submit():
         response=form.response
@@ -109,6 +109,9 @@ def completed():
             users = getAllUsers()
             return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
     return render_template("current.html", title='Current Polls', polls=polls, users=users)
+
+
+
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
     poll=getPollById(pollId)
