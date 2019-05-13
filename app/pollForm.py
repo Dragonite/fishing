@@ -27,5 +27,5 @@ def makeResponseForm(responseParameter):
         # # pref = FieldList(StringField('Preference'), min_entries=len(responseParameter), max_entries=len(responseParameter))
         preferences = FieldList(SelectField('Preference', choices=responseParameter), min_entries=len(responseParameter),
                          max_entries=len(responseParameter))
-        submit = SubmitField('Submit my response')
+        submit = SubmitField('Submit Vote')
     return ResponseForm()
