@@ -1,11 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="test">Test</div>
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+    This is a collection of <strong>Completed</strong> polls.<br>
+    <br>For more information on the algorithm that determines the winner, please click
+    <a style="color: #0c5460" href="{{ url_for('main.help') }}"><strong>here</strong></a>.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% if polls|length == 0 %}
+    <div>There are no completed polls. Click here to create an active poll!</div>
+  {% endif %}
   {% for poll in polls %}
-    {% for candidate in poll.Candidate %}
-      <div>{{ candidate.candidateDescription }}</div>
-    {% endfor %}
-
+    <div class="card">
+      <div class="card-header">
+        <strong>Poll: {{ poll.get_id() }}</strong>
+        <span style="float:right" class="badge badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ poll.title }}
+        </h5>
+        {{ poll.description }}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span>
+        </li>
+        <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span></li>
+        <li class="list-group-item"><strong>Created By: </strong>
+          {% for user in users %}
+            {% if user.userId == poll.createdByUserId %}
+              {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+            {% endif %}
+          {% endfor %}
+        </li>
+      </ul>
+      {% if not current_user.is_anonymous %}
+        <div class="card-body">
+          <a href="completed/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-chart-bar"></i> View Results</a>
+          {% if current_user.isAdmin %}
+            <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+    <br>
   {% endfor %}
+  <script>
+    let timeElements = document.getElementsByClassName('modify-time');
+    for (let i = 0; i < timeElements.length; i++) {
+      let unformattedTime = timeElements[i].innerHTML;
+      timeElements[i].innerHTML = moment.utc(unformattedTime, 'YYYY-MM-DD HH:mm:ss').local().format('DD/MM/YYYY HH:mm')
+    }
+  </script>
 {% endblock %}

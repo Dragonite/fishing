@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="alert alert-info alert-dismissible fade show" role="alert">
-    This is a collection of <strong>Active</strong> polls.
+    This is a collection of currently <strong>Active</strong> polls.
     {% if current_user.is_anonymous %}
       You are currently not registered. You will only be able to vote on <strong>Open</strong> polls.
       To register, click <a style="color: #0c5460" href="{{ url_for('main.register') }}"><strong>here</strong></a>. <br>
@@ -22,6 +22,9 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  {% if polls|length == 0 %}
+    <div>There are no current polls. Click here to create one!</div>
+  {% endif %}
   {% for poll in polls %}
     <div class="card">
       <div class="card-header">
@@ -46,15 +49,16 @@
           {% endfor %}
         </li>
       </ul>
-      <div class="card-body">
-        <a href="#"
-           class="btn btn-info {% if current_user.is_anonymous and not poll.isOpenPoll %}disabled{% endif %}"><i
-          class="fa-fw fa fa-envelope"></i> Vote</a>
-        {% if current_user.isAdmin %}
-          <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
-        {% endif %}
-      </div>
+      {% if not current_user.is_anonymous %}
+        <div class="card-body">
+          <a href="#" class="btn btn-info"><i class="fa-fw fa fa-envelope"></i> Vote</a>
+          {% if current_user.isAdmin %}
+            <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
+          {% endif %}
+        </div>
+      {% endif %}
     </div>
+    <br>
   {% endfor %}
   <script>
     let timeElements = document.getElementsByClassName('modify-time');
