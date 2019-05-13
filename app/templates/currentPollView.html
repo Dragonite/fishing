@@ -3,6 +3,7 @@
 {% block content %}
   <div class="test">Test</div>
   <div>{{ poll.description}} </div>
-  <div>{{ poll.get_rawResult()}} </div>
+  <div>{{ poll.get_rawResult(jsonPayload=True)}} </div>
+  <div>{{ poll.get_rawResult(jsonPayload=False)}} </div>
   <div>{{ poll.get_prefResult(details=False)}} </div>
 {% endblock %}
