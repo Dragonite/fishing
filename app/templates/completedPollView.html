@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="col-md-6" style="margin: 0 auto">
+  <div class="col-md-8" style="margin: 0 auto">
     <div class="card">
       <div class="card-body">
         <span class="badge badge-info" style="float:right; margin-bottom: 20px">First Preference Votes</span>
@@ -40,15 +40,21 @@
   <div>{{ poll.get_rawResult() }} </div>
   <div>{{ poll.get_prefResult(details=False) }} </div>
   <script>
-    var ctx = document.getElementById('poll-chart-2').getContext('2d');
-    var myChart = new Chart(ctx, {
+    let ctx = document.getElementById('poll-chart-2').getContext('2d');
+    let labels = [];
+    {#let data = JSON.parse({{ poll.get_rawResult() }});#}
+    {% for candidate in poll.Candidate %}
+      labels.push('{{ candidate.candidateDescription }}');
+    {% endfor %}
+    console.log(labels);
+    let myChart = new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Fremantle', 'Coogee', 'Claremont', 'Dalkeith', 'South Perth'],
+        labels: labels,
         datasets: [{
           label: ['Polls'],
-          data: [39, 56, 22, 104, 79],
-          backgroundColor: ["rgba(255,0,0,0.5)", "#ffe082", "#81d4fa", '#c5e1a5', '#ffcc80'],
+          data: [39, 56, 22, 104, 79, 82],
+          backgroundColor: ["rgba(255,0,0,0.5)", "#ffe082", "#81d4fa", '#c5e1a5', '#ffcc80', '#fff'],
           borderWidth: 2
         }]
       },
