@@ -10,7 +10,7 @@ from app.models import User, Poll
 from app.controllers import createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById
 from app.main import bp
 
-from app.pollForm import CreatePollForm,CreateResponseForm
+from app.pollForm import CreatePollForm,makeResponseForm
 from app.registrationForm import RegistrationForm
 
 
@@ -75,34 +75,42 @@ def current():
             return render_template("current.html", title='Current Polls', polls=polls, users=users)
     return render_template("current.html", title='Current Polls', polls=polls, users=users)
 
+
+
+
+
+
+
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
 def current_view(pollId):
     
     poll=getPollById(pollId)
-    
-    myResponse={}
+    if poll:
+        responseParameter=[]
+        for item in poll.Candidate:
+            responseParameter.append((item.candidateId, item.candidateDescription))
+        form=makeResponseForm(responseParameter)
+        
+        if form.validate_on_submit():
+            pass
+                ##do not delete
+                # response=form.response
+                # res={}
+                # if Poll.Response.query.filter_by(userId=current_user.userId).all() != None:
+                #     flash('you have voted for this poll already.')
+                # else:
+                #     if poll.addResponse(current_user.userId, res):
+                #         flash('you have successfully voted for this poll')
+                #         return redirect(url_for('main.current'))
+                #     else:
+                #         flash('Something went wrong')
+        renderedtitle=poll.title
+        return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form)
 
-    responseParameter=[]
-    for item in poll.Candidate:
-        temp=[]
-        temp.append(item.candidateId)
-        temp.append(item.candidateDescription)
-        responseParameter.append(temp)
-    
-    print("sdfjdsfsf",responseParameter)
-    form=CreateResponseForm(responseParameter)
-    if form.validate_on_submit():
-        response=form.response
-        res={}
-        if Poll.Response.query.filter_by(userId=current_user.userId).all() != None:
-            flash('you have voted for this poll already.')
-        else:
-            if poll.addResponse(current_user.userId, res):
-                flash('you have successfully voted for this poll')
-                return redirect(url_for('main.current'))
-            else:
-                flash('Something went wrong')
-    return render_template("currentPollView.html", title=poll.title, poll=poll)
+    else:
+        renderedtitle="Oops, something is wrong"
+        flash('Poll does not exist')    
+    return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form)
 
 @bp.route('/completed', methods=['GET', 'POST'])
 def completed():
@@ -118,7 +126,11 @@ def completed():
 def completed_view(pollId):
     poll=getPollById(pollId)
     users = getAllUsers()
-    return render_template("completedPollView.html", title=poll.title, poll=poll, users=users)
+    if poll:
+        renderedtitle=poll.title
+    else:
+        renderedtitle="Oops, something is wrong"
+    return render_template("completedPollView.html", title=renderedtitle, poll=poll, users=users)
 
 
 
@@ -132,6 +144,29 @@ def users():
         flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
         return redirect(url_for('main.index'))
 
+@bp.route('/users/delete/<int:userId>', methods=['GET', 'POST'])
+@login_required
+def delete_user(userId):
+    pass
+    return render_template("users.html", title='Users', users=users)
+
+@bp.route('/polls/delete/<int:pollId>', methods=['GET', 'POST'])
+@login_required
+def delete_poll(pollId):
+    pass
+    return render_template("current.html", title='Current Polls', users=users)
+
+@bp.route('/response/<int:pollId>/delete/<int:userId>', methods=['GET', 'POST'])
+@login_required
+def delete_response(pollId,userId):
+    pass
+    return render_template("currentPollView.html", title='test', users=users)
+
+
+
+
+
+
 
 @bp.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -140,14 +175,23 @@ def profile():
 
 
 
-# @bp.route('/test', methods=['GET', 'POST'])
-# def test():
-#     poll=getPollById(1)
-#     getResults(poll)
-#     for item in poll.get_prefResult():
-#         print(item)
-#     print("short",poll.get_prefResult(False))
-#     return render_template("test.html", title='test', poll=poll)
+@bp.route('/test', methods=['GET', 'POST'])
+def test():
+    poll=getPollById(1)
+    # myResponse={}
+    responseParameter=[]
+    for item in poll.Candidate:
+        responseParameter.append((item.candidateId, item.candidateDescription))
+    form=makeResponseForm(responseParameter)
+    # print(responseParameter)
+    # for item in form.responses:
+    #     print("data:", item.id)
+    #     print(item.description, item.label, item.data)  
+
+    # if form.validate_on_submit():
+    #     for item in form.responses:
+    # #         print("dfkjskflsd",item.data)
+    # return render_template("test.html", title='test', poll=poll, form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
