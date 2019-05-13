@@ -8,5 +8,44 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
+  <div class="form-container">
+    <form id="register-form" action="" method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <div style="margin-left: 15%;">
+        {# Username #}
+        {{ form.username.label(style="font-weight: bold") }}<br>
+        <div style="width: 80%">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa-fw fa fa-user-tag"></i></span>
+            </div>
+            {{ form.username(class="form-control", id='title', size=32, maxlength=50) }}
+          </div>
+        </div>
+        {# Password #}
+        {{ form.password.label(style="font-weight: bold") }}<br>
+        <div style="width: 80%">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa-fw fa fa-key"></i></span>
+            </div>
+            {{ form.password(class="form-control", id='title', size=32, maxlength=50) }}
+          </div>
+        </div>
+        {# firstName #}
+        {{ form.firstName.label(style="font-weight: bold") }}<br>
+        <div style="width: 80%">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa-fw fa fa-user"></i></span>
+            </div>
+            {{ form.firstName(class="form-control", id='title', size=32, maxlength=50) }}
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+  </div>
   <div>Hi</div>
 {% endblock %}
