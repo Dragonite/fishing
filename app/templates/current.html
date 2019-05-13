@@ -13,8 +13,8 @@
       information on the algorithm that determines the winner,
       please click <a style="color: #0c5460" href="{{ url_for('main.help') }}"><strong>here</strong></a>.
     {% endif %}
-    <br><br>
     {% if current_user.isAdmin %}
+      <br><br>
       As an Admin User, you are able to <strong>Delete</strong> polls. Please click the
       <strong><i class="fa-fw fa fa-trash-alt"></i> Delete</strong> button to delete a poll.
     {% endif %}

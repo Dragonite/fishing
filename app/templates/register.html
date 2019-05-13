@@ -3,7 +3,7 @@
 {% block content %}
 
   <div class="alert alert-info alert-dismissible fade show" role="alert">
-    Already have an account? Click <strong>here</strong> to log in.
+    Already have an account? Click <a style="color: #0c5460" href="{{ url_for('auth.login') }}"><strong>here</strong></a> to log in.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -11,7 +11,7 @@
   <div class="form-container">
     <form id="register-form" action="" method="post" novalidate>
       {{ form.hidden_tag() }}
-      <div style="margin-left: 15%;">
+      <div style="margin-left: 15%; margin-top: 20px">
         {# Username #}
         {{ form.username.label(style="font-weight: bold") }}<br>
         <div style="width: 80%">
@@ -42,7 +42,16 @@
             {{ form.firstName(class="form-control", id='title', size=32, maxlength=50) }}
           </div>
         </div>
-
+        {# lastName #}
+        {{ form.lastName.label(style="font-weight: bold") }}<br>
+        <div style="width: 80%">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa-fw fa fa-user"></i></span>
+            </div>
+            {{ form.lastName(class="form-control", id='title', size=32, maxlength=50) }}
+          </div>
+        </div>
 
       </div>
     </form>
