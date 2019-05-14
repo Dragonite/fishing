@@ -10,7 +10,7 @@ from app.models import User, Poll
 from app.controllers import createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls
 from app.main import bp
 
-from app.pollForm import CreatePollForm,makeResponseForm
+from app.pollForm import CreatePollForm,makeResponseForm,deleteUserForm,deletePollForm,deleteResponseForm
 from app.registrationForm import RegistrationForm
 
 
@@ -68,6 +68,7 @@ def help():
 def current():
     polls=getCurrentPolls()
     users=getAllUsers()
+    
     if current_user.is_authenticated:
         if current_user.isAdmin:
             polls=getCurrentPolls(isAdmin=True)
@@ -138,10 +139,36 @@ def completed_view(pollId):
     return render_template("completedPollView.html", title=renderedtitle, poll=poll, users=users)
 
 
+@bp.route('/completed/<int:pollId>/archive', methods=['GET', 'POST'])
+def completed_response_archive(pollId):
+    users=getAllUsers()
+    poll=getPollById(pollId)
+    form=deletePollForm()
+    return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
+
+
+@bp.route('/current/<int:pollId>/archive', methods=['GET', 'POST'])
+def current_poll_archive(pollId):
+    users=getAllUsers()
+    poll=getPollById(pollId)
+    form=deletePollForm()
+    return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
+
+
+@bp.route('/archive', methods=['GET', 'POST'])
+def archive_poll():
+    users=getAllUsers()
+    polls=getAllPolls()
+    form=deletePollForm()
+    return render_template("pollArchive.html", title="Archive Poll", poll=polls, users=users, form=form)
+
+
+
 
 @bp.route('/users', methods=['GET', 'POST'])
 @login_required
 def users():
+    
     if current_user.isAdmin:
         users=getAllUsers()
         return render_template("users.html", title='Users', users=users)
@@ -149,23 +176,38 @@ def users():
         flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
         return redirect(url_for('main.index'))
 
-@bp.route('/users/delete/<int:userId>', methods=['GET', 'POST'])
+@bp.route('/users/archive', methods=['GET', 'POST'])
 @login_required
-def delete_user(userId):
-    pass
-    return render_template("users.html", title='Users', users=users)
+def archive_users():
+    
+    if current_user.isAdmin:
+        users=getAllUsers()
+        form=deleteUserForm()
+        return render_template("userArchive.html", title='Users', users=users, form=form)
+    else:
+        flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+        return redirect(url_for('main.index'))
 
-@bp.route('/polls/delete/<int:pollId>', methods=['GET', 'POST'])
-@login_required
-def delete_poll(pollId):
-    pass
-    return render_template("current.html", title='Current Polls', users=users)
 
-@bp.route('/response/<int:pollId>/delete/<int:userId>', methods=['GET', 'POST'])
-@login_required
-def delete_response(pollId,userId):
-    pass
-    return render_template("currentPollView.html", title='test', users=users)
+
+
+# @bp.route('/users/delete/<int:userId>', methods=['GET', 'POST'])
+# @login_required
+# def delete_user(userId):
+#     pass
+#     return render_template("users.html", title='Users', users=users)
+
+# @bp.route('/polls/delete/<int:pollId>', methods=['GET', 'POST'])
+# @login_required
+# def delete_poll(pollId):
+#     pass
+#     return render_template("current.html", title='Current Polls', users=users)
+
+# @bp.route('/response/<int:pollId>/delete/<int:userId>', methods=['GET', 'POST'])
+# @login_required
+# def delete_response(pollId,userId):
+#     pass
+#     return render_template("currentPollView.html", title='test', users=users)
 
 
 
@@ -185,14 +227,14 @@ def profile():
 
 
 
-@bp.route('/test', methods=['GET', 'POST'])
-def test():
-    poll=getPollById(1)
-    # myResponse={}
-    responseParameter=[]
-    for item in poll.Candidate:
-        responseParameter.append((item.candidateId, item.candidateDescription))
-    form=makeResponseForm(responseParameter)
+# @bp.route('/test', methods=['GET', 'POST'])
+# def test():
+#     poll=getPollById(1)
+#     # myResponse={}
+#     responseParameter=[]
+#     for item in poll.Candidate:
+#         responseParameter.append((item.candidateId, item.candidateDescription))
+#     form=makeResponseForm(responseParameter)
     # print(responseParameter)
     # for item in form.responses:
     #     print("data:", item.id)

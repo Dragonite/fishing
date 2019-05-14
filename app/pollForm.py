@@ -29,3 +29,18 @@ def makeResponseForm(responseParameter):
                          max_entries=len(responseParameter))
         submit = SubmitField('Submit Vote')
     return ResponseForm()
+
+class deleteUserForm(FlaskForm):
+    username=StringField('Username')
+    submit = SubmitField('Submit to delete ')
+
+
+class deletePollForm(FlaskForm):
+    pollId=StringField('pollId')
+    submit = SubmitField('Submit to delete ')
+
+
+
+class deleteResponseForm(FlaskForm):
+    userId=StringField('User ID')
+    submit = SubmitField('Submit to delete ')
