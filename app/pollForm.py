@@ -41,5 +41,5 @@ class deletePollForm(FlaskForm):
 
 
 class deleteResponseForm(FlaskForm):
-    userId = StringField('User ID')
+    userId = StringField('Voter ID')
     submit = SubmitField('Archive Response')

@@ -16,10 +16,11 @@
           {% for i in range(poll.Candidate|length) %}
             <th>Preference {{ i + 1 }}</th>
           {% endfor %}
+          <th>Status</th>
         </tr>
         </thead>
         <tbody>
-        {% for response in poll.getResponseDict() %}
+        {% for response in poll.getResponseDict()[0] %}
           <tr>
             <td>{{ response }}</td>
             <td>
@@ -29,13 +30,18 @@
                 {% endif %}
               {% endfor %}
             </td>
-            {% for preference in poll.getResponseDict()[response] %}
+            {% for preference in poll.getResponseDict()[0][response] %}
               {% for candidate in poll.Candidate %}
                 {% if candidate.candidateId == preference %}
                   <td>{{ candidate.candidateDescription }}</td>
                 {% endif %}
               {% endfor %}
             {% endfor %}
+            {% if poll.getResponseDict()[1][response] %}
+              <td><span class="badge badge-pill badge-success">Active</span></td>
+            {% else %}
+              <td><span class="badge badge-pill badge-danger">Inactive</span></td>
+            {% endif %}
           </tr>
         {% endfor %}
         </tbody>

@@ -349,10 +349,15 @@ class Poll(PaginatedAPIMixin, db.Model):
                 if item not in unique_userId_list:
                     unique_userId_list.append(item)
             response_dict = {userId: [] for userId in unique_userId_list}
+            activity_dict = {userId: bool for userId in unique_userId_list}
             for response in self.Response:
                 if response.userId in response_dict:
                     response_dict[response.userId].append(response.candidateId)
-            return response_dict
+                    if response.isActive != activity_dict[response.userId]:
+                        activity_dict[response.userId] = response.isActive
+
+            return [response_dict, activity_dict]
+
 
     def close(self):
         self.completedAt = datetime.utcnow()
