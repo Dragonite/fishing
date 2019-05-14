@@ -146,7 +146,7 @@ def completed_response_archive(pollId):
     form= deleteResponseForm()
     
     if form.is_submitted():
-        print("dsfsdf")
+        print("submitted")
     return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
 
 
@@ -155,9 +155,9 @@ def current_poll_archive(pollId):
     users=getAllUsers()
     poll=getPollById(pollId)
     form= deleteResponseForm()
-    
+
     if form.is_submitted():
-        print("dsfsdf")
+        print("submitted")
     return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
 
 
