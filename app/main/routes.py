@@ -7,7 +7,7 @@ from app import db
 import json
 
 from app.models import User, Poll
-from app.controllers import createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls
+from app.controllers import archivePoll,createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls
 from app.main import bp
 
 from app.pollForm import CreatePollForm,makeResponseForm,deleteUserForm,deletePollForm,deleteResponseForm
@@ -141,25 +141,64 @@ def completed_view(pollId):
 
 @bp.route('/completed/<int:pollId>/archive', methods=['GET', 'POST'])
 def completed_response_archive(pollId):
-    users=getAllUsers()
-    poll=getPollById(pollId)
-    form=deletePollForm()
+    if current_user.is_authenticated:
+        if current_user.isAdmin:
+            users=getAllUsers()
+            poll=getPollById(pollId)
+            form= deleteResponseForm()
+            if poll==None:
+                flash(Markup('<script>Notify("Cannot find the poll.", null, null, "danger")</script>'))
+            if form.is_submitted():
+                if User.query.filter_by(userId=form.userId.data).first():
+                    if archiveResponse(poll,form.userId.data):
+                        flash(Markup('<script>Notify("The response has been archived successfully", null, null, "danger")</script>'))
+                    else:
+                        flash(Markup('<script>Notify("Could not archive the response", null, null, "danger")</script>'))
     return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
 
 
 @bp.route('/current/<int:pollId>/archive', methods=['GET', 'POST'])
+@login_required
 def current_poll_archive(pollId):
-    users=getAllUsers()
-    poll=getPollById(pollId)
-    form=deletePollForm()
+    if current_user.is_authenticated:
+        if current_user.isAdmin:
+            users=getAllUsers()
+            poll=getPollById(pollId)
+            form= deleteResponseForm()
+            if poll==None:
+                flash(Markup('<script>Notify("Cannot find the poll.", null, null, "danger")</script>'))
+            if form.is_submitted():
+                if User.query.filter_by(userId=form.userId.data).first():
+                    if archiveResponse(poll,form.userId.data):
+                        flash(Markup('<script>Notify("The response has been archived successfully", null, null, "danger")</script>'))
+                    else:
+                        flash(Markup('<script>Notify("Could not archive the response", null, null, "danger")</script>'))
+
     return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
 
 
 @bp.route('/archive', methods=['GET', 'POST'])
+@login_required
 def archive_poll():
-    users=getAllUsers()
-    polls=getAllPolls()
-    form=deletePollForm()
+    if current_user.is_authenticated:
+        if current_user.isAdmin:
+            users=getAllUsers()
+            polls=getAllPolls()
+            form=deletePollForm()
+            if form.is_submitted():
+                poll=getPollById(form.pollId.data)
+                if poll==None:
+                    flash(Markup('<script>Notify("Cannot find the poll.", null, null, "danger")</script>'))
+                else:
+                    poll.close()
+                    # modifyPoll(poll)
+                    if archivePoll(poll):
+                        flash(Markup('<script>Notify("The poll has been archived successfully", null, null, "danger")</script>'))
+                    else:
+                        flash(Markup('<script>Notify("Could not archive the poll", null, null, "danger")</script>'))
+        else:
+            flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+            return redirect(url_for('main.index'))
     return render_template("pollArchive.html", title="Archive Poll", polls=polls, users=users, form=form)
 
 
@@ -179,15 +218,23 @@ def users():
 @bp.route('/users/archive', methods=['GET', 'POST'])
 @login_required
 def archive_users():
-    
-    if current_user.isAdmin:
-        users=getAllUsers()
-        form=deleteUserForm()
-        return render_template("userArchive.html", title='Users', users=users, form=form)
-    else:
-        flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
-        return redirect(url_for('main.index'))
-
+    if current_user.is_authenticated:
+        if current_user.isAdmin:
+            users=getAllUsers()
+            form=deleteUserForm()
+            if form.is_submitted():
+                user=getUserById(form.userId.data)
+                if user==None:
+                    flash(Markup('<script>Notify("Cannot find the user.", null, null, "danger")</script>'))
+                else:
+                    if archiveUser(user):
+                        flash(Markup('<script>Notify("The user  has been archived successfully", null, null, "danger")</script>'))
+                    else:
+                        flash(Markup('<script>Notify("Could not archive the user", null, null, "danger")</script>'))
+        else:
+            flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+            return redirect(url_for('main.index'))
+    return render_template("userArchive.html", title='Users', users=users, form=form)
 
 
 

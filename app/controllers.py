@@ -131,11 +131,13 @@ def archivePoll(Poll):
             db.session.commit()
             return True
         except:
-            return 'archivePoll exception raised: ' + str(sys.exc_info()[0])
+            return False
+            # return 'archivePoll exception raised: ' + str(sys.exc_info()[0])
     elif Poll==None:
-        raise ValueError('Poll object is empty')
+        return False
+        # raise ValueError('Poll object is empty')
     else: 
-        raise ValueError('You need to close this poll before you delete')
+        # raise ValueError('You need to close this poll before you delete')
         return False
 
 def getPollById(pollId):
@@ -187,3 +189,18 @@ def getCurrentPolls(isAdmin=False):
             poll[index].Candidate=Poll.Candidate.query.filter_by(pollId=poll[index].pollId).all()
             poll[index].Response=Poll.Response.query.filter_by(pollId=poll[index].pollId).all()
         return poll
+
+def archiveResponse(Poll, userId):
+    if Poll!=None:
+        noResponses=Poll.howManyResponses()
+        for index in range(noResponses):
+            if Poll.Response[index].userId==userId:
+                Poll.Response[index].isActive=0
+                try:
+                    db.session.commit()
+                    return True
+                except:
+                    return False
+    else:
+        return False
+        
