@@ -91,26 +91,29 @@ def current_view(pollId):
         for item in poll.Candidate:
             responseParameter.append((item.candidateId, item.candidateDescription))
         form=makeResponseForm(responseParameter)
-        
-        if form.validate_on_submit():
-            pass
-                ##do not delete
-                # response=form.response
-                # res={}
-                # if Poll.Response.query.filter_by(userId=current_user.userId).all() != None:
-                #     flash('you have voted for this poll already.')
-                # else:
-                #     if poll.addResponse(current_user.userId, res):
-                #         flash('you have successfully voted for this poll')
-                #         return redirect(url_for('main.current'))
-                #     else:
-                #         flash('Something went wrong')
         renderedtitle=poll.title
-        return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form, users=users)
-
     else:
         flash(Markup('<script>Notify("Poll does not exist.", null, null, "danger")</script>'))
-    return redirect(url_for('main.current'))
+        return redirect(url_for('main.current'))
+    if form.is_submitted():
+        preferences=form.preferences
+        pref={}
+        for item in preferences:
+            print(item.data)
+        index=1;
+        for item in preferences:
+            pref[item.data]=pref.get(item.data, index)
+            index +=1    
+        if Poll.Response.query.filter_by(pollId=pollId).filter_by(userId=current_user.userId).first()!=None:
+            flash(Markup('<script>Notify("You already have voted for this poll.", null, null, "danger")</script>'))
+            return redirect(url_for('main.current'))
+        else:
+            if poll.addResponse(current_user.userId, pref):
+                flash('you have successfully voted for this poll')
+                return redirect(url_for('main.current'))
+            else:
+                flash(Markup('<script>Notify("Oops, Something went wrong!", null, null, "danger")</script>'))
+    return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form, users=users)
 
 @bp.route('/completed', methods=['GET', 'POST'])
 def completed():
@@ -122,6 +125,8 @@ def completed():
             users = getAllUsers()
             return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
     return render_template("completed.html", title='Completed Polls', polls=polls, users=users)
+
+
 @bp.route('/completed/<int:pollId>', methods=['GET', 'POST'])
 def completed_view(pollId):
     poll=getPollById(pollId)

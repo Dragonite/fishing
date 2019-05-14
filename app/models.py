@@ -375,11 +375,11 @@ class Poll(PaginatedAPIMixin, db.Model):
 
     def addResponse(self, userId, preferenceXresponses):
         if self.isClosed():
-            raise ValueError('This poll has been closed since ', Poll.completedAt)
+            # raise ValueError('This poll has been closed since ', Poll.completedAt)
             return False
         else:
             if preferenceXresponses==None:
-                raise ValueError('You must enter preference order for each option')
+                # raise ValueError('You must enter preference order for each option')
                 return False
             else:
                 for key, value in preferenceXresponses.items():
@@ -390,6 +390,7 @@ class Poll(PaginatedAPIMixin, db.Model):
                     response.response=value
                     response.createdAt=datetime.utcnow()
                     response.isActive=True
+                    print("response check!")
                     self.Response.append(response)
                     try:
                         db.session.add(response)
