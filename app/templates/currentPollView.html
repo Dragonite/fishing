@@ -2,91 +2,100 @@
 
 {% block content %}
 
-  <ul class="list-group" style="width: 60%; margin: 0 auto">
-    <li class="list-group-item list-group-item-secondary"><h5>General Information <span style="float: right"
-                                                                                        class="badge badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
-    </h5></li>
-    <li class="list-group-item"><strong>Description:</strong> {{ poll.description }} </li>
-    <li class="list-group-item"><strong>Created At:</strong> {{ poll.createdAt }}</li>
-    <li class="list-group-item"><strong>Close Time:</strong> {{ poll.closeAt }}</li>
-    <li class="list-group-item"><strong>Created By:</strong>
-      {% for user in users %}
-        {% if user.userId == poll.createdByUserId %}
-          {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
-        {% endif %}
-      {% endfor %}
-    </li>
-  </ul>
-  <div class="alert alert-info alert-dismissible fade show" style="margin: 16px auto 16px auto; width: 60%"
-       role="alert">
-    Please validate your vote using <strong>Validate Vote</strong> before submission.
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="form-container">
-    <form id="vote-form" action="" method="post" novalidate>
-      {{ form.hidden_tag() }}
-      <br>
-      {% for field in form.preferences %}
-        <div style="width: 95%; margin: 0 auto">
-          <strong><span class="cardinal">{{ loop.index }}</span> {{ field.label }}:</strong>
-          <div>{{ field(class="form-control") }}</div>
-        </div>
+  {% if not poll.completedAt %}
+    <ul class="list-group" style="width: 60%; margin: 0 auto">
+      <li class="list-group-item list-group-item-secondary"><h5>General Information <span style="float: right"
+                                                                                          class="badge badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
+      </h5></li>
+      <li class="list-group-item"><strong>Description:</strong> {{ poll.description }} </li>
+      <li class="list-group-item"><strong>Created At:</strong> {{ poll.createdAt }}</li>
+      <li class="list-group-item"><strong>Close Time:</strong> {{ poll.closeAt }}</li>
+      <li class="list-group-item"><strong>Created By:</strong>
+        {% for user in users %}
+          {% if user.userId == poll.createdByUserId %}
+            {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+          {% endif %}
+        {% endfor %}
+      </li>
+    </ul>
+    <div class="alert alert-info alert-dismissible fade show" style="margin: 16px auto 16px auto; width: 60%"
+         role="alert">
+      Please validate your vote using <strong>Validate Vote</strong> before submission.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="form-container">
+      <form id="vote-form" action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
         <br>
-      {% endfor %}
-      <div id="button-container" style="width: 95%; margin: 0 auto">
-        <a class="btn btn-info" style="color: #fff">Cancel</a>
-        <a id="validate-submission" style="color: #fff" class="btn btn-info">Validate Vote</a>
-        {{ form.submit(class="btn btn-info", disabled='disabled') }}
-      </div>
-    </form>
-  </div>
-  <br>
-  {#  <div> {{ form.preferences }}</div>#}
-  <script type="text/javascript" src="/static/javascript/ordinal.js"></script>
-  <script>
-    let cardinals = document.getElementsByClassName('cardinal');
-    for (var i = 0; i < cardinals.length; i++) {
-      cardinals[i].innerText = ordinalInWord(cardinals[i].innerText);
-      console.log(cardinals[i])
-    }
-  </script>
-  <script>
-    function hasDuplicates(array) {
-      return (new Set(array)).size !== array.length;
-    }
+        {% for field in form.preferences %}
+          <div style="width: 95%; margin: 0 auto">
+            <strong><span class="cardinal">{{ loop.index }}</span> {{ field.label }}:</strong>
+            <div>{{ field(class="form-control") }}</div>
+          </div>
+          <br>
+        {% endfor %}
+        <div id="button-container" style="width: 95%; margin: 0 auto">
+          <a class="btn btn-info" style="color: #fff">Cancel</a>
+          <a id="validate-submission" style="color: #fff" class="btn btn-info">Validate Vote</a>
+          {{ form.submit(class="btn btn-info", disabled='disabled') }}
+        </div>
+      </form>
+    </div>
+    <br>
+    {#  <div> {{ form.preferences }}</div>#}
+    <script type="text/javascript" src="/static/javascript/ordinal.js"></script>
+    <script>
+      let cardinals = document.getElementsByClassName('cardinal');
+      for (var i = 0; i < cardinals.length; i++) {
+        cardinals[i].innerText = ordinalInWord(cardinals[i].innerText);
+        console.log(cardinals[i])
+      }
+    </script>
+    <script>
+      function hasDuplicates(array) {
+        return (new Set(array)).size !== array.length;
+      }
 
-    let preferences = Array.from(document.querySelectorAll('[id^="preferences-"]'));
-    for (let preference = 0; preference < preferences.length; preference++) {
-      preferences[preference].addEventListener('click', handleChange, false)
-    }
-    document.getElementById('validate-submission').addEventListener('click', handleChange, false);
-    document.getElementById('validate-submission').addEventListener('click', handleValidate, false);
-
-    function handleChange() {
-      let submitButton = document.getElementById('submit');
       let preferences = Array.from(document.querySelectorAll('[id^="preferences-"]'));
-      let preferenceValues = [];
-      for (i = 0; i < preferences.length; i++) {
-        preferenceValues.push(preferences[i].value)
+      for (let preference = 0; preference < preferences.length; preference++) {
+        preferences[preference].addEventListener('click', handleChange, false)
       }
-      submitButton.disabled = hasDuplicates(preferenceValues);
-    }
+      document.getElementById('validate-submission').addEventListener('click', handleChange, false);
+      document.getElementById('validate-submission').addEventListener('click', handleValidate, false);
 
-    function handleValidate() {
-      let submitButton = document.getElementById('submit');
-      let preferences = Array.from(document.querySelectorAll('[id^="preferences-"]'));
-      let preferenceValues = [];
-      for (i = 0; i < preferences.length; i++) {
-        preferenceValues.push(preferences[i].value)
+      function handleChange() {
+        let submitButton = document.getElementById('submit');
+        let preferences = Array.from(document.querySelectorAll('[id^="preferences-"]'));
+        let preferenceValues = [];
+        for (i = 0; i < preferences.length; i++) {
+          preferenceValues.push(preferences[i].value)
+        }
+        submitButton.disabled = hasDuplicates(preferenceValues);
       }
-      if (hasDuplicates(preferenceValues)){
-        Notify("A candidate can only have one preference.", null, null, 'danger');
-      } else {
-        Notify("Your poll is now ready for submission.", null, null, 'success');
-      }
-    }
 
-  </script>
+      function handleValidate() {
+        let submitButton = document.getElementById('submit');
+        let preferences = Array.from(document.querySelectorAll('[id^="preferences-"]'));
+        let preferenceValues = [];
+        for (i = 0; i < preferences.length; i++) {
+          preferenceValues.push(preferences[i].value)
+        }
+        if (hasDuplicates(preferenceValues)) {
+          Notify("A candidate can only have one preference.", null, null, 'danger');
+        } else {
+          Notify("Your poll is now ready for submission.", null, null, 'success');
+        }
+      }
+
+    </script>
+  {% else %}
+    <div class="alert alert-warning"
+         role="alert">
+      This poll has finished. Click <a style="color: #856404"
+                                       href="{{ url_for('main.completed') }}/{{ poll.get_id() }}"><strong>here</strong></a>
+      to view the results.
+    </div>
+  {% endif %}
 {% endblock %}

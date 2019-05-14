@@ -38,7 +38,7 @@
       </ul>
       {% if not current_user.is_anonymous %}
         <div class="card-body">
-          <a href="completed/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-chart-bar"></i> View Results</a>
+          <a href="{{ url_for('main.completed') }}/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-chart-bar"></i> View Results</a>
           {% if current_user.isAdmin %}
             <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
           {% endif %}

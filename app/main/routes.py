@@ -82,6 +82,7 @@ def current():
 
 
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
+@login_required
 def current_view(pollId):
     users = getAllUsers()
     poll=getPollById(pollId)
