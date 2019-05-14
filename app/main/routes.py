@@ -147,7 +147,7 @@ def specific_poll_view(pollId):
 
 @bp.route('/polls/<int:pollId>/archive', methods=['GET', 'POST'])
 @login_required
-def current_poll_archive(pollId):
+def poll_archive(pollId):
     if current_user.is_authenticated:
         if current_user.isAdmin:
             users=getAllUsers()
@@ -161,8 +161,7 @@ def current_poll_archive(pollId):
                         flash(Markup('<script>Notify("The response has been archived successfully", null, null, "danger")</script>'))
                     else:
                         flash(Markup('<script>Notify("Could not archive the response", null, null, "danger")</script>'))
-
-    return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
+    return render_template("responseArchive.html", title="Archive Responses: "+"Poll "+str(pollId), poll=poll, users=users, form=form)
 
 
 @bp.route('/archive', methods=['GET', 'POST'])
