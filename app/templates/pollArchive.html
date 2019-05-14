@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <script>
+    $(document).ready(function () {
+      $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+    })
+  </script>
   <div class="alert alert-info" role="alert">
-    This is a collection of <strong>all</strong> polls. As an <strong>Administrator</strong>, you are able to archive polls
+    This is a collection of <strong>all</strong> polls. As an <strong>Administrator</strong>, you are able to archive
+    polls
     that you no longer want shown by providing its <strong>ID</strong>.<br><br>
     <span class="badge badge-pill badge-success">Completed</span> refers to polls that are closed.<br><br>
-    <span class="badge badge-pill badge-primary">Active</span> refers to polls that are currently live and being voted on.<br><br>
+    <span class="badge badge-pill badge-primary">Active</span> refers to polls that are currently live and being voted
+    on.<br><br>
     <span class="badge badge-pill badge-danger">Inactive</span> refers to polls that you have already archived.
   </div>
   <div class="card">
