@@ -1,7 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="test">Test</div>
+  <div class="alert alert-info" role="alert">
+    This is a collection of <strong>all</strong> polls. As an <strong>Administrator</strong>, you are able to archive polls
+    that you no longer want shown by providing its <strong>ID</strong>.<br><br>
+    <span class="badge badge-pill badge-success">Completed</span> refers to polls that are closed.<br><br>
+    <span class="badge badge-pill badge-primary">Active</span> refers to polls that are currently live and being voted on.<br><br>
+    <span class="badge badge-pill badge-danger">Inactive</span> refers to polls that you have already archived.
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <table id="table-polls" class="display">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Creator</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for poll in polls %}
+          <tr>
+            <td>{{ poll.get_id() }}</td>
+            <td>{{ poll.title }}</td>
+            <td>
+              {% for user in users %}
+                {% if user.userId == poll.createdByUserId %}
+                  {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+                {% endif %}
+              {% endfor %}
+            </td>
+            <td>
+              {% if poll.completedAt %}
+                {% if poll.isActive %}
+                  <span class="badge badge-pill badge-success">Completed</span>
+                {% else %}
+                  <span class="badge badge-pill badge-danger">Inactive</span>
+                {% endif %}
+              {% else %}
+                {% if poll.isActive %}
+                  <span class="badge badge-pill badge-primary">Active</span>
+                {% else %}
+                  <span class="badge badge-pill badge-danger">Inactive</span>
+                {% endif %}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 {% endblock %}
 
