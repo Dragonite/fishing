@@ -407,7 +407,8 @@ class Poll(PaginatedAPIMixin, db.Model):
             rawResult[candidate.candidateId]=rawResult.get(candidate.candidateId, tempdic)
             tempdic={}
         for response in self.Response:
-            rawResult[response.candidateId][response.response]+=1
+            if response.isActive:
+                rawResult[response.candidateId][response.response]+=1
         
         if jsonPayload:
             # data={'rawResult':rawResult}
