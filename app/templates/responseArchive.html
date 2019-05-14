@@ -2,7 +2,40 @@
 
 {% block content %}
   <div class="test">Test</div>
-  {{ poll.get_id() }}
+  {{ poll.Response }}
+  {{ poll.howManyResponses() }}
+  {{ poll.getResponseDict() }}
+  <table>
+    <thead>
+    <tr>
+      <th>Voter ID</th>
+      <th>Voter Name</th>
+      {% for i in range(poll.Candidate|length) %}
+        <th>Preference {{ i + 1 }}</th>
+      {% endfor %}
+    </tr>
+    </thead>
+
+    {% for response in poll.getResponseDict() %}
+      <tr>
+        <td>{{ response }}</td>
+        <td>
+          {% for user in users %}
+            {% if user.userId == response %}
+              {{ user.firstName }}
+            {% endif %}
+          {% endfor %}
+        </td>
+        {% for preference in poll.getResponseDict()[response] %}
+          <td>{{ preference }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+
+  <script>
+    console.log({{ poll.get_rawResult() }})
+  </script>
 
 {% endblock %}
 
