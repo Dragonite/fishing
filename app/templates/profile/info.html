@@ -1,10 +1,9 @@
 <div id="Info" class="tabcontent" style="background-color: white">
   <!-- Active -->
   <h4 style="margin-top: 10px; margin-bottom: 20px">General Info</h4>
-  <div class="row">
-    <div class="col-md-5 col-xs-5" style="text-align: center">
-      <div class="card" style="background-color: rgba(0,0,0,.03)">
-
+  <div style="display: flex; justify-content: center">
+    <div style="text-align: center; width: 20%">
+      <div class="card" style="background-color: rgba(0,0,0,.03); height: 50%; margin-right: 20px">
         <img class="card-img-top" src="/static/user.png" alt="user" style="width: 80%; margin: 10px auto auto auto">
         <div class="card-body">
           <h5>{{ current_user.firstName }} {{ current_user.lastName }}</h5>
@@ -31,8 +30,27 @@
         </div>
       </div>
     </div>
-    <div class="col-md-7 col-xs-7">
-      Hi!
+    <div style="width: 40%">
+      <div class="card" style="height: 50%">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+            <i class="fa-fw fa fa-user"></i> <strong>Username:</strong> {{ current_user.username }}
+          </li>
+          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+            <i class="fa-fw fa fa-map-marker-alt"></i> <strong>Location:</strong> {{ current_user.ad_suburb }}, {{ current_user.ad_state }}
+          </li>
+          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+            <i class="fa-fw fa fa-envelope"></i> <strong>Email:</strong> {{ current_user.email }}
+          </li>
+          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+            <i class="fa-fw fa fa-clock"></i> <strong>Member Since:</strong> {{ current_user.createdAt }}
+          </li>
+          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+            <i class="fa-fw fa fa-key"></i> <strong>Last Logged In:</strong> {{ current_user.lastLogin }}
+          </li>
+          <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+      </div>
     </div>
   </div>
   <b>Username</b>: {{ current_user.username }}<br>
