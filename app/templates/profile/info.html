@@ -1,8 +1,7 @@
 <div id="Info" class="tabcontent" style="background-color: white">
-  <!-- Active -->
-  <h4 style="margin-top: 10px; margin-bottom: 20px">General Info</h4>
+  <br>
   <div style="display: flex; justify-content: center">
-    <div style="text-align: center; width: 20%">
+    <div style="text-align: center; width: 24%">
       <div class="card" style="background-color: rgba(0,0,0,.03); height: 50%; margin-right: 20px">
         <img class="card-img-top" src="/static/user.png" alt="user" style="width: 80%; margin: 10px auto auto auto">
         <div class="card-body">
@@ -30,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div style="width: 40%">
+    <div style="width: 50%">
       <div class="card" style="height: 50%">
         <ul class="list-group list-group-flush">
           <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
@@ -48,28 +47,17 @@
           <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
             <i class="fa-fw fa fa-key"></i> <strong>Last Logged In:</strong> {{ current_user.lastLogin }}
           </li>
-          <li class="list-group-item">Vestibulum at eros</li>
+          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+            <i class="fa-fw fa fa-poll"></i> <strong>Polls Created:</strong> {# add the polls created count #}
+          </li>
+          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+            <i class="fa-fw fa fa-vote-yea"></i> <strong>Votes Casted:</strong> {# add the votes casted count #}
+          </li>
         </ul>
       </div>
     </div>
   </div>
-  <b>Username</b>: {{ current_user.username }}<br>
-  <b>Full Name</b>: {{ current_user.firstName }} {{ current_user.lastName }}<br>
-  <b>Email</b>: {{ current_user.email }}<br>
-  <script>
-    console.log("{{ current_user.ad_country_code }}")
-  </script>
-  <b>Address</b>: {{ current_user.ad_country }} <i class="famfamfam-flag-{{ current_user.ad_country }}"></i><br>
-  <b>Creation Time</b>: {{ current_user.createdAt }}<br>
-  <b>Last Logged in</b>: {{ current_user.lastModifiedAt }}<br>
-  <b>Active Account</b>:
-  {% if current_user.isActive %}
-    <i class="fa-fw fa fa-circle text-success"></i>
-  {% else %}
-    <i class="fa-fw fa fa-circle text-danger"></i>
-  {% endif %}
   <br>
-  <b>Admin Account</b>: {{ current_user.isAdmin }}<br>
   <script>
     $.ajax({
       type: "GET",
