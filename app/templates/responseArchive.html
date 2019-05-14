@@ -6,13 +6,20 @@
       $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
     })
   </script>
+  <div class="alert alert-info" role="alert">
+    This is a collection of all votes for <strong>Poll {{ poll.get_id() }}</strong>.<br><br> As an <strong>Administrator</strong>, you are able to archive
+    votes that you no longer want to be shown by providing the voting user's <strong>ID</strong>.<br><br>
+    <span class="badge badge-pill badge-success">Active</span> refers to votes that are live.<br><br>
+    <span class="badge badge-pill badge-danger">Inactive</span> refers to votes that have already been archived.<br><br>
+    Please <strong>Validate</strong> your archive request before submitting.
+  </div>
   <div class="card">
     <div class="card-body">
-      <table id="table-responses" class="display">
+      <table id="table-responses" class="display" style="text-align: center">
         <thead>
         <tr>
           <th>Voter ID</th>
-          <th>Voter Name</th>
+          <th>Name</th>
           {% for i in range(poll.Candidate|length) %}
             <th>Preference {{ i + 1 }}</th>
           {% endfor %}
@@ -26,7 +33,7 @@
             <td>
               {% for user in users %}
                 {% if user.userId == response %}
-                  {{ user.firstName }}
+                  {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
                 {% endif %}
               {% endfor %}
             </td>
