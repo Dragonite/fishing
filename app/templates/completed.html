@@ -5,6 +5,11 @@
     This is a collection of <strong>Completed</strong> polls.<br>
     <br>For more information on the algorithm that determines the winner, please click
     <a style="color: #0c5460" href="{{ url_for('main.help') }}"><strong>here</strong></a>.
+    {% if current_user.isAdmin %}
+      <br><br>
+      As an Admin User, you are able to <strong>Archive</strong> polls. Please click the
+      <strong><i class="fa-fw fa fa-archive"></i> Archive Poll</strong> button to delete a poll.
+    {% endif %}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -40,7 +45,7 @@
         <div class="card-body">
           <a href="{{ url_for('main.completed') }}/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-chart-bar"></i> View Results</a>
           {% if current_user.isAdmin %}
-            <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
+            <a href="{{ url_for('main.completed') }}/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
           {% endif %}
         </div>
       {% endif %}

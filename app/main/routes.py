@@ -7,7 +7,7 @@ from app import db
 import json
 
 from app.models import User, Poll
-from app.controllers import archivePoll,createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls
+from app.controllers import archivePoll,createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls, archiveResponse, archiveUser
 from app.main import bp
 
 from app.pollForm import CreatePollForm,makeResponseForm,deleteUserForm,deletePollForm,deleteResponseForm
@@ -78,10 +78,6 @@ def current():
 
 
 
-
-
-
-
 @bp.route('/current/<int:pollId>', methods=['GET', 'POST'])
 @login_required
 def current_view(pollId):
@@ -138,26 +134,18 @@ def completed_view(pollId):
         renderedtitle="Oops, something is wrong"
     return render_template("completedPollView.html", title=renderedtitle, poll=poll, users=users)
 
+@bp.route('/polls')
+def polls_view():
+    return redirect(url_for('main.current'))
 
-@bp.route('/completed/<int:pollId>/archive', methods=['GET', 'POST'])
-def completed_response_archive(pollId):
-    if current_user.is_authenticated:
-        if current_user.isAdmin:
-            users=getAllUsers()
-            poll=getPollById(pollId)
-            form= deleteResponseForm()
-            if poll==None:
-                flash(Markup('<script>Notify("Cannot find the poll.", null, null, "danger")</script>'))
-            if form.is_submitted():
-                if User.query.filter_by(userId=form.userId.data).first():
-                    if archiveResponse(poll,form.userId.data):
-                        flash(Markup('<script>Notify("The response has been archived successfully", null, null, "danger")</script>'))
-                    else:
-                        flash(Markup('<script>Notify("Could not archive the response", null, null, "danger")</script>'))
-    return render_template("responseArchive.html", title="Archive Response", poll=poll, users=users, form=form)
+@bp.route('/polls/<int:pollId>')
+def specific_poll_view(pollId):
+    poll=getPollById(pollId)
+    if(poll.completedAt):
+        return redirect(url_for('main.completed')+'/'+str(pollId))
+    return redirect(url_for('main.current')+'/'+str(pollId))
 
-
-@bp.route('/current/<int:pollId>/archive', methods=['GET', 'POST'])
+@bp.route('/polls/<int:pollId>/archive', methods=['GET', 'POST'])
 @login_required
 def current_poll_archive(pollId):
     if current_user.is_authenticated:
