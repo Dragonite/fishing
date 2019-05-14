@@ -5,7 +5,11 @@
     <div class="col-md-8" style="margin: 0 auto">
       <div class="card">
         <div class="card-body" style="text-align: center">
-          <h3>Poll Winner: <strong>{{ poll.get_prefResult(details=false)|last }}</strong></h3>
+          {% if poll.howManyResponses() == 0 %}
+            <h3><strong>No Responses Made</strong></h3>
+          {% else %}
+            <h3>Poll Winner: <strong>{{ poll.get_prefResult(details=false)|last }}</strong></h3>
+          {% endif %}
           <br>
           <canvas id="poll-chart-2"></canvas>
         </div>
