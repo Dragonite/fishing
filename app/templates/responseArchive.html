@@ -1,40 +1,79 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="test">Test</div>
-  {{ poll.Response }}
-  {{ poll.howManyResponses() }}
-  {{ poll.getResponseDict() }}
-  <table>
-    <thead>
-    <tr>
-      <th>Voter ID</th>
-      <th>Voter Name</th>
-      {% for i in range(poll.Candidate|length) %}
-        <th>Preference {{ i + 1 }}</th>
-      {% endfor %}
-    </tr>
-    </thead>
-
-    {% for response in poll.getResponseDict() %}
-      <tr>
-        <td>{{ response }}</td>
-        <td>
-          {% for user in users %}
-            {% if user.userId == response %}
-              {{ user.firstName }}
-            {% endif %}
+  <script>
+    $(document).ready(function () {
+      $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+    })
+  </script>
+  <div class="card">
+    <div class="card-body">
+      <table id="table-responses" class="display">
+        <thead>
+        <tr>
+          <th>Voter ID</th>
+          <th>Voter Name</th>
+          {% for i in range(poll.Candidate|length) %}
+            <th>Preference {{ i + 1 }}</th>
           {% endfor %}
-        </td>
-        {% for preference in poll.getResponseDict()[response] %}
-          <td>{{ preference }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for response in poll.getResponseDict() %}
+          <tr>
+            <td>{{ response }}</td>
+            <td>
+              {% for user in users %}
+                {% if user.userId == response %}
+                  {{ user.firstName }}
+                {% endif %}
+              {% endfor %}
+            </td>
+            {% for preference in poll.getResponseDict()[response] %}
+              <td>{{ preference }}</td>
+            {% endfor %}
+          </tr>
         {% endfor %}
-      </tr>
-    {% endfor %}
-  </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="card">
+    <form id="delete-poll-form" action="" method="post" novalidate>
+      <div class="card-body">
+        {{ form.hidden_tag() }}
+        <label><strong>{{ form.userId.label }}</strong></label>
+        {{ form.userId(class="form-control") }}
+        <br>
+        <div id="button-container">
+          <a id="validate-button" class="btn btn-info" style="color: #FFF">Validate Archive</a>
+          {{ form.submit(class="btn btn-info", disabled='disabled') }}
+        </div>
+      </div>
+    </form>
+  </div>
 
   <script>
-    console.log({{ poll.get_rawResult() }})
+    let userIDList = [];
+    {% for response in poll.getResponseDict() %}
+      userIDList.push({{ response }});
+    {% endfor %}
+    console.log(userIDList);
+    let validateButton = document.getElementById('validate-button');
+    let input = document.getElementById('userId');
+    let submitButton = document.getElementById('submit');
+    validateButton.addEventListener('click', handleEvent);
+
+    function handleEvent() {
+      if(userIDList.includes(parseInt(input.value))){
+        Notify("Your archive request has been validated. Please click Submit to archive the user's response.", null, null, "success");
+        submitButton.disabled = false;
+      }else{
+        Notify("Your archive request was not successful. Please check if the user ID is valid.", null, null, "danger");
+        submitButton.disabled = true;
+      }
+    }
   </script>
 
 {% endblock %}

@@ -29,7 +29,7 @@ $(document).ready(function () {
 
   $('#table-active, #table-inactive').DataTable();
 
-  $('#table-polls').dataTable( {
+  $('#table-polls, #table-responses').DataTable( {
     "aLengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]],
     "pageLength": 5
     } );
