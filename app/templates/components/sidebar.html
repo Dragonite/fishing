@@ -20,17 +20,21 @@
           <i class="fa-fw fa fa-plus"></i>
           Create Poll
         </a>
-        <a href="{{ url_for('main.profile') }}" class="nav-link">
-          <i class="fa-fw fa fa-user"></i>
-          My Profile
-        </a>
         <!-- If the user is logged in AND an admin -->
         {% if current_user.isAdmin == True %}
+          <a href="{{ url_for('main.archive_poll') }}" class="nav-link">
+            <i class="fa-fw fa fa-archive"></i>
+            Archive Poll
+          </a>
           <a href="{{ url_for('main.users') }}" class="nav-link">
             <i class="fa-fw fa fa-users"></i>
             Users
           </a>
         {% endif %}
+        <a href="{{ url_for('main.profile') }}" class="nav-link">
+          <i class="fa-fw fa fa-user"></i>
+          My Profile
+        </a>
         <a href="{{ url_for('auth.logout') }}" class="nav-link">
           <i class="fa-fw fa fa-sign-out-alt"></i>
           Log Out
@@ -38,10 +42,10 @@
       {% else %}
         <!-- If the user is not logged in -->
         {% if current_user.is_anonymous %}
-        <a href="{{ url_for('auth.login') }}" class="nav-link">
-          <i class="fa-fw fa fa-sign-in-alt"></i>
-          Login
-        </a>
+          <a href="{{ url_for('auth.login') }}" class="nav-link">
+            <i class="fa-fw fa fa-sign-in-alt"></i>
+            Login
+          </a>
         {% endif %}
       {% endif %}
       <a href="{{ url_for('main.help') }}" class="nav-link">

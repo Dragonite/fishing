@@ -15,8 +15,8 @@
     {% endif %}
     {% if current_user.isAdmin %}
       <br><br>
-      As an Admin User, you are able to <strong>Delete</strong> polls. Please click the
-      <strong><i class="fa-fw fa fa-trash-alt"></i> Delete</strong> button to delete a poll.
+      As an Admin User, you are able to <strong>Archive</strong> polls. Please click the
+      <strong><i class="fa-fw fa fa-archive"></i> Archive</strong> button to delete a poll.
     {% endif %}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -53,7 +53,7 @@
         <div class="card-body">
           <a href="{{ url_for('main.current') }}/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-envelope"></i> Vote</a>
           {% if current_user.isAdmin %}
-            <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-trash-alt"></i> Delete Poll</a>
+            <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
           {% endif %}
         </div>
       {% endif %}

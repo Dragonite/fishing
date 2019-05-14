@@ -40,13 +40,6 @@
                   {{ current_user.firstName }} {% if current_user.lastName %}{{ current_user.lastName }}{% endif %}
             </li>
           </ul>
-          {% if not current_user.is_anonymous %}
-            {% if current_user.isAdmin %}
-              <div class="card-body">
-                <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
-              </div>
-            {% endif %}
-          {% endif %}
         </div>
         <br>
       {% endfor %}

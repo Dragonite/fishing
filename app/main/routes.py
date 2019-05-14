@@ -160,7 +160,7 @@ def archive_poll():
     users=getAllUsers()
     polls=getAllPolls()
     form=deletePollForm()
-    return render_template("pollArchive.html", title="Archive Poll", poll=polls, users=users, form=form)
+    return render_template("pollArchive.html", title="Archive Poll", polls=polls, users=users, form=form)
 
 
 
