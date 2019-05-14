@@ -53,7 +53,7 @@
         <div class="card-body">
           <a href="{{ url_for('main.current') }}/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-envelope"></i> Vote</a>
           {% if current_user.isAdmin %}
-            <a href="#" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
+            <a href="{{ url_for('main.current') }}/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
           {% endif %}
         </div>
       {% endif %}
