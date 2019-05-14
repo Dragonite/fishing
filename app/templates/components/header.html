@@ -1,8 +1,8 @@
-<div style="margin-top: 20px">
+<div style="margin-top: 20px; display: flex; justify-content: space-between">
   <h1 class="header-title" style="display:inline">
     {{ title }}
   </h1>
-  <span style="float:right;margin-top: 20px;font-weight: bold;color:#6c757d">
+  <span style="margin-top: 50px;font-weight: bold;color:#6c757d">
     {% if current_user.is_anonymous %}
       <a style="color: #6c757d" href="{{ url_for('main.register') }}">Register Account</a>
     {% else %}
