@@ -30,7 +30,11 @@
               {% endfor %}
             </td>
             {% for preference in poll.getResponseDict()[response] %}
-              <td>{{ preference }}</td>
+              {% for candidate in poll.Candidate %}
+                {% if candidate.candidateId == preference %}
+                  <td>{{ candidate.candidateDescription }}</td>
+                {% endif %}
+              {% endfor %}
             {% endfor %}
           </tr>
         {% endfor %}
@@ -66,10 +70,10 @@
     validateButton.addEventListener('click', handleEvent);
 
     function handleEvent() {
-      if(userIDList.includes(parseInt(input.value))){
+      if (userIDList.includes(parseInt(input.value))) {
         Notify("Your archive request has been validated. Please click Submit to archive the user's response.", null, null, "success");
         submitButton.disabled = false;
-      }else{
+      } else {
         Notify("Your archive request was not successful. Please check if the user ID is valid.", null, null, "danger");
         submitButton.disabled = true;
       }
