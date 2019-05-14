@@ -7,7 +7,7 @@ from app import db
 import json
 
 from app.models import User, Poll
-from app.controllers import createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById
+from app.controllers import createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls
 from app.main import bp
 
 from app.pollForm import CreatePollForm,makeResponseForm
@@ -48,7 +48,7 @@ def create():
             if nullCount > (len(form.options)-2):
                 flash('There is not enough choice to make this poll.')
                 return redirect(url_for('main.create'))
-            else:  
+            else:
                 if createPoll(poll)==True:
                     flash('Poll has been created successfully!')
                     return render_template("currentPollView.html", title=poll.title, poll=poll, form=form)
@@ -91,7 +91,7 @@ def current_view(pollId):
         for item in poll.Candidate:
             responseParameter.append((item.candidateId, item.candidateDescription))
         form=makeResponseForm(responseParameter)
-        
+
         if form.validate_on_submit():
             pass
                 ##do not delete
@@ -171,7 +171,12 @@ def delete_response(pollId,userId):
 @bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
-    return render_template("profile.html", title='My Profile')
+    all_polls = getAllPolls()
+    polls = []
+    for poll in all_polls:
+        if poll.createdByUserId == current_user.userId:
+            polls.append(poll)
+    return render_template("profile.html", title='My Profile', polls=polls)
 
 
 

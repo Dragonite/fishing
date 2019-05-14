@@ -48,7 +48,7 @@
             <i class="fa-fw fa fa-key"></i> <strong>Last Logged In:</strong> {{ current_user.lastLogin }}
           </li>
           <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
-            <i class="fa-fw fa fa-poll"></i> <strong>Polls Created:</strong> {# add the polls created count #}
+            <i class="fa-fw fa fa-poll"></i> <strong>Polls Created:</strong> {{ polls|length }}
           </li>
           <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
             <i class="fa-fw fa fa-vote-yea"></i> <strong>Votes Casted:</strong> {# add the votes casted count #}
