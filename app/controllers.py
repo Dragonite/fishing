@@ -19,12 +19,16 @@ def createUser(User, pwd):
                 User.set_password(pwd)
                 db.session.add(User)
                 db.session.commit()
-                User.get_token()
                 return True
-            except:      
-                return 'createUser exception raised: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1])
+            except:            
+                print('createUser exception raised: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1]))
+                return False  
+                # return 'createUser exception raised: ' + str(sys.exc_info()[0]) + str(sys.exc_info()[1])
         else:
-            return 'createUser exception raised: Mandatory data is missing' 
+            print( 'createUser exception raised: Mandatory data is missing' )
+            return False
+
+            # return 'createUser exception raised: Mandatory data is missing' 
 
 def modifyUser(User):
     if User==None:

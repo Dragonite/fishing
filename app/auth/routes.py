@@ -14,7 +14,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
+        if user is None or not user.check_password(form.password.data) or user.isActive==0:
             flash(Markup('<script>Notify("Invalid username or password.", null, null, "danger")</script>'))
             return redirect(url_for('auth.login'))
             # session['was_once_logged_in'] = True
