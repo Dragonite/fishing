@@ -51,7 +51,7 @@ def create():
             else:
                 if createPoll(poll)==True:
                     flash('Poll has been created successfully!')
-                    return render_template("currentPollView.html", title=poll.title, poll=poll, form=form)
+                    return redirect(url_for('main.current')+'/'+ str(poll.pollId))
 
                 else:
                     flash('something is wrong!')
