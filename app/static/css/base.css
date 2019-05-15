@@ -6,14 +6,14 @@ body {
   background-color: #f2f2f2;
 }
 
-a {
+.sidebar-button {
   border-radius: 5px;
   color: #212529;
   text-decoration: none;
   transition: 0.3s;
 }
 
-a:hover {
+.sidebar-button:hover {
   background-color: #B0B0B0;
   color: #212529;
   text-decoration: none;
@@ -24,8 +24,23 @@ table {
   text-align: center;
 }
 
+.list-button {
+  color: #212529;
+  transition: 0.3s;
+}
+
 .list-button:hover {
-  background-color: #f2f2f2;
+  color: #177199;
+  text-decoration: none;
+}
+
+.register-button {
+  color: #6c757d;
+}
+
+.register-button:hover {
+  color: #212529;
+  text-decoration: none;
 }
 
 .header-title {

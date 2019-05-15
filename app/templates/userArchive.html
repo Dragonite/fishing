@@ -53,5 +53,21 @@
       </table>
     </div>
   </div>
+  <br>
+    <div class="card">
+    <form id="delete-user-form" action="" method="post" novalidate>
+      <div class="card-body">
+        {{ form.hidden_tag() }}
+        <label><strong>{{ form.userId.label }}</strong></label>
+        {{ form.userId(class="form-control") }}
+        <br>
+        <div id="button-container">
+          <a id="validate-button" class="btn btn-info" style="color: #FFF">Validate Archive</a>
+          {{ form.submit(class="btn btn-info", disabled='disabled') }}
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
 {% endblock %}
 
