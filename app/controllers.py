@@ -70,12 +70,14 @@ def archiveUser(User):
                 db.session.commit()
                 return True
             except:
-                return 'archiveUser exception raised: ' + str(sys.exc_info()[0])
+                return False
+                # return 'archiveUser exception raised: ' + str(sys.exc_info()[0])
 
 def getUserById(userId):
     user = User.query.filter_by(userId=userId).first()
     if user==None:
-        raise ValueError('cannot find the user with user id - ', userId)
+        return False
+        # raise ValueError('cannot find the user with user id - ', userId)
     else:
         return user
 
@@ -192,15 +194,16 @@ def getCurrentPolls(isAdmin=False):
 
 def archiveResponse(Poll, userId):
     if Poll!=None:
-        noResponses=Poll.howManyResponses()
+        noResponses=Poll.howManyResponses()*Poll.howManyCandidates()
         for index in range(noResponses):
             if Poll.Response[index].userId==userId:
                 Poll.Response[index].isActive=0
                 try:
+                    db.session.add( Poll.Response[index])
                     db.session.commit()
-                    return True
                 except:
                     return False
+        return True
     else:
         return False
         
