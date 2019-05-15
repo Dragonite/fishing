@@ -320,7 +320,7 @@ def create_user():
                 user.ad_state=form.ad_state.data
                 user.ad_country=form.ad_country.data
                 if createUser(user,form.password.data):
-                    lash(Markup('<script>Notify("you have created a new user!", null, null, "danger")</script>'))
+                    flash(Markup('<script>Notify("you have created a new user!", null, null, "danger")</script>'))
                     return redirect(url_for('main.users'))
     else:
             flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))

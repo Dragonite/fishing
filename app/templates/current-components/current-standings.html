@@ -1,14 +1,12 @@
-{% extends "base.html" %}
-
-{% block content %}
-  {% if poll.completedAt %}
-    <div class="col-md-8" style="margin: 0 auto">
+<div id="Current" class="tabcontent" style="background-color: white">
+  {% if poll.isOpenPoll %}
+    <div class="col-md-8" style="margin: 20px auto auto auto">
       <div class="card">
         <div class="card-body" style="text-align: center">
           {% if poll.howManyResponses() == 0 %}
             <h3><strong>No Responses Made</strong></h3>
           {% else %}
-            <h3>Poll Winner: <strong>{{ poll.get_prefResult(details=false)|last }}</strong></h3>
+            <h3>Current Winner: <strong>{{ poll.get_prefResult(details=false)|last }}</strong></h3>
           {% endif %}
           <br>
           <canvas id="poll-chart-2"></canvas>
@@ -37,10 +35,6 @@
           {% endfor %}
         </li>
       </ul>
-      <br>
-      <a class="btn btn-info" href="{{ url_for('main.completed') }}">
-        Back
-      </a>
     </div>
     <br>
     <script type="text/javascript" src="/static/javascript/ordinal.js"></script>
@@ -109,10 +103,8 @@
     </script>
   {% else %}
     <div class="alert alert-warning"
-         role="alert">
-      This poll is still live. Click <a style="color: #856404"
-                                        href="{{ url_for('main.current') }}/{{ poll.get_id() }}"><strong>here</strong></a>
-      to cast a vote.
+         role="alert" style="margin-top: 20px">
+      This poll is a <strong>Closed Poll</strong>. The creator has not allowed other people to view current standings until completion.
     </div>
   {% endif %}
-{% endblock %}
+</div>
