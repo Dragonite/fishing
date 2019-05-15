@@ -39,9 +39,13 @@
           <td>{{ user.howManyResponses()|length }}</td>
           <td>
             {% if user.isAdmin %}
-              <i class="fa-fw fa fa-circle text-success"></i>
+              <span data-toggle="tooltip" title="Administrator">
+                <i class="fa-fw fa fa-circle text-success"></i>
+              </span>
             {% else %}
-              <i class="fa-fw fa fa-circle text-danger"></i>
+              <span data-toggle="tooltip" title="Standard User">
+                <i class="fa-fw fa fa-circle text-danger"></i>
+              </span>
             {% endif %}
           </td>
         </tr>

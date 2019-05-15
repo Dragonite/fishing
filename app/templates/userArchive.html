@@ -1,7 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="test">Test</div>
-
+  <script>
+    $(document).ready(function () {
+      $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+    })
+  </script>
+  <div class="card">
+    <div class="card-body">
+      <table id="table-users" class="display" style="text-align: center">
+        <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Username</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Joined On</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.userId }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.createdAt }}</td>
+            <td>
+              {% if user.isActive %}
+                <span data-toggle="tooltip" title="Active User">
+                  <i class="fa-fw fa fa-circle text-success"></i>
+                </span>
+              {% else %}
+                <span data-toggle="tooltip" title="Inactive User">
+                  <i class="fa-fw fa fa-circle text-danger"></i>
+                </span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock %}
 
