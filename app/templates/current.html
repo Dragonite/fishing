@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="alert alert-info alert-dismissible fade show" role="alert">
+  <div class="alert alert-info" role="alert">
     This is a collection of currently <strong>Active</strong> polls.
     {% if current_user.is_anonymous %}
       You are currently not registered. You will only be able to vote on <strong>Open</strong> polls.
@@ -18,9 +18,6 @@
       As an Admin User, you are able to <strong>Archive</strong> polls. Please click below and choose which poll to archive.<br><br>
       <a class="btn btn-danger" href="{{ url_for('main.archive_poll') }}"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
     {% endif %}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
   {% if polls|length == 0 %}
     <div>There are no current polls. Click here to create one!</div>
