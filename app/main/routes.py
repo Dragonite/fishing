@@ -106,7 +106,7 @@ def current_view(pollId):
             return redirect(url_for('main.current'))
         else:
             if poll.addResponse(current_user.userId, pref):
-                flash('you have successfully voted for this poll')
+                flash(Markup('<script>Notify("you have successfully voted for this poll.", null, null, "success")</script>'))
                 return redirect(url_for('main.current'))
             else:
                 flash(Markup('<script>Notify("Oops, Something went wrong!", null, null, "danger")</script>'))
@@ -180,7 +180,7 @@ def archive_poll():
                     poll.close()
                     # modifyPoll(poll)
                     if archivePoll(poll):
-                        flash(Markup('<script>Notify("The poll has been archived successfully", null, null, "danger")</script>'))
+                        flash(Markup('<script>Notify("The poll has been archived successfully", null, null, "success")</script>'))
                     else:
                         flash(Markup('<script>Notify("Could not archive the poll", null, null, "danger")</script>'))
         else:
@@ -215,7 +215,7 @@ def archive_users():
                     flash(Markup('<script>Notify("Cannot find the user.", null, null, "danger")</script>'))
                 else:
                     if archiveUser(user):
-                        flash(Markup('<script>Notify("The user  has been archived successfully", null, null, "danger")</script>'))
+                        flash(Markup('<script>Notify("The user  has been archived successfully", null, null, "success")</script>'))
                     else:
                         flash(Markup('<script>Notify("Could not archive the user", null, null, "danger")</script>'))
         else:
@@ -258,7 +258,7 @@ def profile():
     for poll in all_polls:
         if poll.createdByUserId == current_user.userId:
             polls.append(poll)
-            
+
     return render_template("profile.html", title='My Profile', polls=polls, form=form)
 
 
@@ -296,19 +296,20 @@ def register():
         user.ad_suburb=form.ad_suburb.data
         user.ad_state=form.ad_state.data
         user.ad_country=form.ad_country.data
-        if createUser(user,form.password.data):
-            flash('Congratulations, you are now a registered user!')
+        if createUser(user,form.password.data)==True:
+            flash(Markup('<script>Notify("Congratulations, you are now a registered user!", null, null, "success")</script>'))
             return redirect(url_for('auth.login'))
         else:
-            return redirect(url_for('register'))
+            flash(Markup('<script>Notify("Could not create account, please enter username, password, email and first name!", null, null, "danger")</script>'))
+            return redirect(url_for('main.register'))
     return render_template('register.html', title='Register', form=form)
 
 
 @bp.route('/users/create', methods=['GET', 'POST'])
 def create_user():
+    form = RegistrationForm()
     if current_user.is_authenticated:
         if current_user.isAdmin:
-            form = RegistrationForm()
             if form.validate_on_submit():
                 user = User()
                 user.username=form.username.data
@@ -319,9 +320,13 @@ def create_user():
                 user.ad_suburb=form.ad_suburb.data
                 user.ad_state=form.ad_state.data
                 user.ad_country=form.ad_country.data
-                if createUser(user,form.password.data):
-                    lash(Markup('<script>Notify("you have created a new user!", null, null, "danger")</script>'))
+                pwd=form.password.data
+                if createUser(user,pwd):
+                    flash(Markup('<script>Notify("you have created a new user!", null, null, "success")</script>'))
                     return redirect(url_for('main.users'))
+                else:
+                    flash(Markup('<script>Notify("Could not create account, please enter username, password, email and first name!", null, null, "danger")</script>'))
+
     else:
             flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
             return redirect(url_for('main.index'))

@@ -87,7 +87,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         self.isAdmin = False
 
     def validate(self):
-        if self.firstName and self.lastName and self.email:
+        if self.firstName and self.email:
             return True
         else:
             return False
