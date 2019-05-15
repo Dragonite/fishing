@@ -65,6 +65,11 @@ table {
   margin: 0 auto;
 }
 
+.about-content {
+  list-style: none;
+  margin-top: 20px;
+}
+
 #login-form {
   margin-top: 30px;
 }

@@ -319,9 +319,8 @@ def create_user():
                 user.ad_suburb=form.ad_suburb.data
                 user.ad_state=form.ad_state.data
                 user.ad_country=form.ad_country.data
-                pwd=form.password.data
-                if createUser(user,pwd):
-                    flash(Markup('<script>Notify("you have created a new user!", null, null, "success")</script>'))
+                if createUser(user,form.password.data):
+                    flash(Markup('<script>Notify("you have created a new user!", null, null, "danger")</script>'))
                     return redirect(url_for('main.users'))
                 else:
                     flash(Markup('<script>Notify("Could not create account, please enter username, password, email and first name!", null, null, "danger")</script>'))

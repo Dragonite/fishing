@@ -5,18 +5,18 @@
 </script>
 
 <!-- Tab content -->
-<div id="Active" class="tabcontent" style="background-color: white">
+<div id="Inactive" class="tabcontent" style="background-color: white">
   <!-- Active -->
-  <h4 style="margin-top: 10px; margin-bottom: 20px">Active Users</h4>
+  <h4 style="margin-top: 10px; margin-bottom: 20px">Inactive Users</h4>
 
   <div class="alert alert-info alert-dismissible fade show" role="alert">
-    All user accounts that are not archived are listed here.
+    All archived user accounts are listed here.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
-  <table id="table-active" class="display">
+  <table id="table-inactive" class="display">
     <thead>
     <tr>
       <th>Name</th>
@@ -31,7 +31,7 @@
       {#        <script>#}
       {#         console.log({{ user.howManyPolls()|length }})#}
       {#        </script>#}
-      {% if user.isActive %}
+      {% if not user.isActive %}
         <tr>
           <td>{{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}</td>
           <td>{{ user.email }}</td>

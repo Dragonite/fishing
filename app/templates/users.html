@@ -18,25 +18,9 @@
   <!-- Active users tab -->
   {% include "/users/active.html" %}
 
-  <div id="Inactive" class="tabcontent" style="background-color: white">
-    <!-- Inactive -->
-    <h4 style="margin-top: 10px; margin-bottom: 20px">Inactive Users</h4>
+  {% include "/users/inactive.html" %}
 
-    <table id="table-inactive" class="display">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>Tim French</td>
-        <td>tim.french@uwa.edu.au</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+  <br>
 
   <script>
     // Get the element with id="defaultOpen" and click on it
