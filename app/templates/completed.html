@@ -45,7 +45,8 @@
         <div class="card-body">
           <a href="{{ url_for('main.completed') }}/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-chart-bar"></i> View Results</a>
           {% if current_user.isAdmin %}
-            <a href="polls/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
+            <a href="{{ url_for('main.archive_poll') }}" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
+            <a href="polls/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Votes</a>
           {% endif %}
         </div>
       {% endif %}

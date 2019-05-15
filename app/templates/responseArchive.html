@@ -73,7 +73,7 @@
 
   <script>
     let userIDList = [];
-    {% for response in poll.getResponseDict() %}
+    {% for response in poll.getResponseDict()[0] %}
       userIDList.push({{ response }});
     {% endfor %}
     console.log(userIDList);
