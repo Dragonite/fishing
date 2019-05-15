@@ -76,7 +76,6 @@
     {% for response in poll.getResponseDict()[0] %}
       userIDList.push({{ response }});
     {% endfor %}
-    console.log(userIDList);
     let validateButton = document.getElementById('validate-button');
     let input = document.getElementById('userId');
     let submitButton = document.getElementById('submit');

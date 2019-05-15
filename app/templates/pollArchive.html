@@ -81,7 +81,6 @@
     {% for poll in polls %}
       pollIdList.push({{ poll.get_id() }});
     {% endfor %}
-    console.log(pollIdList);
     let validateButton = document.getElementById('validate-button');
     let input = document.getElementById('pollId');
     let submitButton = document.getElementById('submit');
