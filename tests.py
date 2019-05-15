@@ -1,11 +1,8 @@
 from datetime import datetime, timedelta
-
 from app import create_app, db
-
 from config import Config
 import unittest, os
 from unittest import TestSuite, TestCase
-
 from app.models import User, Poll
 from app.controllers import *
 from assertpy import assert_that
@@ -31,15 +28,15 @@ class userControllerCase(unittest.TestCase):
         db.create_all()
     
         luna=User()
-        luna.username='abclsdwrfuna'
+        luna.username='luna'
         luna.firstName='Luna'
         luna.lastName='Lee'
-        luna.email='abc2218sdfsdf7554@student.edu.au'
+        luna.email='22sfdsdf187554@student.edu.au'
         luna.isAdmin=True
         
         haolin=User()
-        haolin.username='abcwerhasdfolin'
-        haolin.firstName='abcHaolin'
+        haolin.username='haolin'
+        haolin.firstName='Haolin'
         haolin.lastName='Wu'
         haolin.email='abc21706sdsfdf137@student.edu.au'
         haolin.isAdmin=True
@@ -56,8 +53,8 @@ class userControllerCase(unittest.TestCase):
 
     def test_createUser(self):
         validUser=User()
-        validUser.username='a123dsddsfdsd2424aaaaaluna'
-        validUser.firstName='a24aaaaLuna'
+        validUser.username='creatusertest'
+        validUser.firstName='creatusertest'
         validUser.lastName='Lee'
         validUser.email='a221875dfs54@student.edu.au'
         validUser.isAdmin=True
@@ -87,7 +84,8 @@ class userControllerCase(unittest.TestCase):
         username='abcwerhasdfolin'
         assert_that(getUserByUsername(username).username).is_equal_to(username)
 
-
+    def test_login_time(self):
+        
 
 class userModelCase(unittest.TestCase):
     def setUp(self):

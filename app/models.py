@@ -87,7 +87,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         self.isAdmin = False
 
     def validate(self):
-        if self.firstName and self.email:
+        if self.username and self.firstName and self.email:
             return True
         else:
             return False
@@ -317,7 +317,8 @@ class Poll(PaginatedAPIMixin, db.Model):
         try:
             self.createdByUserId = User.userId
         except:
-            raise ValueError('User object is empty')
+            print('Could not commit to database')
+            return False
         self.createdAt = datetime.utcnow()
         self.isActive = 1
 
@@ -331,7 +332,8 @@ class Poll(PaginatedAPIMixin, db.Model):
         if self.Response == None or self.Response == 0:
             return 0
         elif self.Candidate == None or self.Candidate == 0:
-            raise ValueError('There is no candidate saved yet')
+            print('There is no candidate saved yet')
+            return 0
         else:
             return int(len(self.Response) / self.howManyCandidates())
 
@@ -339,7 +341,8 @@ class Poll(PaginatedAPIMixin, db.Model):
         if self.Response == None or self.Response == 0:
             return []
         elif self.Candidate == None or self.Candidate == 0:
-            raise ValueError('There is no candidate saved yet')
+            print('There is no candidate saved yet')
+            return []
         else:
             userId_list = []
             unique_userId_list = []
@@ -379,10 +382,12 @@ class Poll(PaginatedAPIMixin, db.Model):
 
     def addCandidate(self, candidateDescription, displayOrder):
         if candidateDescription == None:
-            raise ValueError('You must enter the candidate details!')
+            print('You must enter the candidate details!')
+            return False
         else:
             if self.orderCandidatesBy == 'SpecialOrder' and displayOrder == None:
-                raise ValueError('You must enter the order you want to display this candidate!')
+                print('You must enter the order you want to display this candidate!')
+                return False
             else:
                 candidate = Poll.Candidate()
                 candidate.candidateDescription = candidateDescription
@@ -401,11 +406,11 @@ class Poll(PaginatedAPIMixin, db.Model):
 
     def addResponse(self, userId, preferenceXresponses):
         if self.isClosed():
-            # raise ValueError('This poll has been closed since ', Poll.completedAt)
+            print('This poll has been closed since ', Poll.completedAt)
             return False
         else:
             if preferenceXresponses == None:
-                # raise ValueError('You must enter preference order for each option')
+                print('You must enter preference order for each option')
                 return False
             else:
                 for key, value in preferenceXresponses.items():
@@ -416,13 +421,14 @@ class Poll(PaginatedAPIMixin, db.Model):
                     response.response = value
                     response.createdAt = datetime.utcnow()
                     response.isActive = True
-                    print("response check!")
+                    # print("response check!")
                     self.Response.append(response)
                     try:
                         db.session.add(response)
                         db.session.commit()
                     except:
-                        return 'addResponse exception raised: ' + str(sys.exc_info()[0])
+                        print('addResponse exception raised: ' + str(sys.exc_info()[0]))
+                        return False
             return True
 
     def get_rawResult(self, jsonPayload=False):
