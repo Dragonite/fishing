@@ -258,6 +258,7 @@ def profile():
     for poll in all_polls:
         if poll.createdByUserId == current_user.userId:
             polls.append(poll)
+            
     return render_template("profile.html", title='My Profile', polls=polls, form=form)
 
 
