@@ -28,8 +28,8 @@ def API_login():
     
 
 @bp.route('/users/<int:userId>', methods=['GET'])
-# @token_auth.login_required
-#@auth.login_required
+@token_auth.login_required
+# @auth.login_required
 def get_user(userId):
     user=getUserById(userId)
     if user:
@@ -39,7 +39,7 @@ def get_user(userId):
 
 
 @bp.route('/users', methods=['GET'])
-# @token_auth.login_required
+@token_auth.login_required
 def get_users():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)
@@ -48,6 +48,7 @@ def get_users():
 
 
 @bp.route('/users', methods=['POST'])
+@token_auth.login_required
 def create_user():
     data = request.get_json() or {}
     if 'username' not in data or 'email' not in data or 'password' not in data or 'firstName' not in data:
@@ -66,7 +67,7 @@ def create_user():
     return response
 
 @bp.route('/users/<int:userId>', methods=['PUT'])
-# @token_auth.login_required
+@token_auth.login_required
 def update_user(userId):
     user = User.query.get_or_404(userId)
     data = request.get_json() or {}
@@ -85,6 +86,7 @@ def update_user(userId):
 
 
 @bp.route('/polls/<int:pollId>', methods=['GET'])
+@token_auth.login_required
 def get_poll(pollId):
     poll=getPollById(pollId)
     if poll:
@@ -95,6 +97,7 @@ def get_poll(pollId):
 
 
 @bp.route('/polls', methods=['GET'])
+@token_auth.login_required
 def get_polls():
     page = request.args.get('page', 1, type=int)
     per_page = min(request.args.get('per_page', 10, type=int), 100)

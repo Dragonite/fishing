@@ -12,7 +12,7 @@ token_auth = HTTPTokenAuth()
 @basic_auth.verify_password
 def verify_password(username, password):
     user = User.query.filter_by(username=username).first()
-    if user is None  or not user.verify_password(password):
+    if user is None  or not user.check_password(password):#user.verify_password(password):
         return False
     g.current_user = user
     return True #user.check_password(password)

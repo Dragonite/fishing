@@ -10,7 +10,7 @@ from app.models import User, Poll
 from app.controllers import archivePoll,createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls, archiveResponse, archiveUser
 from app.main import bp
 
-from app.pollForm import CreatePollForm,makeResponseForm,deleteUserForm,deletePollForm,deleteResponseForm
+from app.pollForm import closePollForm,CreatePollForm,makeResponseForm,deleteUserForm,deletePollForm,deleteResponseForm
 from app.registrationForm import RegistrationForm
 
 
@@ -157,8 +157,8 @@ def poll_archive(pollId):
                 flash(Markup('<script>Notify("Cannot find the poll.", null, null, "danger")</script>'))
             if form.is_submitted():
                 if User.query.filter_by(userId=form.userId.data).first():
-                    if archiveResponse(poll,form.userId.data):
-                        flash(Markup('<script>Notify("The response has been archived successfully", null, null, "danger")</script>'))
+                    if archiveResponse(poll,int(form.userId.data)):
+                        flash(Markup('<script>Notify("The response has been archived successfully", null, null, "success")</script>'))
                     else:
                         flash(Markup('<script>Notify("Could not archive the response", null, null, "danger")</script>'))
     return render_template("responseArchive.html", title="Archive Responses: "+"Poll "+str(pollId), poll=poll, users=users, form=form)
@@ -254,10 +254,12 @@ def archive_users():
 def profile():
     all_polls = getAllPolls()
     polls = []
+    form=closePollForm()
     for poll in all_polls:
         if poll.createdByUserId == current_user.userId:
             polls.append(poll)
-    return render_template("profile.html", title='My Profile', polls=polls)
+            
+    return render_template("profile.html", title='My Profile', polls=polls, form=form)
 
 
 
@@ -299,4 +301,28 @@ def register():
             return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('register'))
+    return render_template('register.html', title='Register', form=form)
+
+
+@bp.route('/users/create', methods=['GET', 'POST'])
+def create_user():
+    if current_user.is_authenticated:
+        if current_user.isAdmin:
+            form = RegistrationForm()
+            if form.validate_on_submit():
+                user = User()
+                user.username=form.username.data
+                user.email=form.email.data
+                user.firstName=form.firstName.data
+                user.lastName=form.lastName.data
+                user.ad_street=form.ad_street.data
+                user.ad_suburb=form.ad_suburb.data
+                user.ad_state=form.ad_state.data
+                user.ad_country=form.ad_country.data
+                if createUser(user,form.password.data):
+                    lash(Markup('<script>Notify("you have created a new user!", null, null, "danger")</script>'))
+                    return redirect(url_for('main.users'))
+    else:
+            flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+            return redirect(url_for('main.index'))
     return render_template('register.html', title='Register', form=form)
