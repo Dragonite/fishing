@@ -46,6 +46,10 @@ a:hover {
   margin: 0 auto;
 }
 
+table {
+  text-align: center;
+}
+
 #login-form {
   margin-top: 30px;
 }

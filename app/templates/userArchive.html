@@ -6,9 +6,18 @@
       $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
     })
   </script>
+  <div class="alert alert-info" role="alert">
+    This is a collection of <strong>all</strong> users. As an <strong>Administrator</strong>, you are able to archive
+    a user that you no longer want active by providing their <strong>ID</strong>.<br><br>
+    <span data-toggle="tooltip" title="Active User"><i class="fa-fw fa fa-circle text-success"></i></span> refers to a
+    user that is <strong>Active</strong>.<br><br>
+    <span data-toggle="tooltip" title="Inactive User"><i class="fa-fw fa fa-circle text-danger"></i></span> refers to a
+    user that is <strong>Inactive</strong>.<br><br>
+    Please <strong>Validate</strong> your archive request before submitting.
+  </div>
   <div class="card">
     <div class="card-body">
-      <table id="table-users" class="display" style="text-align: center">
+      <table id="table-users" class="display">
         <thead>
         <tr>
           <th>User ID</th>
