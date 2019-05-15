@@ -16,6 +16,7 @@ from app.controllers import login_time, getUserById, getPollById,getAllPolls
 @bp.route('/users/login', methods=['POST'])
 def API_login():
     data = request.get_json() or {}
+    print(request.data)
     if 'username' not in data or 'password' not in data:
         return bad_request('must include username and password fields') 
     user = User.query.filter_by(username=data['username']).first()

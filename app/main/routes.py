@@ -32,8 +32,7 @@ def create():
     if form.validate_on_submit():
         validationPoll=Poll.query.filter_by(title=form.title.data).first()
         if validationPoll!= None:
-
-            flash('There is alreay a poll created with the same title.')
+            flash(Markup('<script>Notify("There is alreay a poll created with the same title.", null, null, "danger")</script>'))
             return redirect(url_for('main.create'))
 
         else:
@@ -46,7 +45,7 @@ def create():
                     poll.addCandidate(item.data, None)
                     nullCount-=1
             if nullCount > (len(form.options)-2):
-                flash('There is not enough choice to make this poll.')
+                flash(Markup('<script>Notify("There is not enough choice to make this poll.", null, null, "danger")</script>'))
                 return redirect(url_for('main.create'))
             else:
                 if createPoll(poll)==True:
@@ -54,7 +53,7 @@ def create():
                     return redirect(url_for('main.current')+'/'+ str(poll.pollId))
 
                 else:
-                    flash('something is wrong!')
+                    flash(Markup('<script>Notify("something is wrong!", null, null, "danger")</script>'))
                     return redirect(url_for('main.create'))
     return render_template('create.html', title='Create a Poll', form=form)
 
