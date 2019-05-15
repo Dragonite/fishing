@@ -1,44 +1,91 @@
 <div id="Polls" class="tabcontent" style="background-color: white">
-  {% if not polls|length == 0 %}
-    {% for poll in polls %}
-      <div class="card">
-        <div class="card-header">
-          <strong>Poll: {{ poll.get_id() }}</strong>
-          <span style="float:right; margin-left: 5px" class="badge badge-pill badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
-          {% if poll.isActive %}
-            <span class="badge badge-pill badge-primary" style="float: right">Active Poll</span>
-          {% else %}
-            <span class="badge badge-pill badge-success" style="float: right">Completed Poll</span>
-          {% endif %}
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">
-            {{ poll.title }}
-          </h5>
-          {{ poll.description }}
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Created At: </strong><span
-            class="modify-time">{{ poll.createdAt }}</span>
-          </li>
-          <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span>
-          </li>
-          <li class="list-group-item"><strong>Created By: </strong>
-            {{ current_user.firstName }} {% if current_user.lastName %}{{ current_user.lastName }}{% endif %}
-          </li>
-        </ul>
-      </div>
-      <br>
-    {% endfor %}
-  {% else %}
-    <br>
-    <div class="alert alert-warning"
-         role="alert">
-      You have not created any polls. Click <a style="color: #856404"
-                                               href="{{ url_for('main.create') }}"><strong>here</strong></a>
-      to create a new poll.
+  <script>
+    $(document).ready(function () {
+      $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+    })
+  </script>
+  <br>
+  <div class="alert alert-info" role="alert">
+    This is a collection of <strong>all</strong> polls created by you. If you no longer want a Poll to be
+    <strong>Active</strong>, you are able
+    to close it by providing it's <strong>ID</strong>. <br><br>
+    <span class="badge badge-pill badge-success">Completed</span> refers to polls that are closed.<br><br>
+    <span class="badge badge-pill badge-primary">Active</span> refers to polls that are currently live and being voted
+    on.<br><br>
+    <span class="badge badge-pill badge-danger">Inactive</span> refers to polls that have been archived by an <strong>Administrator</strong>.<br><br>
+    Please <strong>Validate</strong> your close poll request before submitting.
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <table id="table-polls" class="display">
+        <thead>
+        <tr>
+          <th>Poll ID</th>
+          <th>Title</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for poll in polls %}
+          <tr>
+            <td>{{ poll.get_id() }}</td>
+            <td>{{ poll.title }}</td>
+            <td>
+              {% if poll.completedAt %}
+                {% if poll.isActive %}
+                  <span class="badge badge-pill badge-success">Completed</span>
+                {% else %}
+                  <span class="badge badge-pill badge-danger">Inactive</span>
+                {% endif %}
+              {% else %}
+                {% if poll.isActive %}
+                  <span class="badge badge-pill badge-primary">Active</span>
+                {% else %}
+                  <span class="badge badge-pill badge-danger">Inactive</span>
+                {% endif %}
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
     </div>
-  {% endif %}
+  </div>
+  <br>
+  <div class="card">
+    <form id="delete-poll-form" action="" method="post" novalidate>
+      <div class="card-body">
+        {{ form.hidden_tag() }}
+        <label><strong>{{ form.pollId.label }}</strong></label>
+        {{ form.pollId(class="form-control") }}
+        <br>
+        <div id="button-container">
+          <a id="validate-button" class="btn btn-info" style="color: #FFF">Validate Archive</a>
+          {{ form.submit(class="btn btn-info", disabled='disabled') }}
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+  <script>
+    let pollIdList = [];
+    {% for poll in polls %}
+      pollIdList.push({{ poll.get_id() }});
+    {% endfor %}
+    let validateButton = document.getElementById('validate-button');
+    let input = document.getElementById('pollId');
+    let submitButton = document.getElementById('submit');
+    validateButton.addEventListener('click', handleEvent);
 
+    function handleEvent() {
+      if (pollIdList.includes(parseInt(input.value))) {
+        Notify("Your archive request has been validated. Please click Submit to archive the poll.", null, null, "success");
+        submitButton.disabled = false;
+      } else {
+        Notify("Your archive request was not successful. Please check if the poll ID is valid.", null, null, "danger");
+        submitButton.disabled = true;
+      }
+    }
+  </script>
 </div>
 <br>

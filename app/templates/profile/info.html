@@ -36,16 +36,19 @@
             <i class="fa-fw fa fa-user"></i> <strong>Username:</strong> {{ current_user.username }}
           </li>
           <li class="list-group-item user-info-list">
-            <i class="fa-fw fa fa-map-marker-alt"></i> <strong>Location:</strong> {{ current_user.ad_suburb }}, {{ current_user.ad_state }}
+            <i class="fa-fw fa fa-map-marker-alt"></i>
+            <strong>Location:</strong> {{ current_user.ad_suburb }}, {{ current_user.ad_state }}
           </li>
           <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-envelope"></i> <strong>Email:</strong> {{ current_user.email }}
           </li>
           <li class="list-group-item user-info-list">
-            <i class="fa-fw fa fa-clock"></i> <strong>Member Since:</strong> {{ current_user.createdAt }}
+            <i class="fa-fw fa fa-clock"></i> <strong>Member Since:</strong> <span
+            class="modify-time">{{ current_user.createdAt }}></span>
           </li>
           <li class="list-group-item user-info-list">
-            <i class="fa-fw fa fa-key"></i> <strong>Last Logged In:</strong> {{ current_user.lastLogin }}
+            <i class="fa-fw fa fa-key"></i> <strong>Last Logged In:</strong> <span
+            id="last-logged-in">{{ current_user.lastLogin }}</span> ago.
           </li>
           <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-poll"></i> <strong>Polls Created:</strong> {{ polls|length }}
@@ -58,4 +61,6 @@
     </div>
   </div>
   <br>
+  <script type="text/javascript" src="/static/javascript/format-time.js"></script>
+  <script type="text/javascript" src="/static/javascript/last-logged-in.js"></script>
 </div>

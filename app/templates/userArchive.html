@@ -35,7 +35,13 @@
             <td>{{ user.username }}</td>
             <td>{{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.createdAt }}</td>
+            <td>
+              {% if user.createdAt %}
+                <span class="modify-time">{{ user.createdAt }}</span>
+              {% else %}
+                No Join Date
+              {% endif %}
+            </td>
             <td>
               {% if user.isActive %}
                 <span data-toggle="tooltip" title="Active User">
@@ -69,6 +75,13 @@
     </form>
   </div>
   <br>
+  <script>
+    let timeElements = document.getElementsByClassName('modify-time');
+    for (let i = 0; i < timeElements.length; i++) {
+      let unformattedTime = timeElements[i].innerHTML;
+      timeElements[i].innerHTML = moment.utc(unformattedTime, 'YYYY-MM-DD HH:mm:ss').local().format('YYYY/MM/DD HH:mm')
+    }
+  </script>
   <script>
     let userIDList = [];
     {% for user in users %}

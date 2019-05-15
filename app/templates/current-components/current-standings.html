@@ -25,8 +25,14 @@
       <ul class="list-group">
         <li class="list-group-item"><strong>Description:</strong> {{ poll.description }} </li>
         <li class="list-group-item"><strong>Total Votes Casted:</strong> {{ poll.howManyResponses() }}</li>
-        <li class="list-group-item"><strong>Created At:</strong> {{ poll.createdAt }}</li>
-        <li class="list-group-item"><strong>Completed At:</strong> {{ poll.completedAt }}</li>
+        <li class="list-group-item"><strong>Created At:</strong> <span class="modify-time">{{ poll.createdAt }}</span>
+        </li>
+        <li class="list-group-item"><strong>Completed At:</strong>
+          {% if poll.completedAt %}
+            <span class="modify-time">{{ poll.completedAt }}</span>
+          {% endif %}
+          Poll is still in progress.
+        </li>
         <li class="list-group-item"><strong>Created By:</strong>
           {% for user in users %}
             {% if user.userId == poll.createdByUserId %}
@@ -104,7 +110,8 @@
   {% else %}
     <div class="alert alert-warning"
          role="alert" style="margin-top: 20px">
-      This poll is a <strong>Closed Poll</strong>. The creator has not allowed other people to view current standings until completion.
+      This poll is a <strong>Closed Poll</strong>. The creator has not allowed other people to view current standings
+      until completion.
     </div>
   {% endif %}
 </div>

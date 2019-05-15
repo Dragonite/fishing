@@ -44,6 +44,7 @@ class deleteResponseForm(FlaskForm):
     userId = StringField('Voter ID')
     submit = SubmitField('Archive Response')
 
+
 class closePollForm(FlaskForm):
-    pollId=IntegerField('poll ID')
-    submit=SubmitField('Close Poll')
+    pollId = IntegerField('Poll ID')
+    submit = SubmitField('Close Poll')

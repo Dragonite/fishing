@@ -5,8 +5,8 @@
                                                                                           class="badge badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
       </h5></li>
       <li class="list-group-item"><strong>Description:</strong> {{ poll.description }} </li>
-      <li class="list-group-item"><strong>Created At:</strong> {{ poll.createdAt }}</li>
-      <li class="list-group-item"><strong>Close Time:</strong> {{ poll.closeAt }}</li>
+      <li class="list-group-item"><strong>Created At:</strong> <span class="modify-time">{{ poll.createdAt }}</span></li>
+      <li class="list-group-item"><strong>Close Time:</strong> <span class="modify-time">{{ poll.closeAt }}</span></li>
       <li class="list-group-item"><strong>Created By:</strong>
         {% for user in users %}
           {% if user.userId == poll.createdByUserId %}

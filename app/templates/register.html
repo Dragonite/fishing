@@ -3,11 +3,18 @@
 {% block content %}
 
   <div class="alert alert-info alert-dismissible fade show" role="alert">
-    Already have an account? Click <a style="color: #0c5460"
-                                      href="{{ url_for('auth.login') }}"><strong>here</strong></a> to log in.
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    {% if current_user.isAdmin %}
+      Create an account for a user here.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    {% else %}
+      Already have an account? Click <a style="color: #0c5460"
+                                        href="{{ url_for('auth.login') }}"><strong>here</strong></a> to log in.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    {% endif %}
   </div>
   <div class="form-container">
     <form id="register-form" action="" method="post" novalidate>
@@ -103,7 +110,8 @@
         <div style="width: 80%">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" for="inputGroupSelect01" id="basic-addon-ad_state"><i class="fa-fw fa fa-address-card"></i></span>
+              <span class="input-group-text" for="inputGroupSelect01" id="basic-addon-ad_state"><i
+                class="fa-fw fa fa-address-card"></i></span>
             </div>
             {{ form.ad_state(id="inputGroupSelect01", class="custom-select") }}
           </div>
@@ -112,13 +120,17 @@
         <div style="width: 80%">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" for="inputGroupSelect02" id="basic-addon-ad_country"><i class="fa-fw fa fa-globe"></i></span>
+              <span class="input-group-text" for="inputGroupSelect02" id="basic-addon-ad_country"><i
+                class="fa-fw fa fa-globe"></i></span>
             </div>
             {{ form.ad_country(id="inputGroupSelect02", class="custom-select") }}
           </div>
         </div>
         <br>
         <div style="margin-left: 30%">
+          {% if current_user.isAdmin %}
+            <a href="{{ url_for('main.users') }}" class="btn btn-info" style="color: #FFF">Back</a>
+          {% endif %}
           {{ form.submit(class_="btn btn-info", id="submit-button") }}
         </div>
       </div>
