@@ -1,9 +1,9 @@
 <div id="Info" class="tabcontent" style="background-color: white">
   <br>
-  <div style="display: flex; justify-content: center">
-    <div style="text-align: center; width: 24%">
-      <div class="card" style="background-color: rgba(0,0,0,.03); height: 50%; margin-right: 20px">
-        <img class="card-img-top" src="/static/user.png" alt="user" style="width: 80%; margin: 10px auto auto auto">
+  <div class="user-container">
+    <div class="user-overview-container">
+      <div class="card user-overview">
+        <img class="card-img-top user-image" src="/static/user.png" alt="user">
         <div class="card-body">
           <h5>{{ current_user.firstName }} {{ current_user.lastName }}</h5>
           {% if not current_user.is_anonymous %}
@@ -14,7 +14,7 @@
             {% endif %}
           {% endif %}
           <br>
-          <div style="margin-top: 8px">
+          <div class="user-account-status">
             Account Status:
             {% if current_user.isActive %}
               <span data-toggle="tooltip" data-placement="right" title="Active Account">
@@ -29,28 +29,28 @@
         </div>
       </div>
     </div>
-    <div style="width: 50%">
-      <div class="card" style="height: 50%">
+    <div class="user-info">
+      <div class="card user-info-container">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+          <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-user"></i> <strong>Username:</strong> {{ current_user.username }}
           </li>
-          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+          <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-map-marker-alt"></i> <strong>Location:</strong> {{ current_user.ad_suburb }}, {{ current_user.ad_state }}
           </li>
-          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+          <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-envelope"></i> <strong>Email:</strong> {{ current_user.email }}
           </li>
-          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+          <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-clock"></i> <strong>Member Since:</strong> {{ current_user.createdAt }}
           </li>
-          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+          <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-key"></i> <strong>Last Logged In:</strong> {{ current_user.lastLogin }}
           </li>
-          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+          <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-poll"></i> <strong>Polls Created:</strong> {{ polls|length }}
           </li>
-          <li class="list-group-item" style="background-color: rgba(0,0,0,.03);">
+          <li class="list-group-item user-info-list">
             <i class="fa-fw fa fa-vote-yea"></i> <strong>Votes Casted:</strong> {# add the votes casted count #}
           </li>
         </ul>
@@ -58,18 +58,4 @@
     </div>
   </div>
   <br>
-  <script>
-    $.ajax({
-      type: "GET",
-      dataType: "json",
-      headers: {
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*"
-      },
-      url: '/api/users/{{ current_user.userId }}',
-      success: function (data) {
-        console.log(data)
-      }
-    });
-  </script>
 </div>
