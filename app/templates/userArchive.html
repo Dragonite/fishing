@@ -1,7 +1,93 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="test">Test</div>
+  <script>
+    $(document).ready(function () {
+      $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+    })
+  </script>
+  <div class="alert alert-info" role="alert">
+    This is a collection of <strong>all</strong> users. As an <strong>Administrator</strong>, you are able to archive
+    a user that you no longer want active by providing their <strong>ID</strong>.<br><br>
+    <span data-toggle="tooltip" title="Active User"><i class="fa-fw fa fa-circle text-success"></i></span> refers to a
+    user that is <strong>Active</strong>.<br><br>
+    <span data-toggle="tooltip" title="Inactive User"><i class="fa-fw fa fa-circle text-danger"></i></span> refers to a
+    user that is <strong>Inactive</strong>.<br><br>
+    Please <strong>Validate</strong> your archive request before submitting.
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <table id="table-users" class="display">
+        <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Username</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Joined On</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.userId }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.createdAt }}</td>
+            <td>
+              {% if user.isActive %}
+                <span data-toggle="tooltip" title="Active User">
+                  <i class="fa-fw fa fa-circle text-success"></i>
+                </span>
+              {% else %}
+                <span data-toggle="tooltip" title="Inactive User">
+                  <i class="fa-fw fa fa-circle text-danger"></i>
+                </span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="card">
+    <form id="delete-user-form" action="" method="post" novalidate>
+      <div class="card-body">
+        {{ form.hidden_tag() }}
+        <label><strong>{{ form.userId.label }}</strong></label>
+        {{ form.userId(class="form-control") }}
+        <br>
+        <div id="button-container">
+          <a id="validate-button" class="btn btn-info" style="color: #FFF">Validate Archive</a>
+          {{ form.submit(class="btn btn-info", disabled='disabled') }}
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+  <script>
+    let userIDList = [];
+    {% for user in users %}
+      userIDList.push({{ user.userId }});
+    {% endfor %}
+    let validateButton = document.getElementById('validate-button');
+    let input = document.getElementById('userId');
+    let submitButton = document.getElementById('submit');
+    validateButton.addEventListener('click', handleEvent);
 
+    function handleEvent() {
+      if (userIDList.includes(parseInt(input.value))) {
+        Notify("Your archive request has been validated. Please click Submit to archive the user's response.", null, null, "success");
+        submitButton.disabled = false;
+      } else {
+        Notify("Your archive request was not successful. Please check if the user ID is valid.", null, null, "danger");
+        submitButton.disabled = true;
+      }
+    }
+  </script>
 {% endblock %}
 

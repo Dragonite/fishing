@@ -31,8 +31,8 @@ def makeResponseForm(responseParameter):
 
 
 class deleteUserForm(FlaskForm):
-    username = StringField('Username')
-    submit = SubmitField('Submit to delete ')
+    userId = StringField('User ID')
+    submit = SubmitField('Archive User')
 
 
 class deletePollForm(FlaskForm):

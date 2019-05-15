@@ -18,7 +18,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <table id="table-polls" class="display" style="text-align: center">
+      <table id="table-polls" class="display">
         <thead>
         <tr>
           <th>Poll ID</th>
@@ -81,7 +81,6 @@
     {% for poll in polls %}
       pollIdList.push({{ poll.get_id() }});
     {% endfor %}
-    console.log(pollIdList);
     let validateButton = document.getElementById('validate-button');
     let input = document.getElementById('pollId');
     let submitButton = document.getElementById('submit');

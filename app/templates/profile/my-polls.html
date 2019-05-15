@@ -1,0 +1,44 @@
+<div id="Polls" class="tabcontent" style="background-color: white">
+  {% if not polls|length == 0 %}
+    {% for poll in polls %}
+      <div class="card">
+        <div class="card-header">
+          <strong>Poll: {{ poll.get_id() }}</strong>
+          <span style="float:right; margin-left: 5px" class="badge badge-pill badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
+          {% if poll.isActive %}
+            <span class="badge badge-pill badge-primary" style="float: right">Active Poll</span>
+          {% else %}
+            <span class="badge badge-pill badge-success" style="float: right">Completed Poll</span>
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ poll.title }}
+          </h5>
+          {{ poll.description }}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Created At: </strong><span
+            class="modify-time">{{ poll.createdAt }}</span>
+          </li>
+          <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span>
+          </li>
+          <li class="list-group-item"><strong>Created By: </strong>
+            {{ current_user.firstName }} {% if current_user.lastName %}{{ current_user.lastName }}{% endif %}
+          </li>
+        </ul>
+      </div>
+      <br>
+    {% endfor %}
+  {% else %}
+    <br>
+    <div class="alert alert-warning"
+         role="alert">
+      You have not created any polls. Click <a style="color: #856404"
+                                               href="{{ url_for('main.create') }}"><strong>here</strong></a>
+      to create a new poll.
+    </div>
+  {% endif %}
+
+</div>
+<br>

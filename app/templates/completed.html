@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="alert alert-info alert-dismissible fade show" role="alert">
-    This is a collection of <strong>Completed</strong> polls. Click the <strong><i class="fa-fw fa fa-chart-bar"></i>
-    View Results</strong> button to see the results of a poll. <br> <br>For more information on the algorithm that determines the winner,
-    please click
+  <div class="alert alert-info" role="alert">
+    This is a collection of <strong>Completed</strong> polls. <br><br>
+    {% if current_user.is_anonymous %}
+      You are currently not registered. You will only be able to see completed polls after you register.
+      To register, click <a style="color: #0c5460" href="{{ url_for('main.register') }}"><strong>here</strong></a>.
+    {% else %}
+      Click the <strong><i class="fa-fw fa fa-chart-bar"></i>
+    View Results</strong> button to see the results of a poll.
+    {% endif %}
+    <br><br>
+    For more information on the algorithm that determines the winner, please click
     <a style="color: #0c5460" href="{{ url_for('main.help') }}"><strong>here</strong></a>.
     {% if current_user.isAdmin %}
       <br><br>
@@ -13,9 +20,6 @@
       <a class="btn btn-danger" href="{{ url_for('main.archive_poll') }}"><i class="fa-fw fa fa-archive"></i> Archive
         Poll</a>
     {% endif %}
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
   {% if polls|length == 0 %}
     <div>There are no completed polls. Click here to create an active poll!</div>

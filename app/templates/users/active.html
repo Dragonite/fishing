@@ -18,7 +18,7 @@
 
   <table id="table-active" class="display">
     <thead>
-    <tr style="text-align: center">
+    <tr>
       <th>Name</th>
       <th>Email</th>
       <th>Poll Count</th>
@@ -26,7 +26,7 @@
       <th>Admin Account</th>
     </tr>
     </thead>
-    <tbody style="text-align: center">
+    <tbody>
     {% for user in users %}
       {#        <script>#}
       {#         console.log({{ user.howManyPolls()|length }})#}
@@ -39,9 +39,13 @@
           <td>{{ user.howManyResponses()|length }}</td>
           <td>
             {% if user.isAdmin %}
-              <i class="fa-fw fa fa-circle text-success"></i>
+              <span data-toggle="tooltip" title="Administrator">
+                <i class="fa-fw fa fa-circle text-success"></i>
+              </span>
             {% else %}
-              <i class="fa-fw fa fa-circle text-danger"></i>
+              <span data-toggle="tooltip" title="Standard User">
+                <i class="fa-fw fa fa-circle text-danger"></i>
+              </span>
             {% endif %}
           </td>
         </tr>
@@ -50,3 +54,4 @@
     </tbody>
   </table>
 </div>
+<br>
