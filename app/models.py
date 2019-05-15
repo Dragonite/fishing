@@ -318,7 +318,7 @@ class Poll(PaginatedAPIMixin, db.Model):
             self.createdByUserId = User.userId
         except:
             print('Could not commit to database')
-            return False
+            return None
         self.createdAt = datetime.utcnow()
         self.isActive = 1
 

@@ -19,9 +19,6 @@ class TestConfig(Config):
 class userControllerCase(unittest.TestCase):
     
     def setUp(self):
-        # basedir=os.path.abspath(os.path.dirname(__file__))
-        # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'test.db')
-        # self.app=app.test_client()
         self.app=create_app(TestConfig)
         self.app_context=self.app.app_context()
         self.app_context.push()
@@ -49,7 +46,6 @@ class userControllerCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
-        # os.remove("test.db")
 
     def test_createUser(self):
         validUser=User()
@@ -81,11 +77,15 @@ class userControllerCase(unittest.TestCase):
         assert_that(getUserById(userId).userId).is_equal_to(userId)
     
     def test_getUserByUsername(self): 
-        username='abcwerhasdfolin'
+        username='luna'
         assert_that(getUserByUsername(username).username).is_equal_to(username)
 
-    def test_login_time(self):
-        
+    
+    def getAllUsers(self):
+        assert_that(getAllUsers).is_equal_to(User.query.all())
+
+    
+
 
 class userModelCase(unittest.TestCase):
     def setUp(self):
@@ -93,6 +93,87 @@ class userModelCase(unittest.TestCase):
         self.app_context=self.app.app_context()
         self.app_context.push()
         db.create_all()
+
+        
+        luna=User()
+        luna.username='luna'
+        luna.firstName='Luna'
+        luna.lastName='Lee'
+        luna.email='22sfdsdf187554@student.edu.au'
+        luna.isAdmin=True
+
+        db.session.add(luna)
+        db.session.commit()
+
+        title='where is your favorite fishing spot?'
+        description='survey to find out the most favorite fishing spot in Perth'
+        user=User.query.filter_by(username='luna').first()
+        minResponses=5 #if not specified, the default value is -1 which will be ignored
+        orderCandidateBy=None #if not specified, the default value is alphabel acending 'Acs'
+        isOpenPoll=None #if not specified, the default value is False
+        openAt=None #if not specified, the default value is utcnow()
+        closeAt=None  # if not specified, the default value is today + 7 days
+        poll=Poll(title, description, minResponses, orderCandidateBy, isOpenPoll, openAt, closeAt, user)
+
+        db.session.add(poll)
+        db.session.commit()
+
+        candidate1 = Poll.Candidate()
+        candidate1.candidateDescription='Narrows Bridge Perth'
+        candidate1.displayOrder=None
+        candidate1.pollId=Poll.query.filter_by(pollId=1).first().pollId
+        candidate1.isActive=True
+
+
+        candidate2 = Poll.Candidate()
+        candidate2.candidateDescription='White Hills Mandurah'
+        candidate2.displayOrder=None
+        candidate2.pollId=Poll.query.filter_by(pollId=1).first().pollId
+        candidate2.isActive=True
+
+
+        candidate3 = Poll.Candidate()
+        candidate3.candidateDescription='North Mole Fremantle'
+        candidate3.displayOrder=None
+        candidate3.pollId=Poll.query.filter_by(pollId=1).first().pollId
+        candidate3.isActive=True
+
+
+        candidate4 = Poll.Candidate()
+        candidate4.candidateDescription='Floreat Drain Floreat'
+        candidate4.displayOrder=None
+        candidate4.pollId=Poll.query.filter_by(pollId=1).first().pollId
+        candidate4.isActive=True
+
+
+
+        candidate5 = Poll.Candidate()
+        candidate5.candidateDescription='Ricey Beach And Radar Reef Rottnest Island'
+        candidate5.displayOrder=None
+        candidate5.pollId=Poll.query.filter_by(pollId=1).first().pollId
+        candidate5.isActive=True
+
+
+        candidate6 = Poll.Candidate()
+        candidate6.candidateDescription='Lancelin Jetty Lancelin'
+        candidate6.displayOrder=None
+        candidate6.pollId=Poll.query.filter_by(pollId=1).first().pollId
+        candidate6.isActive=True
+
+
+     
+        db.session.add(candidate1)
+        db.session.commit()
+        db.session.add(candidate2)
+        db.session.commit()
+        db.session.add(candidate3)
+        db.session.commit()
+        db.session.add(candidate4)
+        db.session.commit()
+        db.session.add(candidate5)
+        db.session.commit()
+        db.session.add(candidate6)
+        db.session.commit()
     
     def tearDown(self):
         db.session.remove()
@@ -128,8 +209,6 @@ class userModelCase(unittest.TestCase):
         invalidUser.firstName='firstname'
         invalidUser.username='username'
         invalidUser.email=None
-        
-
         assert_that(invalidUser.validate()).is_equal_to(False)
 
     def test_user_set_password(self):
@@ -162,6 +241,13 @@ class userModelCase(unittest.TestCase):
         db.session.commit()
         assert_that(type(luna.get_id())).is_equal_to(type(1))
 
+    def test_user_howManyResponses(self):
+        user=User.query.filter_by(username='luna').first()
+        assert_that(user.howManyResponses()).is_equal_to(([], {'userId': 1, 'totalResponses': 0, 'pollIds': []}))
+
+    def test_user_howManyPolls(self):
+        user=User.query.filter_by(username='luna').first()
+        assert_that(len(user.howManyPolls())).is_equal_to(1)
 
 class pollModelCase(unittest.TestCase):
     
@@ -352,26 +438,9 @@ class pollModelCase(unittest.TestCase):
 
 
 
-
-    def test_poll_close(self):
-        title='where is your favorite fishing spot?'
-        description='survey to find out the most favorite fishing spot in Perth'
-        user=User.query.filter_by(userId=1).first()
- 
-        minResponses=5 #if not specified, the default value is -1 which will be ignored
-        orderCandidatesBy=None #if not specified, the default value is alphabel acending 'Acs'
-        isOpenPoll=None #if not specified, the default value is False
-        openAt=None #if not specified, the default value is utcnow()
-        closeAt=None  # if not specified, the default value is today + 7 days
-        poll=Poll(title, description, minResponses, orderCandidatesBy, isOpenPoll, openAt, closeAt, user)
-        
-        poll.close()
-
-        assert_that(poll.completedAt.strftime("%x")).is_equal_to(datetime.utcnow().strftime("%x"))
-
     
     def test_poll_isClosed(self):
-        title='where is your favorite fishing spot?'
+        title='test_poll_isClosed -  where is your favorite fishing spot?'
         description='survey to find out the most favorite fishing spot in Perth'
         user=User.query.filter_by(userId=1).first()
  
@@ -394,6 +463,12 @@ class pollModelCase(unittest.TestCase):
     def test_poll_addResponse(self):
         poll=Poll.query.filter_by(pollId=1).first()
             ## needs more work
+    
+    def test_get_rawResult(self):
+        pass
+
+    def test_get_prefResult(self):
+        pass
 
 
 
@@ -402,11 +477,6 @@ class pollModelCase(unittest.TestCase):
 class pollControllerCase(unittest.TestCase):
     
     def setUp(self):
-
-        # basedir=os.path.abspath(os.path.dirname(__file__))
-        # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'test.db')
-        # self.app=app.test_client()
-        # db.create_all()
         self.app=create_app(TestConfig)
         self.app_context=self.app.app_context()
         self.app_context.push()
