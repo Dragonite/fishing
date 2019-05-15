@@ -48,17 +48,19 @@
           <div class="input-group mb-3">
             {{ form.choice(class="form-control", id='create-choice',size=32) }}
             <div class="input-group-append">
-              <button class="btn btn-success" type="button" id="add-choice-button"><i class="fa-fw fa fa-plus"></i></button>
+              <button class="btn btn-success" type="button" id="add-choice-button"><i class="fa-fw fa fa-plus"></i>
+              </button>
             </div>
           </div>
         </div>
       </div>
       <div style="margin-left:15%">
-        <div id="choice-title" style="font-weight:bold; margin-bottom: 10px">Choices <i class="fa fa-info-circle"></i>
+        <div id="choice-title" style="font-weight:bold; margin-bottom: 10px; display: none">Choices <i
+          class="fa fa-info-circle"></i>
         </div>
         <div id="submit-choices-container" style="width: 80%">
           {% for field in form.options %}
-            <div class="input-group mb-3 choice-inputs">
+            <div class="input-group mb-3 choice-inputs" style="display: none">
               {{ field(class='form-control choice') }}
               <div class="input-group-append">
                 <button class="btn btn-danger remove-field" type="button"><i class="fa-fw fa fa-times"></i></button>
@@ -69,23 +71,16 @@
       </div>
       <br>
       <script>
-        document.getElementById('choice-title').hidden = true;
-        {#document.getElementById('submit-choices-container').hidden = true;#}
-        {#Array.from(document.getElementsByClassName('poll-choice')).map(e => e.hidden = true);#}
         Array.from(document.getElementsByClassName('choice')).map(e => e.style.display = 'none');
-        Array.from(document.getElementsByClassName('input-group mb-3 choice-inputs')).map(e => e.style.display = 'none');
         document.getElementById('add-choice-button').addEventListener('click', handleAdd);
 
         function handleAdd() {
-          var createChoice = document.getElementById('create-choice');
-          var choiceInputs = document.getElementsByClassName('input-group mb-3 choice-inputs');
-          {#var listChoices = document.getElementsByClassName('poll-choice');#}
-          var submitChoices = document.getElementsByClassName('choice');
+          let createChoice = document.getElementById('create-choice');
+          let choiceInputs = document.getElementsByClassName('input-group mb-3 choice-inputs');
+          let submitChoices = document.getElementsByClassName('choice');
           for (var i = 0; i < submitChoices.length; i++) {
             if (!submitChoices[i].value && createChoice.value) {
               document.getElementById('choice-title').hidden = false;
-              {#listChoices[i].innerHTML = createChoice.value;#}
-              {#listChoices[i].hidden = false;#}
               submitChoices[i].value = createChoice.value;
               submitChoices[i].style.display = 'block';
               choiceInputs[i].style.display = 'flex';
@@ -95,13 +90,12 @@
           }
         }
       </script>
-    <script>
-      $("button.remove-field").click(function() {
-        alert('clicked')
-        $(this).parent().parent().children([0])[0].value = "";
-        $(this).parent().parent().hide();
-      });
-    </script>
+      <script>
+        $("button.remove-field").click(function () {
+          $(this).parent().parent().children([0])[0].value = "";
+          $(this).parent().parent().hide();
+        });
+      </script>
       <div style="text-align: center;">
         {{ form.isOpen }} {{ form.isOpen.label }}
         {% for error in form.isOpen.errors %}
