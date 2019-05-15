@@ -50,7 +50,7 @@ def create():
                 return redirect(url_for('main.create'))
             else:
                 if createPoll(poll)==True:
-                    flash('Poll has been created successfully!')
+                    flash(Markup('<script>Notify("Poll has been created successfully!", null, null, "success")</script>'))
                     return redirect(url_for('main.current')+'/'+ str(poll.pollId))
 
                 else:
