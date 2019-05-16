@@ -415,8 +415,8 @@ class Poll(PaginatedAPIMixin, db.Model):
     def getAllCandidateDescriptions(self):
         returnValue={}
         for item in self.Candidate:
-            returnValue[item.candidateId]=item.candidateDescription
-        return returnValue
+            returnValue[item.candidateId]=str(item.candidateDescription)
+        return  json.dumps( returnValue)
 
     def addResponse(self, userId, preferenceXresponses):
         if self.isClosed():

@@ -31,3 +31,6 @@ Please see the [wiki](https://github.com/Dragonite/CITS3403-Project/wiki)
 
 ## Virtual environment requrement
 $ pip install -r requirements.txt
+
+
+## How to 
