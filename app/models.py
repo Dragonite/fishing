@@ -364,6 +364,7 @@ class Poll(PaginatedAPIMixin, db.Model):
 
     def close(self):
         self.completedAt = datetime.utcnow()
+        return True
 
     def isClosed(self):
         if self.completedAt:
@@ -610,11 +611,13 @@ class Poll(PaginatedAPIMixin, db.Model):
 
         global currentResult
         currentResult = []
-        print(msg)
         CList = getCanList(self)
         RList = getResList(self)
         voteCount = 0
         prefResult(RList, CList, voteCount)
+        print("preferencial voting calculation process")
+        for item in currentResult:
+            print("====", item)
         if details:
             return currentResult
         else:
