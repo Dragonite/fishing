@@ -60,7 +60,7 @@
 
       let kvp = {};
       {% for candidate in poll.Candidate %}
-        kvp[{{ candidate.candidateId }}] = "{{ candidate.candidateDescription }}"
+        kvp[{{ candidate.candidateId }}] = "{{ candidate.candidateDescription }}";
       {% endfor %}
 
       let keys = Object.keys(kvp);
