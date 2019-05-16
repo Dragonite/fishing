@@ -551,19 +551,21 @@ class Poll(PaginatedAPIMixin, db.Model):
             for i in range(len(result)):
                 msg += str(result[i][1]) + "\t" + str(result[i][0]) + "\n"
                 # print("++++++++++++++++",str(result[i][1])+"\t"+ str(result[i][0]) + "\n")
-                # currentResult.append([result[i][1],result[i][0]])
                 currentResult.append([result[i][1], result[i][0][1], result[i][0][2]])
 
             if (len(result) <= 1):
+                # print("len(result)<=1",list(result[0]) )
                 return list(result[0]), True
 
             elif (totalCount == 0):
                 return [], False
             else:
                 if (result[0][1] / totalCount) <= 0.5:
+                    # print("decision::::",result[len(result) - 1])
                     return list(result[len(result) - 1]), False
                 else:
-                    return list(result[0]), True
+                    return list(result[len(result) - 1]), False
+                    # return list(result[0]), False
 
         def prefResult(RList, CList, voteCount):
             global msg
@@ -584,18 +586,20 @@ class Poll(PaginatedAPIMixin, db.Model):
                 tempindex = RList[index].index(findSN(RList[index]))
                 count[tempindex][1] += 1
                 totalCount += 1
-
+            # print("total count:", totalCount)
             results, decisionFlag = decision(count, totalCount, CList)
 
             if decisionFlag is False:
                 if (results != []):
                     msg += "\nCandidate " + str(CList[count.index(results)][
                                                     2]) + " has the smallest number of votes and is eliminated from the count\n\n"
+                    
+                    # print("delete",CList[count.index(results)])
                     del (CList[count.index(results)])
                     for index in range(responseCount):
                         del (RList[index][count.index(results)])
                     prefResult(RList, CList, voteCount)
-            else:
+            else :
                 msg += "\n" + str(count[0][1]) + "\t" + str(count[0][0]) + "\n"
                 currentResult.append(voteCount + 1)
                 currentResult.append([count[0][1], count[0][0][1], count[0][0][2]])
@@ -606,7 +610,7 @@ class Poll(PaginatedAPIMixin, db.Model):
 
         global currentResult
         currentResult = []
-
+        print(msg)
         CList = getCanList(self)
         RList = getResList(self)
         voteCount = 0
