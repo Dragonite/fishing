@@ -406,17 +406,10 @@ class Poll(PaginatedAPIMixin, db.Model):
             if item.candidateDescription == key:
                 return item.candidateId
                 
-    def getCandidateById(sef, candidateId):
+    def getCandidateById(self, candidateId):
         for item in self.Candidate:
             if item.candidateId==candidateId:
                 return item
-
-
-    def getAllCandidateDescriptions(self):
-        returnValue={}
-        for item in self.Candidate:
-            returnValue[item.candidateId]=str(item.candidateDescription)
-        return  json.dumps( returnValue)
 
     def addResponse(self, userId, preferenceXresponses):
         if self.isClosed():

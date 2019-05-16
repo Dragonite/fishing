@@ -51,14 +51,24 @@
       let ctx = document.getElementById('poll-chart-2').getContext('2d');
       let labels = [];
       let colors = [];
-      {#let data = JSON.parse({{ poll.get_rawResult() }});#}
+
       {% for i in range(poll.Candidate|length) %}
         colors[{{ i }}] = colorArray[{{ i }}];
       {% endfor %}
-      {% for candidate in poll.Candidate %}
-        labels.push('{{ candidate.candidateDescription }}');
-      {% endfor %}
+
       let rawResults = {{ poll.get_rawResult() }};
+
+      let kvp = {};
+      {% for candidate in poll.Candidate %}
+        kvp[{{ candidate.candidateId }}] = "{{ candidate.candidateDescription }}"
+      {% endfor %}
+
+      let keys = Object.keys(kvp);
+
+      for(let i=0; i<keys.length; i++){
+        labels.push(kvp[keys[i]])
+      }
+
       let finalData = [];
       for (let i = 0; i <{{ poll.howManyCandidates() }}; i++) {
         finalData.push([]);
