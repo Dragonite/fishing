@@ -7,7 +7,7 @@ from app import db
 import json
 
 from app.models import User, Poll
-from app.controllers import archivePoll,createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls, archiveResponse, archiveUser
+from app.controllers import modifyPoll,archivePoll,createUser, createPoll, getCurrentPolls, getClosedPolls, getAllUsers, getPollById, getUserById, getAllPolls, archiveResponse, archiveUser
 from app.main import bp
 
 from app.pollForm import closePollForm,CreatePollForm,makeResponseForm,deleteUserForm,deletePollForm,deleteResponseForm
@@ -257,6 +257,11 @@ def profile():
     for poll in all_polls:
         if poll.createdByUserId == current_user.userId:
             polls.append(poll)
+    if form.validate_on_submit():
+        myPoll = getPollById(form.pollId.data)
+        myPoll.close()
+        if modifyPoll(myPoll):
+            flash(Markup('<script>Notify("Poll has been closed successfully!", null, null, "success")</script>'))
 
     return render_template("profile.html", title='My Profile', polls=polls, form=form)
 
@@ -320,7 +325,7 @@ def create_user():
                 user.ad_state=form.ad_state.data
                 user.ad_country=form.ad_country.data
                 if createUser(user,form.password.data):
-                    flash(Markup('<script>Notify("you have created a new user!", null, null, "danger")</script>'))
+                    flash(Markup('<script>Notify("you have created a new user!", null, null, "success")</script>'))
                     return redirect(url_for('main.users'))
                 else:
                     flash(Markup('<script>Notify("Could not create account, please enter username, password, email and first name!", null, null, "danger")</script>'))

@@ -49,7 +49,6 @@ def get_users():
 
 
 @bp.route('/users', methods=['POST'])
-@token_auth.login_required
 def create_user():
     data = request.get_json() or {}
     if 'username' not in data or 'email' not in data or 'password' not in data or 'firstName' not in data:

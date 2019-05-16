@@ -10,10 +10,10 @@ import operator as o
 
 def createUser(User, pwd):
     if User==None:
-        raise ValueError('User object is empty ')
+        print('User object is empty ')
+        return False
     else:
-        if User.validate():
-            
+        if User.validate()==True:
             try:
                 # with app.app_context():
                 User.set_password(pwd)
@@ -40,8 +40,8 @@ def modifyUser(User):
             db.session.commit()
             return True
         except:
-            return 'modifyUser exception raised: ' + str(sys.exc_info()[0])
-
+            print('modifyUser exception raised: ' + str(sys.exc_info()[0]))
+            return False
 
 
 def login_time(User):
@@ -54,18 +54,21 @@ def login_time(User):
         User.lastModifiedAt=datetime.utcnow()
         db.session.add(User)
         db.session.commit()
+        return True
     except:
-        return 'modifyUser exception raised: ' + str(sys.exc_info()[0])    
+        print('modifyUser exception raised: ' + str(sys.exc_info()[0]))    
+        return False
 
 
 
 
 def archiveUser(User):
     if User==None:
-        raise ValueError('User object is empty ')
+        print('User object is empty ')
+        return False
     else:
         if User.isAdmin:
-            raise ValueError('You cannot delete Admin user!!')
+            print('You cannot delete Admin user!!')
             return False
         else: 
             try:
@@ -74,21 +77,24 @@ def archiveUser(User):
                 db.session.commit()
                 return True
             except:
+                print('archiveUser exception raised: ' + str(sys.exc_info()[0]))
                 return False
-                # return 'archiveUser exception raised: ' + str(sys.exc_info()[0])
+               
 
 def getUserById(userId):
     user = User.query.filter_by(userId=userId).first()
     if user==None:
+        print('cannot find the user with user id - ', userId)
         return False
-        # raise ValueError('cannot find the user with user id - ', userId)
+       
     else:
         return user
 
 def getUserByUsername(username):
     user = User.query.filter_by(username=username).first()
     if user==None:
-        raise ValueError('cannot find the user with username - ', username)
+        print('cannot find the user with username - ', username)
+        return False
     else:
         return user
 
@@ -98,7 +104,8 @@ def getAllUsers():
 
 def createPoll(Poll):
     if Poll==None:
-        raise ValueError('Poll object is empty')
+        print('Poll object is empty')
+        return False
     else:
         if Poll.validate():
             try:
@@ -115,18 +122,21 @@ def createPoll(Poll):
             except:
                 return 'createPoll exception raised: '+ str(sys.exc_info()[0])
         else:
-            raise ValueError('Mandatory data for a poll missing')
+           print('Mandatory data for a poll missing')
+           return False
 
 def modifyPoll(Poll):
     if Poll==None:
-        raise ValueError('Poll object is empty')
+        print('Poll object is empty')
+        return False
     else:
         try:
             Poll.lastModifiedAt=datetime.utcnow()
             db.session.commit()
             return True
         except:
-            return 'modifyPoll exception raised: ' + str(sys.exc_info()[0])
+            print('modifyPoll exception raised: ' + str(sys.exc_info()[0]))
+            return False
 
 def archivePoll(Poll):
 
@@ -137,20 +147,24 @@ def archivePoll(Poll):
             db.session.commit()
             return True
         except:
+            print('archivePoll exception raised: ' + str(sys.exc_info()[0]))
             return False
-            # return 'archivePoll exception raised: ' + str(sys.exc_info()[0])
+           
     elif Poll==None:
+        print('Poll object is empty')
         return False
-        # raise ValueError('Poll object is empty')
+        # raise ValueError
     else: 
-        # raise ValueError('You need to close this poll before you delete')
+        print(('You need to close this poll before you delete'))
+        # raise ValueError
         return False
 
 def getPollById(pollId):
     poll=Poll.query.filter_by(pollId=pollId).first() 
     if poll==None:
+        print('There is no poll with poll ID:', pollId)
         return None
-        # raise ValueError('There is no poll with poll ID:', pollId)
+        # raise ValueError
     else:
         poll.Candidate=Poll.Candidate.query.filter_by(pollId=poll.pollId).all()
         poll.Response=Poll.Response.query.filter_by(pollId=poll.pollId).all()

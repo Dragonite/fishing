@@ -87,7 +87,7 @@ class User(PaginatedAPIMixin, UserMixin, db.Model):
         self.isAdmin = False
 
     def validate(self):
-        if self.firstName and self.email:
+        if self.username and self.firstName and self.email:
             return True
         else:
             return False
@@ -317,7 +317,8 @@ class Poll(PaginatedAPIMixin, db.Model):
         try:
             self.createdByUserId = User.userId
         except:
-            raise ValueError('User object is empty')
+            print('Could not commit to database')
+            return None
         self.createdAt = datetime.utcnow()
         self.isActive = 1
 
@@ -331,7 +332,8 @@ class Poll(PaginatedAPIMixin, db.Model):
         if self.Response == None or self.Response == 0:
             return 0
         elif self.Candidate == None or self.Candidate == 0:
-            raise ValueError('There is no candidate saved yet')
+            print('There is no candidate saved yet')
+            return 0
         else:
             return int(len(self.Response) / self.howManyCandidates())
 
@@ -339,7 +341,8 @@ class Poll(PaginatedAPIMixin, db.Model):
         if self.Response == None or self.Response == 0:
             return []
         elif self.Candidate == None or self.Candidate == 0:
-            raise ValueError('There is no candidate saved yet')
+            print('There is no candidate saved yet')
+            return []
         else:
             userId_list = []
             unique_userId_list = []
@@ -361,6 +364,7 @@ class Poll(PaginatedAPIMixin, db.Model):
 
     def close(self):
         self.completedAt = datetime.utcnow()
+        return True
 
     def isClosed(self):
         if self.completedAt:
@@ -379,10 +383,12 @@ class Poll(PaginatedAPIMixin, db.Model):
 
     def addCandidate(self, candidateDescription, displayOrder):
         if candidateDescription == None:
-            raise ValueError('You must enter the candidate details!')
+            print('You must enter the candidate details!')
+            return False
         else:
             if self.orderCandidatesBy == 'SpecialOrder' and displayOrder == None:
-                raise ValueError('You must enter the order you want to display this candidate!')
+                print('You must enter the order you want to display this candidate!')
+                return False
             else:
                 candidate = Poll.Candidate()
                 candidate.candidateDescription = candidateDescription
@@ -401,11 +407,11 @@ class Poll(PaginatedAPIMixin, db.Model):
 
     def addResponse(self, userId, preferenceXresponses):
         if self.isClosed():
-            # raise ValueError('This poll has been closed since ', Poll.completedAt)
+            print('This poll has been closed since ', Poll.completedAt)
             return False
         else:
             if preferenceXresponses == None:
-                # raise ValueError('You must enter preference order for each option')
+                print('You must enter preference order for each option')
                 return False
             else:
                 for key, value in preferenceXresponses.items():
@@ -416,13 +422,14 @@ class Poll(PaginatedAPIMixin, db.Model):
                     response.response = value
                     response.createdAt = datetime.utcnow()
                     response.isActive = True
-                    print("response check!")
+                    # print("response check!")
                     self.Response.append(response)
                     try:
                         db.session.add(response)
                         db.session.commit()
                     except:
-                        return 'addResponse exception raised: ' + str(sys.exc_info()[0])
+                        print('addResponse exception raised: ' + str(sys.exc_info()[0]))
+                        return False
             return True
 
     def get_rawResult(self, jsonPayload=False):
@@ -545,19 +552,21 @@ class Poll(PaginatedAPIMixin, db.Model):
             for i in range(len(result)):
                 msg += str(result[i][1]) + "\t" + str(result[i][0]) + "\n"
                 # print("++++++++++++++++",str(result[i][1])+"\t"+ str(result[i][0]) + "\n")
-                # currentResult.append([result[i][1],result[i][0]])
                 currentResult.append([result[i][1], result[i][0][1], result[i][0][2]])
 
             if (len(result) <= 1):
+                # print("len(result)<=1",list(result[0]) )
                 return list(result[0]), True
 
             elif (totalCount == 0):
                 return [], False
             else:
                 if (result[0][1] / totalCount) <= 0.5:
+                    # print("decision::::",result[len(result) - 1])
                     return list(result[len(result) - 1]), False
                 else:
-                    return list(result[0]), True
+                    return list(result[len(result) - 1]), False
+                    # return list(result[0]), False
 
         def prefResult(RList, CList, voteCount):
             global msg
@@ -578,18 +587,20 @@ class Poll(PaginatedAPIMixin, db.Model):
                 tempindex = RList[index].index(findSN(RList[index]))
                 count[tempindex][1] += 1
                 totalCount += 1
-
+            # print("total count:", totalCount)
             results, decisionFlag = decision(count, totalCount, CList)
 
             if decisionFlag is False:
                 if (results != []):
                     msg += "\nCandidate " + str(CList[count.index(results)][
                                                     2]) + " has the smallest number of votes and is eliminated from the count\n\n"
+                    
+                    # print("delete",CList[count.index(results)])
                     del (CList[count.index(results)])
                     for index in range(responseCount):
                         del (RList[index][count.index(results)])
                     prefResult(RList, CList, voteCount)
-            else:
+            else :
                 msg += "\n" + str(count[0][1]) + "\t" + str(count[0][0]) + "\n"
                 currentResult.append(voteCount + 1)
                 currentResult.append([count[0][1], count[0][0][1], count[0][0][2]])
@@ -600,11 +611,13 @@ class Poll(PaginatedAPIMixin, db.Model):
 
         global currentResult
         currentResult = []
-
         CList = getCanList(self)
         RList = getResList(self)
         voteCount = 0
         prefResult(RList, CList, voteCount)
+        print("preferencial voting calculation process")
+        for item in currentResult:
+            print("====", item)
         if details:
             return currentResult
         else:
