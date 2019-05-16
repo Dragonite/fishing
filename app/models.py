@@ -3,6 +3,7 @@ import json
 import operator as o
 import os
 import sys
+import collections
 from datetime import datetime
 from datetime import timedelta
 
@@ -329,9 +330,9 @@ class Poll(PaginatedAPIMixin, db.Model):
             return len(self.Candidate)
 
     def howManyResponses(self):
-        if self.Response == None or self.Response == 0:
+        if self.Response == []:
             return 0
-        elif self.Candidate == None or self.Candidate == 0:
+        elif self.Candidate == []:
             print('There is no candidate saved yet')
             return 0
         else:
@@ -404,6 +405,11 @@ class Poll(PaginatedAPIMixin, db.Model):
         for item in self.Candidate:
             if item.candidateDescription == key:
                 return item.candidateId
+                
+    def getCandidateById(candidateId):
+        for item in self.Candidate:
+            if item.candidateId==candidateId:
+                return item
 
     def addResponse(self, userId, preferenceXresponses):
         if self.isClosed():
@@ -452,6 +458,8 @@ class Poll(PaginatedAPIMixin, db.Model):
 
         else:
             return rawResult
+            # returnValue=collections.OrderedDict(sorted(rawResult.items()))
+            # return returnValue
 
     def to_dict(self):
         noCandidates = self.howManyCandidates()
@@ -611,6 +619,7 @@ class Poll(PaginatedAPIMixin, db.Model):
 
         global currentResult
         currentResult = []
+
         CList = getCanList(self)
         RList = getResList(self)
         voteCount = 0
