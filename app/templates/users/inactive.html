@@ -28,9 +28,6 @@
     </thead>
     <tbody>
     {% for user in users %}
-      {#        <script>#}
-      {#         console.log({{ user.howManyPolls()|length }})#}
-      {#        </script>#}
       {% if not user.isActive %}
         <tr>
           <td>{{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}</td>
