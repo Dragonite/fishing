@@ -1,12 +1,11 @@
-# CITS3403 Project: Fishing Polling
+# Fishing Polling &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Dragonite/CITS3403-Project/blob/master/LICENSE) [![Python 3.7.2](https://img.shields.io/badge/python-3.7.2-blue.svg)](https://www.python.org/downloads/release/python-372/) [![Flask 1.0.2](https://img.shields.io/badge/flask-1.0.2-blue.svg)](https://pypi.org/project/Flask/)
 
-Fishing Poll application written for CITS3403's [Project](http://teaching.csse.uwa.edu.au/units/CITS3403/index.php?fname=projects&project=yes) in Semester 1 2019.
 
-About Fishing Polls:
+Fishing Polling Application written for CITS3403's [Project](http://teaching.csse.uwa.edu.au/units/CITS3403/index.php?fname=projects&project=yes) in Semester 1 2019.
 
-Fishing Poll is a web-based polling system where a user can create polls to collect other peoples opinion and/or make responses to other people's polls. This application uses both preferencial voting and first past the post voting method. 
+Fishing Polling is a web-based polling system where a user can create polls to collect other peoples opinion and/or make responses to other people's polls. This application uses both preferential voting and first past the post voting method. 
 
-The preferencial voting result is displayed as "current winner" for ongoing polls and "Poll winner" for completed polls.
+The preferential voting result is displayed as "current winner" for ongoing polls and "Poll winner" for completed polls.
 First past the post voting result is displayed as a pie chart so that a user can navigate through a collection of peoples' each preference. 
 
 Currently supporting features are as below:
@@ -43,20 +42,21 @@ Appstablishment are working towards an Agile system of light documentation, mode
 ●	Testing – Doneduring the Implementation phase, and done as QA & User Acceptance Testing at the end. Basic unit testings were automated.  QA & User Acceptance Testing details and known bugs are documented in wiki.
 
 
-Please see the [wiki](https://github.com/Dragonite/CITS3403-Project/wiki) 
+Please see the [Wiki](https://github.com/Dragonite/CITS3403-Project/wiki) 
 
 
-## Virtual environment requrement
+## How to run the Application
+```
+$ git clone https://github.com/Dragonite/CITS3403-Project.git
 $ pip install -r requirements.txt
+$ export FLASK_APP=FishingPoll.py
+$ FLASK_APP=FishingPoll.py FLASK_DEBUG=1 python -m flask run
+```
 
-
-## How to Launch app
-1. git clone
-2. pip install -r requirements.txt
-3. export FLASK_APP=FishingPoll.py
-
-## How to Launch testing suite
-1. python -W ignore tests.py
+## How to run the Testing Suite
+```
+$ python -W ignore tests.py
+```
 
 ## Libraries Used
 - [Bootstrap](https://getbootstrap.com/)
@@ -66,6 +66,7 @@ $ pip install -r requirements.txt
 - [Chart.js](https://www.chartjs.org/)
 - [Chart.js Datalabels](https://github.com/chartjs/chartjs-plugin-datalabels)
 - [DataTables](https://datatables.net/)
+- [Moment.js](https://momentjs.com/)
 - [W3Schools](https://www.w3schools.com/)
 
 ## Authors
