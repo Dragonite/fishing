@@ -109,7 +109,7 @@ def current_view(pollId):
                 return redirect(url_for('main.current'))
             else:
                 flash(Markup('<script>Notify("Oops, Something went wrong!", null, null, "danger")</script>'))
-    return render_template("currentPollView.html", title=renderedtitle, poll=poll, form=form, users=users)
+    return render_template("poll-views/currentPollView.html", title=renderedtitle, poll=poll, form=form, users=users)
 
 @bp.route('/completed', methods=['GET', 'POST'])
 def completed():
@@ -131,7 +131,7 @@ def completed_view(pollId):
         renderedtitle=poll.title
     else:
         renderedtitle="Oops, something is wrong"
-    return render_template("completedPollView.html", title=renderedtitle, poll=poll, users=users)
+    return render_template("poll-views/completedPollView.html", title=renderedtitle, poll=poll, users=users)
 
 @bp.route('/polls')
 def polls_view():
@@ -160,7 +160,7 @@ def poll_archive(pollId):
                         flash(Markup('<script>Notify("The response has been archived successfully", null, null, "success")</script>'))
                     else:
                         flash(Markup('<script>Notify("Could not archive the response", null, null, "danger")</script>'))
-    return render_template("responseArchive.html", title="Archive Responses: "+"Poll "+str(pollId), poll=poll, users=users, form=form)
+    return render_template("archive-components/responseArchive.html", title="Archive Responses: "+"Poll "+str(pollId), poll=poll, users=users, form=form)
 
 
 @bp.route('/archive', methods=['GET', 'POST'])
@@ -185,7 +185,7 @@ def archive_poll():
         else:
             flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
             return redirect(url_for('main.index'))
-    return render_template("pollArchive.html", title="Archive Poll", polls=polls, users=users, form=form)
+    return render_template("archive-components/pollArchive.html", title="Archive Poll", polls=polls, users=users, form=form)
 
 
 
@@ -220,7 +220,7 @@ def archive_users():
         else:
             flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
             return redirect(url_for('main.index'))
-    return render_template("userArchive.html", title='Users', users=users, form=form)
+    return render_template("archive-components/userArchive.html", title='Users', users=users, form=form)
 
 
 
