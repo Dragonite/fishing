@@ -20,7 +20,16 @@ from app.registrationForm import RegistrationForm
 @bp.route('/index', methods=['GET', 'POST'])
 
 def index():
-    return render_template('index.html', title='Home')
+    all_polls = len(getAllPolls())
+    current_polls = len(getCurrentPolls())
+    completed_polls = len(getClosedPolls())
+    user_count = len(getAllUsers())
+    my_polls = []
+    if hasattr(current_user, 'userId'):
+        for poll in all_polls:
+            if poll.createdByUserId == current_user.userId:
+                my_polls.append(poll)
+    return render_template('index.html', title='Home', my_polls=len(my_polls), current_polls=current_polls, completed_polls=completed_polls, all_users=user_count)
 
 
 
