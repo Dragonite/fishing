@@ -3,88 +3,88 @@
 
   {% include "index/card-login.html" %}
   {% include "index/card-group.html" %}
-  <div class="card-container">
-    <div class="card" style="margin-top: 20px;width: 49%; height:48%">
-      <div class="card-body">
-        <h5 class="card-title" style="margin-bottom: 30px;">Most Popular Fish</h5>
-        <canvas id="poll-chart-1"></canvas>
-        <p class="card-text" style="margin-top:10px">
-          <small class="text-muted">Voted on by 300 people</small>
-        </p>
-      </div>
-    </div>
-    <div class="card" style="margin-top: 20px;width: 49%; height:48%">
-      <div class="card-body">
-        <h5 class="card-title" style="margin-bottom: 30px;">Most Popular Location</h5>
-        <canvas id="poll-chart-2"></canvas>
-        <p class="card-text" style="margin-top:10px">
-          <small class="text-muted">Voted on by 300 people</small>
-        </p>
-      </div>
-    </div>
-  </div>
-  <script>
-    var ctx = document.getElementById('poll-chart-1').getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: 'horizontalBar',
-      data: {
-        labels: ['Salmon', 'Catfish', 'Tuna', 'Snapper', 'Swordfish'],
-        datasets: [{
-          label: ['Polls'],
-          data: [39, 56, 22, 104, 79],
-          backgroundColor: "rgba(255,0,0,0.5)",
-          borderWidth: 2,
-          borderColor: "rgba(255,0,0,0.3)"
-        }]
-      },
-      options: {
-        plugins: {
-          datalabels: {
-            color: '#212529'
-          }
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false
-            }
-          }],
-          xAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
-    });
-  </script>
-  <script>
-    var ctx = document.getElementById('poll-chart-2').getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ['Fremantle', 'Coogee', 'Claremont', 'Dalkeith', 'South Perth'],
-        datasets: [{
-          label: ['Polls'],
-          data: [39, 56, 22, 104, 79],
-          backgroundColor: ["rgba(255,0,0,0.5)", "#ffe082", "#81d4fa", '#c5e1a5', '#ffcc80'],
-          borderWidth: 2
-        }]
-      },
-      options: {
-        plugins: {
-          datalabels: {
-            color: '#212529'
-          }
-        },
-        legend: {
-          display: true,
-          position: 'bottom'
-        }
-      }
-    });
-  </script>
+{#  <div class="card-container">#}
+{#    <div class="card" style="margin-top: 20px;width: 49%; height:48%">#}
+{#      <div class="card-body">#}
+{#        <h5 class="card-title" style="margin-bottom: 30px;">Most Popular Fish</h5>#}
+{#        <canvas id="poll-chart-1"></canvas>#}
+{#        <p class="card-text" style="margin-top:10px">#}
+{#          <small class="text-muted">Voted on by 300 people</small>#}
+{#        </p>#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="card" style="margin-top: 20px;width: 49%; height:48%">#}
+{#      <div class="card-body">#}
+{#        <h5 class="card-title" style="margin-bottom: 30px;">Most Popular Location</h5>#}
+{#        <canvas id="poll-chart-2"></canvas>#}
+{#        <p class="card-text" style="margin-top:10px">#}
+{#          <small class="text-muted">Voted on by 300 people</small>#}
+{#        </p>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#  <script>#}
+{#    var ctx = document.getElementById('poll-chart-1').getContext('2d');#}
+{#    var myChart = new Chart(ctx, {#}
+{#      type: 'horizontalBar',#}
+{#      data: {#}
+{#        labels: ['Salmon', 'Catfish', 'Tuna', 'Snapper', 'Swordfish'],#}
+{#        datasets: [{#}
+{#          label: ['Polls'],#}
+{#          data: [39, 56, 22, 104, 79],#}
+{#          backgroundColor: "rgba(255,0,0,0.5)",#}
+{#          borderWidth: 2,#}
+{#          borderColor: "rgba(255,0,0,0.3)"#}
+{#        }]#}
+{#      },#}
+{#      options: {#}
+{#        plugins: {#}
+{#          datalabels: {#}
+{#            color: '#212529'#}
+{#          }#}
+{#        },#}
+{#        legend: {#}
+{#          display: false#}
+{#        },#}
+{#        scales: {#}
+{#          yAxes: [{#}
+{#            ticks: {#}
+{#              beginAtZero: false#}
+{#            }#}
+{#          }],#}
+{#          xAxes: [{#}
+{#            ticks: {#}
+{#              beginAtZero: true#}
+{#            }#}
+{#          }]#}
+{#        }#}
+{#      }#}
+{#    });#}
+{#  </script>#}
+{#  <script>#}
+{#    var ctx = document.getElementById('poll-chart-2').getContext('2d');#}
+{#    var myChart = new Chart(ctx, {#}
+{#      type: 'pie',#}
+{#      data: {#}
+{#        labels: ['Fremantle', 'Coogee', 'Claremont', 'Dalkeith', 'South Perth'],#}
+{#        datasets: [{#}
+{#          label: ['Polls'],#}
+{#          data: [39, 56, 22, 104, 79],#}
+{#          backgroundColor: ["rgba(255,0,0,0.5)", "#ffe082", "#81d4fa", '#c5e1a5', '#ffcc80'],#}
+{#          borderWidth: 2#}
+{#        }]#}
+{#      },#}
+{#      options: {#}
+{#        plugins: {#}
+{#          datalabels: {#}
+{#            color: '#212529'#}
+{#          }#}
+{#        },#}
+{#        legend: {#}
+{#          display: true,#}
+{#          position: 'bottom'#}
+{#        }#}
+{#      }#}
+{#    });#}
+{#  </script>#}
 {% endblock %}
