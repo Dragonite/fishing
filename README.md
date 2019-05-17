@@ -3,31 +3,47 @@
 
 Fishing Polling Application written for CITS3403's [Project](http://teaching.csse.uwa.edu.au/units/CITS3403/index.php?fname=projects&project=yes) in Semester 1 2019.
 
-Fishing Polling is a web-based polling system where a user can create polls to collect other peoples opinion and/or make responses to other people's polls. This application uses both preferential voting and first past the post voting method. 
+Fishing Polling is a web-based polling system where a user can create polls to collect other peoples opinion and/or make responses to other people's polls. This application uses both **Preferential Voting** and **First Past the Post** voting method. 
 
-The preferential voting result is displayed as "current winner" for ongoing polls and "Poll winner" for completed polls.
-First past the post voting result is displayed as a pie chart so that a user can navigate through a collection of peoples' each preference. 
+The **Preferential Voting** result is displayed as *Current Winner* for ongoing polls and *Poll Winner* for completed polls.
 
-Currently supporting features are as below:
-1. An anonymous user can view the list of polls.
-2. A user can create an account.
-3. A user can login and logout using username and password
-4. A User can create a poll with multiple prefilled choices
-    - A user can decide whether the created poll is a open poll or close poll
-      -open poll: A user can view the current result before the poll is completed.
-      -close poll: A user can view the result only once the poll is completed.
-    - A user can view a list polls that he/she created in the past and marke them as completed.
-5. A user can make a response to a poll
-6. There are two user roles: admin and normal user
-    Admin user can
-     Create user
-     Delete user (soft delete-archive user)
-     Create polls
-     Archive polls
-     Delete responses (soft delete-archive responses)
-     Make a response to a poll 
+**First Past the Post** voting result is displayed as a pie chart so that a user can navigate through a count of each preference for all users. 
 
-Currently the theme is set to fishing but this application can be used for any type of survey. 
+## Supported Features
+
+### User Types
+
+**Anonymous User**: 
+- Can view a list of polls, can register an account to the website.
+
+**Registered User**:
+- Can log in and out using their username and password.
+- Can create polls(Open or Closed) with their own declared choices.
+- Can vote on polls.
+
+**Administrator**:
+- Can delete a user*
+- Can delete a poll*
+- Can delete another user's vote*
+- Can create a poll
+- Can vote on polls.
+
+### Poll Types
+
+**Open/Closed Polls**:
+
+Open Polls allow registered users to see current results when browsing a poll. Sometimes, a poll creator may not want
+their users to see a current result, as it can affect their voting choice, so an option is made available for the poll creator.
+
+**Current/Completed Polls**:
+
+By default, polls created are *Current* polls. The creator of the poll has the option to make their poll *Completed*, so that
+no more votes are accepted on it, and the poll is marked *Completed*.
+
+*These are *soft deletes*, i.e. Archiving a poll, as we want to preserve the history of a poll or user.
+
+Note: This site is made for Fishing Polling, but in theory, any poll of interest can be created.
+
 
 ## Explanation of Code
 
