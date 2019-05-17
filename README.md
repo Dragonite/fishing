@@ -27,33 +27,36 @@ Currently supporting features are as below:
      Delete responses (soft delete-archive responses)
      Make a response to a poll 
 
-Currently the theme is set to fishing but this application can be used for any type of surveys. 
+Currently the theme is set to fishing but this application can be used for any type of survey. 
+
+## Explanation of Code
+
+Explanation of Code can be found in `README.md` in further levels of the application.
 
 
 
-## Project Management Details
-Appstablishment are working towards an Agile system of light documentation, moderately detailed user stories and detailed screen mock-ups containing high-level information only on user flows.  
+## Planning and Agile Methodology
 
-●	Initial Planning – The overall scope of the project was outlined in this phase. High level workflows and the choice of algorithms were decided in this phase. 
-●	Iteration Planning – The scope for this iteration was outlined. Detailed screen mockup were created in this phase. Screen mockup is documented in wiki.
-●	Requirements – The specific requirements were gathered and documented into PBIs. The high level workflows were captured as a UML diagram. During this phase, we made assumptions on business values we were trying to deliver. We have constructed our requirements using user stories. PBIs were written in the format of “As a <role or persona>, I can <goal/need> so that <why>”. <goal/need> contains project specifications and <why> contains all the assumptions we collectively made.  Workflow diagrams and screen mockups are documented in wiki.
-●	Analysis & Design – Software architecture and code is designed. 
-●	Implementation – Construction of the actual code. 
-●	Testing – Doneduring the Implementation phase, and done as QA & User Acceptance Testing at the end. Basic unit testings were automated.  QA & User Acceptance Testing details and known bugs are documented in wiki.
+These resources can be found on the [Fishing Polling Wiki](https://github.com/Dragonite/CITS3403-Project/wiki).
+
+[Project Management](https://github.com/Dragonite/CITS3403-Project/wiki/Project-Management-Details)
+
+[Trello](https://trello.com/b/HJlN0mPe/cits3403-project)
 
 
-Please see the [Wiki](https://github.com/Dragonite/CITS3403-Project/wiki) 
-
-
-## How to run the Application
+## Installation
 ```
 $ git clone https://github.com/Dragonite/CITS3403-Project.git
 $ pip install -r requirements.txt
 $ export FLASK_APP=FishingPoll.py
+```
+
+## Execution
+```
 $ FLASK_APP=FishingPoll.py FLASK_DEBUG=1 python -m flask run
 ```
 
-## How to run the Testing Suite
+## Executing Testing Suite
 ```
 $ python -W ignore tests.py
 ```
@@ -80,4 +83,4 @@ $ python -W ignore tests.py
 
 ## License
 
-MIT License, Copyright © Haolin Wu 2019
+[MIT License](https://github.com/Dragonite/CITS3403-Project/blob/master/LICENSE), Copyright © Haolin Wu 2019
