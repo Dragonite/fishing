@@ -132,6 +132,17 @@ All elaborations for the following files inside the directories below will be in
 
 ---
 
+### `archive-components`
+
+A directory for archiving poll, response and user modules.
+
+Contains:
+- `pollArchive.html`
+- `responseArchive.html`
+- `userArchive.html`
+
+---
+
 ### `auth`
 
 A directory for authorization modules.
@@ -149,6 +160,16 @@ Contains:
 - `header.html`
 - `imports.html`
 - `sidebar.html`
+
+---
+
+### `current-components`
+
+A directory for Current Poll View's components.
+
+Contains: 
+- `current-standings.html`
+- `vote.html`
 
 ---
 
@@ -183,6 +204,16 @@ Contains:
 
 ---
 
+### `poll-views`
+
+A directory for Current and Completed Poll's views.
+
+Contains:
+- `currentPollView.html`
+- `completedPollView.html`
+
+---
+
 ### `profile`
 
 A directory that contains the tabs in the `profile.html` page.
@@ -190,3 +221,13 @@ A directory that contains the tabs in the `profile.html` page.
 Contains:
 - `info.html`
 - `statistics.html`
+
+---
+
+### `users`
+
+A directory that contains the tabs in the `users.html` page.
+
+Contains:
+- `active.html`
+- `inactive.html`
