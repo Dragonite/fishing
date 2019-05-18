@@ -46,13 +46,14 @@ Note: This site is made for Fishing Polling, but in theory, any poll of interest
 
 
 ## Explanation of Code
-```
+
 Explanation of Code can be found in `README.md` in further levels of the application.
 
 Fishing Polling Application is constructed with three subsystems: RESTfulAPI, user authentication and main. 
 Blueprints is implemented to user an application factory function to create the function that accepts a configuration object as an argument and returns a flask application instance.
 The application structure and the explanations are as below:
 
+```
 app/
 	api/			  <-- blueprint package: RESTful API
 		__init__.py	  <-- blueprint creation for API
@@ -107,10 +108,11 @@ Naming conventions are used to to reduce the effort needed to read and understan
 
 ```
 ## Explanation of Database
-```
-  [ER diagram](https://github.com/Dragonite/CITS3403-Project/wiki/DB-ER-diagram)
 
-  users (
+[ER diagram](https://github.com/Dragonite/CITS3403-Project/wiki/DB-ER-diagram)
+
+```
+users (
         token VARCHAR(32),
         token_expiration DATETIME,
         "userId" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -133,7 +135,7 @@ Naming conventions are used to to reduce the effort needed to read and understan
         UNIQUE (username),
         CHECK ("isActive" IN (0, 1)),
         CHECK ("isAdmin" IN (0, 1))
-  )
+)
 
 polls (
         "pollId" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
