@@ -34,6 +34,9 @@ createUser(User, password) / takes a User object and password, set password hash
 
 `models.py` represents User and Poll object. Each object contains neccessary properties and methods.
 ```
+User Methods
+
+
 User.validate() / returns true if User object has firstname, email and username
 User.set_password('1234') / set password to 1234
 User.check_password('1234') / returns true if 1234 is the right password
@@ -48,6 +51,9 @@ User.from_dict() / takes dictionary and sets all the attributes
 
 ```
 ```
+Poll Methods
+
+
 Poll.Candidate / returns a list of all candidates for this poll
 Poll.Response / returns a list of all responses for this Poll
 Poll.howManyCandidates() / returns a number of candidates this poll has
