@@ -15,47 +15,55 @@
     {% endif %}
     {% if current_user.isAdmin %}
       <br><br>
-      As an Admin User, you are able to <strong>Archive</strong> polls. Please click below and choose which poll to archive.<br><br>
-      <a class="btn btn-danger" href="{{ url_for('main.archive_poll') }}"><i class="fa-fw fa fa-archive"></i> Archive Poll</a>
+      As an Admin User, you are able to <strong>Archive</strong> polls. Please click below and choose which poll to
+      archive.<br><br>
+      <a class="btn btn-danger" href="{{ url_for('main.archive_poll') }}"><i class="fa-fw fa fa-archive"></i> Archive
+        Poll</a>
     {% endif %}
   </div>
   {% if polls|length == 0 %}
     <div>There are no current polls. Click here to create one!</div>
   {% endif %}
   {% for poll in polls %}
-    <div class="card">
-      <div class="card-header">
-        <strong>Poll: {{ poll.get_id() }}</strong>
-        <span style="float:right" class="badge badge-pill badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">
-          {{ poll.title }}
-        </h5>
-        {{ poll.description }}
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span>
-        </li>
-        <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span></li>
-        <li class="list-group-item"><strong>Created By: </strong>
-          {% for user in users %}
-            {% if user.userId == poll.createdByUserId %}
-              {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
-            {% endif %}
-          {% endfor %}
-        </li>
-      </ul>
-      {% if not current_user.is_anonymous %}
-        <div class="card-body">
-          <a href="{{ url_for('main.current') }}/{{ poll.get_id() }}" class="btn btn-info"><i class="fa-fw fa fa-envelope"></i> Vote</a>
-          {% if current_user.isAdmin %}
-            <a href="polls/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i> Archive Votes</a>
-          {% endif %}
+    {% if poll.isActive %}
+      <div class="card">
+        <div class="card-header">
+          <strong>Poll: {{ poll.get_id() }}</strong>
+          <span style="float:right"
+                class="badge badge-pill badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
         </div>
-      {% endif %}
-    </div>
-    <br>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ poll.title }}
+          </h5>
+          {{ poll.description }}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span>
+          </li>
+          <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span>
+          </li>
+          <li class="list-group-item"><strong>Created By: </strong>
+            {% for user in users %}
+              {% if user.userId == poll.createdByUserId %}
+                {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+              {% endif %}
+            {% endfor %}
+          </li>
+        </ul>
+        {% if not current_user.is_anonymous %}
+          <div class="card-body">
+            <a href="{{ url_for('main.current') }}/{{ poll.get_id() }}" class="btn btn-info"><i
+              class="fa-fw fa fa-envelope"></i> Vote</a>
+            {% if current_user.isAdmin %}
+              <a href="polls/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i>
+                Archive Votes</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <br>
+    {% endif %}
   {% endfor %}
   <script type="text/javascript" src="/static/javascript/format-time.js"></script>
 {% endblock %}
