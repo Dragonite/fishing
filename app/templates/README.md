@@ -1,11 +1,5 @@
 # Templates
 
-![Anonymous User](https://img.shields.io/badge/-Anonymous-blue.svg)
-![Registered User](https://img.shields.io/badge/-Registered%20User-brightgreen.svg)
-![Administrator](https://img.shields.io/badge/-Administrator-orange.svg)
-![All Users](https://img.shields.io/badge/-All%20Users-lightgrey.svg)
-
-
 ## Main Pages
 
 ### `base.html` &middot; ![All Users](https://img.shields.io/badge/-All%20Users-lightgrey.svg)
@@ -86,18 +80,24 @@ will be run.
 
 ### `profile.html` &middot; ![Registered User](https://img.shields.io/badge/-Registered%20User-brightgreen.svg) ![Administrator](https://img.shields.io/badge/-Administrator-orange.svg)
 
-`profile` is broken into two parts, *My Info* and *Statistics*. `profile` is a page that gives an overview of the current user. 
-The fields are rendered as inputs, and the `Update` button allows a `Post` request to fire to update the user. `Statistics` uses
-`Chart.js` to render linkable charts that link to the user's total amount of polls, their open and closed polls. The individual
-tabs are further elaborated in the `profile` directory.
+`profile` is broken into two parts, *General Info* and *My Polls*. 
+
+`General Info` is a page that gives an overview of the current user.
+
+`My Polls` is an overview of all polls created by the user, and a form attached to close any poll that you have created.
+
+More information will be provided in `profile`.
 
 ---
 
 ### `users.html` &middot; ![Administrator](https://img.shields.io/badge/-Administrator-orange.svg)
 
-`users` is a page that provides an overview of all the users in the system. They are split into two tabs, `Active` and 
-`Inactive`. As user accounts are never fully deleted, marking them as `false` for `isActive` will disable the account, but
+`users` is a page that provides an overview of all the users in the system. 
+
+They are split into two tabs, `Active` and `Inactive`. As user accounts are never fully deleted, marking them as `false` for `isActive` will disable the account, but
 still keep their information in the system, so that it shows on their votes and polls.
+
+There is a button that allows Admin to Archive Users. This will further be explained in `archive-components/userArchive.html`.
 
 ---
 
@@ -105,7 +105,7 @@ still keep their information in the system, so that it shows on their votes and 
 
 `help` provides information on the website in 3 tabs: `About`, `Algorithm` and `Acknowledgements`. 
 
-`About` explains the functionality of the website and how polls and votes are made.
+`About` explains the different types of users and polls.
 
 `Algorithm` explains the algorithm behind the calculation of the winner.
 
