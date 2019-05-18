@@ -4,7 +4,7 @@
 
 ### `__init__.py`  
 
-  `__init.py__` creates the blueprint object forthis application and registers in the application functions.
+  `__init.py__` creates the blueprint object for this application and registers in the application functions.
 
 ---
 
@@ -13,20 +13,20 @@
   `controllers.py` provides functions that takes each objects and commit to database as well as functions that query DB. It also contains the function to record user login time.
 ```
 createUser(User, password) / takes a User object and password, set password hash, and commit all the attributes to database
- modifyUser(User) / takes a User object and commit the changes to database
- login_time(User) / takes User object, move current login time to last login time and then record current login time
- archiveUser(User) / takes User object, set isActive to false and commit to database
- getUserById(userId) / takes user ID and returns the matching user object
- getUserByUsername(username) / takes username and returns the matching user object
- getAllUsers() / returns a list of all users
- createPoll(Poll) / takes a Poll object and commit the poll and its candidates to database
- modifyPoll(Poll) / takes a Poll object and commit the changes to database
- archivePoll(Poll) / takes poll object, set isActive to false and commit to database
- getPollById(pollId) / takes poll ID and returns the matching poll object
- getAllPolls() / returns a list of all polls
- getClosedPolls(isAdmin=False) / returns a list of all completed and active polls as a default, if isAdmin is set to True, returns a list of all completed polls
- getCurrentPolls(isAdmin=False)/ returns a list of all current standing and active polls as a default, if isAdmin is set to True, returns a list of all current standing polls
- archiveResponse(Poll, userId) / takes a Poll object and user id and archive matching user's response for the poll 
+modifyUser(User) / takes a User object and commit the changes to database
+login_time(User) / takes User object, move current login time to last login time and then record current login time
+archiveUser(User) / takes User object, set isActive to false and commit to database
+getUserById(userId) / takes user ID and returns the matching user object
+getUserByUsername(username) / takes username and returns the matching user object
+getAllUsers() / returns a list of all users
+createPoll(Poll) / takes a Poll object and commit the poll and its candidates to database
+modifyPoll(Poll) / takes a Poll object and commit the changes to database
+archivePoll(Poll) / takes poll object, set isActive to false and commit to database
+getPollById(pollId) / takes poll ID and returns the matching poll object
+getAllPolls() / returns a list of all polls
+getClosedPolls(isAdmin=False) / returns a list of all completed and active polls as a default, if isAdmin is set to True, returns a list of all completed polls
+getCurrentPolls(isAdmin=False)/ returns a list of all current standing and active polls as a default, if isAdmin is set to True, returns a list of all current standing polls
+archiveResponse(Poll, userId) / takes a Poll object and user id and archive matching user's response for the poll 
 ```
 ---
 
