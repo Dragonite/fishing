@@ -46,7 +46,7 @@ Note: This site is made for Fishing Polling, but in theory, any poll of interest
 
 
 ## Explanation of Code
-
+```
 Explanation of Code can be found in `README.md` in further levels of the application.
 
 Fishing Polling Application is constructed with three subsystems: RESTfulAPI, user authentication and main. Blueprints is implemented to user an application factory function to create the function that accepts a configuration object as an argument and returns a flask application instance. The application structure and the explanations are as below:
@@ -103,9 +103,9 @@ Controller provides functions for database CRUD operation.
 
 Naming conventions are used to to reduce the effort needed to read and understand source code. So the detailed explation of each functions and variables are not listed here. 
 
-
+```
 ## Explanation of Database
-
+```
   [ER diagram](https://github.com/Dragonite/CITS3403-Project/wiki/DB-ER-diagram)
 
   users (
@@ -179,6 +179,7 @@ responses (
         CONSTRAINT unique_resonses UNIQUE ("userId", "pollId", "candidateId", response),
         CHECK ("isActive" IN (0, 1))
 );
+```
 ## Planning and Agile Methodology
 
 These resources can be found on the [Fishing Polling Wiki](https://github.com/Dragonite/CITS3403-Project/wiki).
