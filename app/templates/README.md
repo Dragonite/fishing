@@ -76,6 +76,8 @@ added back to preserve the last position of the form. This was chosen over const
 needed. On `Save`, the form will save its contents. On `Clear`, all fields will be reset. On `Submit`, the regular submit function
 will be run.
 
+Maximum amount of Candidates: 10
+
 ---
 
 ### `profile.html` &middot; ![Registered User](https://img.shields.io/badge/-Registered%20User-brightgreen.svg) ![Administrator](https://img.shields.io/badge/-Administrator-orange.svg)
