@@ -41,7 +41,7 @@ def create():
     if form.validate_on_submit():
         validationPoll=Poll.query.filter_by(title=form.title.data).first()
         if validationPoll!= None:
-            flash(Markup('<script>Notify("There is alreay a poll created with the same title.", null, null, "danger")</script>'))
+            flash(Markup('<script>Notify("There is already a poll created with the same title.", null, null, "danger")</script>'))
             return redirect(url_for('main.create'))
 
         else:
@@ -54,7 +54,7 @@ def create():
                     poll.addCandidate(item.data, None)
                     nullCount-=1
             if nullCount > (len(form.options)-2):
-                flash(Markup('<script>Notify("There is not enough choice to make this poll.", null, null, "danger")</script>'))
+                flash(Markup('<script>Notify("There is not enough choices to make this poll.", null, null, "danger")</script>'))
                 return redirect(url_for('main.create'))
             else:
                 if createPoll(poll)==True:
@@ -62,7 +62,7 @@ def create():
                     return redirect(url_for('main.current')+'/'+ str(poll.pollId))
 
                 else:
-                    flash(Markup('<script>Notify("something is wrong!", null, null, "danger")</script>'))
+                    flash(Markup('<script>Notify("Something is wrong!", null, null, "danger")</script>'))
                     return redirect(url_for('main.create'))
     return render_template('create.html', title='Create a Poll', form=form)
 
@@ -110,11 +110,11 @@ def current_view(pollId):
             pref[item.data]=pref.get(item.data, index)
             index +=1    
         if Poll.Response.query.filter_by(pollId=pollId).filter_by(userId=current_user.userId).first()!=None:
-            flash(Markup('<script>Notify("You already have voted for this poll.", null, null, "danger")</script>'))
+            flash(Markup('<script>Notify("You have already voted for this poll.", null, null, "danger")</script>'))
             return redirect(url_for('main.current'))
         else:
             if poll.addResponse(current_user.userId, pref):
-                flash(Markup('<script>Notify("you have successfully voted for this poll.", null, null, "success")</script>'))
+                flash(Markup('<script>Notify("You have successfully voted for this poll.", null, null, "success")</script>'))
                 return redirect(url_for('main.current'))
             else:
                 flash(Markup('<script>Notify("Oops, Something went wrong!", null, null, "danger")</script>'))
@@ -162,13 +162,13 @@ def poll_archive(pollId):
             poll=getPollById(pollId)
             form= deleteResponseForm()
             if poll==None:
-                flash(Markup('<script>Notify("Cannot find the poll.", null, null, "danger")</script>'))
+                flash(Markup('<script>Notify("Cannot find poll.", null, null, "danger")</script>'))
             if form.is_submitted():
                 if User.query.filter_by(userId=form.userId.data).first():
                     if archiveResponse(poll,int(form.userId.data)):
-                        flash(Markup('<script>Notify("The response has been archived successfully", null, null, "success")</script>'))
+                        flash(Markup('<script>Notify("The response has been archived successfully!", null, null, "success")</script>'))
                     else:
-                        flash(Markup('<script>Notify("Could not archive the response", null, null, "danger")</script>'))
+                        flash(Markup('<script>Notify("Could not archive the response.", null, null, "danger")</script>'))
     return render_template("archive-components/responseArchive.html", title="Archive Responses: "+"Poll "+str(pollId), poll=poll, users=users, form=form)
 
 
@@ -183,16 +183,16 @@ def archive_poll():
             if form.is_submitted():
                 poll=getPollById(form.pollId.data)
                 if poll==None:
-                    flash(Markup('<script>Notify("Cannot find the poll.", null, null, "danger")</script>'))
+                    flash(Markup('<script>Notify("Cannot find poll.", null, null, "danger")</script>'))
                 else:
                     poll.close()
                     # modifyPoll(poll)
                     if archivePoll(poll):
-                        flash(Markup('<script>Notify("The poll has been archived successfully", null, null, "success")</script>'))
+                        flash(Markup('<script>Notify("The poll has been archived successfully!", null, null, "success")</script>'))
                     else:
-                        flash(Markup('<script>Notify("Could not archive the poll", null, null, "danger")</script>'))
+                        flash(Markup('<script>Notify("Could not archive the poll.", null, null, "danger")</script>'))
         else:
-            flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+            flash(Markup('<script>Notify("Only an admin user can view this page.", null, null, "danger")</script>'))
             return redirect(url_for('main.index'))
     return render_template("archive-components/pollArchive.html", title="Archive Poll", polls=polls, users=users, form=form)
 
@@ -207,7 +207,7 @@ def users():
         users=getAllUsers()
         return render_template("users.html", title='Users', users=users)
     else:
-        flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+        flash(Markup('<script>Notify("Only an admin user can view this page.", null, null, "danger")</script>'))
         return redirect(url_for('main.index'))
 
 @bp.route('/users/archive', methods=['GET', 'POST'])
@@ -220,14 +220,14 @@ def archive_users():
             if form.is_submitted():
                 user=getUserById(form.userId.data)
                 if user==None:
-                    flash(Markup('<script>Notify("Cannot find the user.", null, null, "danger")</script>'))
+                    flash(Markup('<script>Notify("Cannot find user.", null, null, "danger")</script>'))
                 else:
                     if archiveUser(user):
-                        flash(Markup('<script>Notify("The user  has been archived successfully", null, null, "success")</script>'))
+                        flash(Markup('<script>Notify("The user has been archived successfully!", null, null, "success")</script>'))
                     else:
-                        flash(Markup('<script>Notify("Could not archive the user", null, null, "danger")</script>'))
+                        flash(Markup('<script>Notify("Could not archive the user.", null, null, "danger")</script>'))
         else:
-            flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+            flash(Markup('<script>Notify("Only an admin user can view this page.", null, null, "danger")</script>'))
             return redirect(url_for('main.index'))
     return render_template("archive-components/userArchive.html", title='Users', users=users, form=form)
 
@@ -313,7 +313,7 @@ def register():
             flash(Markup('<script>Notify("Congratulations, you are now a registered user!", null, null, "success")</script>'))
             return redirect(url_for('auth.login'))
         else:
-            flash(Markup('<script>Notify("Could not create account, please enter username, password, email and first name!", null, null, "danger")</script>'))
+            flash(Markup('<script>Notify("Could not create account, please enter required fields.", null, null, "danger")</script>'))
             return redirect(url_for('main.register'))
     return render_template('register.html', title='Register', form=form)
 
@@ -334,12 +334,12 @@ def create_user():
                 user.ad_state=form.ad_state.data
                 user.ad_country=form.ad_country.data
                 if createUser(user,form.password.data):
-                    flash(Markup('<script>Notify("you have created a new user!", null, null, "success")</script>'))
+                    flash(Markup('<script>Notify("You have created a new user!", null, null, "success")</script>'))
                     return redirect(url_for('main.users'))
                 else:
-                    flash(Markup('<script>Notify("Could not create account, please enter username, password, email and first name!", null, null, "danger")</script>'))
+                    flash(Markup('<script>Notify("Could not create account, please enter required fields.", null, null, "danger")</script>'))
 
     else:
-            flash(Markup('<script>Notify("Only an admin user can view this page!", null, null, "danger")</script>'))
+            flash(Markup('<script>Notify("Only an admin user can view this page.", null, null, "danger")</script>'))
             return redirect(url_for('main.index'))
     return render_template('register.html', title='Register', form=form)
