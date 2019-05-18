@@ -101,32 +101,6 @@ Hence, User class defined in model.py has not only the properties required but a
 
 Controller provides functions for database CRUD operation. 
 
-Examples:
-  calculation of poll results - poll.get_rawResults(), poll.get_prefResults()
-  creation of poll 
-     title='where is your favorite fishing spot?'
-     description='survey to find out the most favorite fishing spot in Perth'
-     user=User.query.filter_by(username='luna').first()
-     minResponses=5 #if not specified, the default value is -1 which will be ignored
-     orderCandidateBy=None #if not specified, the default value is alphabel acending 'Acs'
-     isOpenPoll=1 #if not specified, the default value is False
-     openAt=None #if not specified, the default value is utcnow()
-     closeAt=None  # if not specified, the default value is today + 7 days
-     poll=Poll(title, description, minResponses, orderCandidateBy, isOpenPoll, openAt, closeAt, user)
-     print("pollID: ", poll.pollId)
-     poll.addCandidate('Narrows Bridge Perth',None)
-     poll.addCandidate('White Hills Mandurah',None)
-     poll.addCandidate('North Mole Fremantle',None)
-     poll.addCandidate('Floreat Drain Floreat',None)
-     poll.addCandidate('Ricey Beach And Radar Reef Rottnest Island',None)
-     poll.addCandidate('Lancelin Jetty Lancelin',None)
-     createPoll(poll)
-
-  Update poll example
-   poll0=Poll.query.get(1)
-   Poll0.minResponses=10
-   modifyPoll(Poll)
-
 Naming conventions are used to to reduce the effort needed to read and understand source code. So the detailed explation of each functions and variables are not listed here. 
 
 
