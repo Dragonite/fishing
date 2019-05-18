@@ -25,7 +25,7 @@
           <hr>
         </div>
         {# Username #}
-        {{ form.username.label(style="font-weight: bold") }}<br>
+        {{ form.username.label(style="font-weight: bold") }} *<br>
         <div style="width: 80%">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -35,7 +35,7 @@
           </div>
         </div>
         {# Passwords #}
-        {{ form.password.label(style="font-weight: bold") }}<br>
+        {{ form.password.label(style="font-weight: bold") }} *<br>
         <div style="width: 80%">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -44,7 +44,7 @@
             {{ form.password(class="form-control", size=32, maxlength=50) }}
           </div>
         </div>
-        {{ form.password2.label(style="font-weight: bold") }}<br>
+        {{ form.password2.label(style="font-weight: bold") }} *<br>
         <div style="width: 80%">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -54,7 +54,7 @@
           </div>
         </div>
         {# firstName #}
-        {{ form.firstName.label(style="font-weight: bold") }}<br>
+        {{ form.firstName.label(style="font-weight: bold") }} *<br>
         <div style="width: 80%">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -74,7 +74,7 @@
           </div>
         </div>
         {# Email #}
-        {{ form.email.label(style="font-weight: bold") }}<br>
+        {{ form.email.label(style="font-weight: bold") }} *<br>
         <div style="width: 80%">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -126,6 +126,8 @@
             {{ form.ad_country(id="inputGroupSelect02", class="custom-select") }}
           </div>
         </div>
+        <small class="text-muted">* Required Field</small>
+        <br>
         <br>
         <div style="margin-left: 30%">
           {% if current_user.isAdmin %}
