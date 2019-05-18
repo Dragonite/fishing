@@ -191,19 +191,24 @@ These resources can be found on the [Fishing Polling Wiki](https://github.com/Dr
 
 ## Installation
 ```
+$ sudo apt install python3
+$ sudo apt install python3-pip
+$ sudo apt-get install python3-setuptools
+$ sudo apt install python3-flask
 $ git clone https://github.com/Dragonite/CITS3403-Project.git
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 $ export FLASK_APP=FishingPoll.py
+
 ```
 
 ## Execution
 ```
-$ FLASK_APP=FishingPoll.py FLASK_DEBUG=1 python -m flask run
+$ flask run
 ```
 
 ## Executing Testing Suite
 ```
-$ python -W ignore tests.py
+$ python3 -W ignore tests.py
 ```
 
 ## Libraries Used

@@ -18,7 +18,6 @@ from app.registrationForm import RegistrationForm
 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
-
 def index():
     all_polls = getAllPolls()
     current_polls = len(getCurrentPolls())
