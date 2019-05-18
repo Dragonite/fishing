@@ -3,6 +3,7 @@
 ###`__init__.py`	 
 `__init.py__` creates the blueprint object for core functionalities of this application and registers in the application functions.
 ###`routes.py` 
+
 ```
 `routes.py` has the differnt URLs that this applcation implements. Functionalities defined in view functions for each URL are as below:
     index - main page view.
