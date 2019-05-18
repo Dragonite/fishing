@@ -52,44 +52,45 @@ Explanation of Code can be found in `README.md` in further levels of the applica
 Fishing Polling Application is constructed with three subsystems: RESTfulAPI, user authentication and main. Blueprints is implemented to user an application factory function to create the function that accepts a configuration object as an argument and returns a flask application instance. The application structure and the explanations are as below:
 
 app/
-		api/			  <-- blueprint package: RESTful API
-			__init__.py	  <-- blueprint creation for API
-			auth.py		  <-- User Authentication and token verification place holder
-			errors.py	  <-- Error handling placeholder
-			routes.py	  <-- API resource placeholder
-			tokens.py	  <-- Token handling placeholder
-		auth/			  <-- blueprint package: User Authentication
-			__init__.py	  <-- blueprint creation for user authentication
-			forms.py	  <-- login form
-			routes.py	  <-- login view functions and authentication routes
-		errors/                   <-- blueprint package
-			__init__.py       <-- blueprint creation
-			handlers.py       <-- error handlers
-		main/			  <-- blueprint package: core functionalities 
-			__init__.py	  <-- blueprint creation for main app
-			routes.py	  <-- Main menu view and operation functions routes
-		static/
-			css/
-			javascript/
-		templates/		  <-- collection of templates
-			archive-components/
-			auth/
-			compenents/
-			current-components/
-			errors/                         
-			help/
-			index/
-			poll-views/
-			profile/
-			users/
-			.....html
-		__init__.py               <-- blueprint registration
-		controllers.py		  <-- Poll and User CRUD operation controllers representation
-		models.py		  <-- Poll and user model representation
-		pollForms.py		  <-- Poll registration and modification forms
-		registrationForm.py	  <-- User registration form
-		views.py		  <-- Main application module
-	tests.py			  <-- Unit testing script: Testing configuration, creates an application for test suits and run tests
+	api/			  <-- blueprint package: RESTful API
+		__init__.py	  <-- blueprint creation for API
+		auth.py		  <-- User Authentication and token verification place holder
+		errors.py	  <-- Error handling placeholder
+		routes.py	  <-- API resource placeholder
+		tokens.py	  <-- Token handling placeholder
+	auth/			  <-- blueprint package: User Authentication
+		__init__.py	  <-- blueprint creation for user authentication
+		forms.py	  <-- login form
+		routes.py	  <-- login view functions and authentication routes
+	errors/                   <-- blueprint package
+		__init__.py       <-- blueprint creation
+		handlers.py       <-- error handlers
+	main/			  <-- blueprint package: core functionalities 
+		__init__.py	  <-- blueprint creation for main app
+		routes.py	  <-- Main menu view and operation functions routes
+	static/
+		css/
+		javascript/
+	templates/		  <-- collection of templates
+		archive-components/
+		auth/
+		compenents/
+		current-components/
+		errors/                         
+		help/
+		index/
+		poll-views/
+		profile/
+		users/
+		.....html
+	__init__.py               <-- blueprint registration
+	controllers.py		  <-- Poll and User CRUD operation controllers representation
+	models.py		  <-- Poll and user model representation
+	pollForms.py		  <-- Poll registration and modification forms
+	registrationForm.py	  <-- User registration form
+	views.py		
+FishingPoll.py			  <-- Main application module
+tests.py			  <-- Unit testing script: Testing configuration, creates an application for test suits and run tests
 
 There are 2 main objects in Fishing Polling Application: User and Poll.
 User represents each registered user. 
