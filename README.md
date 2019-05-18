@@ -13,15 +13,15 @@ The **Preferential Voting** result is displayed as *Current Winner* for ongoing 
 
 ### User Types
 
-**Anonymous User**: 
+![Anonymous User](https://img.shields.io/badge/-Anonymous-blue.svg)
 - Can view a list of polls, can register an account to the website.
 
-**Registered User**:
+![Registered User](https://img.shields.io/badge/-Registered%20User-brightgreen.svg)
 - Can log in and out using their username and password.
 - Can create polls(Open or Closed) with their own declared choices.
 - Can vote on polls.
 
-**Administrator**:
+![Administrator](https://img.shields.io/badge/-Administrator-orange.svg)
 - Can delete a user*
 - Can delete a poll*
 - Can delete another user's vote*
