@@ -49,7 +49,9 @@ Note: This site is made for Fishing Polling, but in theory, any poll of interest
 ```
 Explanation of Code can be found in `README.md` in further levels of the application.
 
-Fishing Polling Application is constructed with three subsystems: RESTfulAPI, user authentication and main. Blueprints is implemented to user an application factory function to create the function that accepts a configuration object as an argument and returns a flask application instance. The application structure and the explanations are as below:
+Fishing Polling Application is constructed with three subsystems: RESTfulAPI, user authentication and main. 
+Blueprints is implemented to user an application factory function to create the function that accepts a configuration object as an argument and returns a flask application instance.
+The application structure and the explanations are as below:
 
 app/
 	api/			  <-- blueprint package: RESTful API
