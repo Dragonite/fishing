@@ -18,7 +18,7 @@
         <script>
           var formErrors = {% if error %}true;{% else %} false{% endif %};
           if (formErrors) {
-            Notify("Username: {{error}}", null, null, 'danger');
+            Notify("{{error}}", null, null, 'danger');
           }
         </script>
         {# <span style="color: red;">[{{ error }}]</span> #}
@@ -37,7 +37,7 @@
         <script>
           var formErrors = {% if error %}true;{% else %} false{% endif %};
           if (formErrors) {
-            Notify("Password: {{error}}", null, null, 'danger');
+            Notify("{{error}}", null, null, 'danger');
           }
         </script>
         {# <span style="color: red;">[{{ error }}]</span> #}
