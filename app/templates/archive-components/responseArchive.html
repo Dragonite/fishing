@@ -1,97 +1,105 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <script>
-    $(document).ready(function () {
-      $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
-    })
-  </script>
-  <div class="alert alert-info" role="alert">
-    This is a collection of all votes for <strong>Poll {{ poll.get_id() }}</strong>.<br><br> As an <strong>Administrator</strong>, you are able to archive
-    votes that you no longer want to be shown by providing the voting user's <strong>ID</strong>.<br><br>
-    <span class="badge badge-pill badge-success">Active</span> refers to votes that are live.<br><br>
-    <span class="badge badge-pill badge-danger">Inactive</span> refers to votes that have already been archived.<br><br>
-    Please <strong>Validate</strong> your archive request before submitting.
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <table id="table-responses" class="display">
-        <thead>
-        <tr>
-          <th>Voter ID</th>
-          <th>Name</th>
-          {% for i in range(poll.Candidate|length) %}
-            <th>Preference {{ i + 1 }}</th>
-          {% endfor %}
-          <th>Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for response in poll.getResponseDict()[0] %}
-          <tr>
-            <td>{{ response }}</td>
-            <td>
-              {% for user in users %}
-                {% if user.userId == response %}
-                  {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
-                {% endif %}
-              {% endfor %}
-            </td>
-            {% for preference in poll.getResponseDict()[0][response] %}
-              {% for candidate in poll.Candidate %}
-                {% if candidate.candidateId == preference %}
-                  <td>{{ candidate.candidateDescription }}</td>
-                {% endif %}
-              {% endfor %}
-            {% endfor %}
-            {% if poll.getResponseDict()[1][response] %}
-              <td><span class="badge badge-pill badge-success">Active</span></td>
-            {% else %}
-              <td><span class="badge badge-pill badge-danger">Inactive</span></td>
-            {% endif %}
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
+  {% if poll.isActive %}
+    <script>
+      $(document).ready(function () {
+        $("input[type='search']").css({"border-radius": "5px", "border": "1px solid #ced4da", "color": "#495057"})
+      })
+    </script>
+    <div class="alert alert-info" role="alert">
+      This is a collection of all votes for <strong>Poll {{ poll.get_id() }}</strong>.<br><br> As an <strong>Administrator</strong>,
+      you are able to archive
+      votes that you no longer want to be shown by providing the voting user's <strong>ID</strong>.<br><br>
+      <span class="badge badge-pill badge-success">Active</span> refers to votes that are live.<br><br>
+      <span class="badge badge-pill badge-danger">Inactive</span> refers to votes that have already been
+      archived.<br><br>
+      Please <strong>Validate</strong> your archive request before submitting.
     </div>
-  </div>
-  <br>
-  <div class="card">
-    <form id="delete-poll-form" action="" method="post" novalidate>
+    <div class="card">
       <div class="card-body">
-        {{ form.hidden_tag() }}
-        <label><strong>{{ form.userId.label }}</strong></label>
-        {{ form.userId(class="form-control") }}
-        <br>
-        <div id="button-container">
-          <a id="validate-button" class="btn btn-info" style="color: #FFF">Validate Archive</a>
-          {{ form.submit(class="btn btn-info", disabled='disabled') }}
-        </div>
+        <table id="table-responses" class="display">
+          <thead>
+          <tr>
+            <th>Voter ID</th>
+            <th>Name</th>
+            {% for i in range(poll.Candidate|length) %}
+              <th>Preference {{ i + 1 }}</th>
+            {% endfor %}
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for response in poll.getResponseDict()[0] %}
+            <tr>
+              <td>{{ response }}</td>
+              <td>
+                {% for user in users %}
+                  {% if user.userId == response %}
+                    {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+                  {% endif %}
+                {% endfor %}
+              </td>
+              {% for preference in poll.getResponseDict()[0][response] %}
+                {% for candidate in poll.Candidate %}
+                  {% if candidate.candidateId == preference %}
+                    <td>{{ candidate.candidateDescription }}</td>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+              {% if poll.getResponseDict()[1][response] %}
+                <td><span class="badge badge-pill badge-success">Active</span></td>
+              {% else %}
+                <td><span class="badge badge-pill badge-danger">Inactive</span></td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
       </div>
-    </form>
-  </div>
-  <br>
+    </div>
+    <br>
+    <div class="card">
+      <form id="delete-poll-form" action="" method="post" novalidate>
+        <div class="card-body">
+          {{ form.hidden_tag() }}
+          <label><strong>{{ form.userId.label }}</strong></label>
+          {{ form.userId(class="form-control") }}
+          <br>
+          <div id="button-container">
+            <a id="validate-button" class="btn btn-info" style="color: #FFF">Validate Archive</a>
+            {{ form.submit(class="btn btn-info", disabled='disabled') }}
+          </div>
+        </div>
+      </form>
+    </div>
+    <br>
 
-  <script>
-    let userIDList = [];
-    {% for response in poll.getResponseDict()[0] %}
-      userIDList.push({{ response }});
-    {% endfor %}
-    let validateButton = document.getElementById('validate-button');
-    let input = document.getElementById('userId');
-    let submitButton = document.getElementById('submit');
-    validateButton.addEventListener('click', handleEvent);
+    <script>
+      let userIDList = [];
+      {% for response in poll.getResponseDict()[0] %}
+        userIDList.push({{ response }});
+      {% endfor %}
+      let validateButton = document.getElementById('validate-button');
+      let input = document.getElementById('userId');
+      let submitButton = document.getElementById('submit');
+      validateButton.addEventListener('click', handleEvent);
 
-    function handleEvent() {
-      if (userIDList.includes(parseInt(input.value))) {
-        Notify("Your archive request has been validated. Please click Submit to archive the user's response.", null, null, "success");
-        submitButton.disabled = false;
-      } else {
-        Notify("Your archive request was not successful. Please check if the user ID is valid.", null, null, "danger");
-        submitButton.disabled = true;
+      function handleEvent() {
+        if (userIDList.includes(parseInt(input.value))) {
+          Notify("Your archive request has been validated. Please click Submit to archive the user's response.", null, null, "success");
+          submitButton.disabled = false;
+        } else {
+          Notify("Your archive request was not successful. Please check if the user ID is valid.", null, null, "danger");
+          submitButton.disabled = true;
+        }
       }
-    }
-  </script>
-
+    </script>
+  {% else %}
+    <div class="alert alert-danger"
+         role="alert">
+      This poll has been <strong>Archived</strong> by an Administrator.
+    </div>
+  {% endif %}
 {% endblock %}
 

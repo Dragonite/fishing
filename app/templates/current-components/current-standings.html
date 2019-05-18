@@ -30,8 +30,9 @@
         <li class="list-group-item"><strong>Completed At:</strong>
           {% if poll.completedAt %}
             <span class="modify-time">{{ poll.completedAt }}</span>
+          {% else %}
+            Poll is still in progress.
           {% endif %}
-          Poll is still in progress.
         </li>
         <li class="list-group-item"><strong>Created By:</strong>
           {% for user in users %}
@@ -62,7 +63,7 @@
 
       let keys = Object.keys(kvp);
 
-      for(let i=0; i<keys.length; i++){
+      for (let i = 0; i < keys.length; i++) {
         labels.push(kvp[keys[i]])
       }
 

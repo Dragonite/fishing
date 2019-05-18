@@ -8,7 +8,7 @@
       To register, click <a style="color: #0c5460" href="{{ url_for('main.register') }}"><strong>here</strong></a>.
     {% else %}
       Click the <strong><i class="fa-fw fa fa-chart-bar"></i>
-    View Results</strong> button to see the results of a poll.
+      View Results</strong> button to see the results of a poll.
     {% endif %}
     <br><br>
     For more information on the algorithm that determines the winner, please click
@@ -25,41 +25,45 @@
     <div>There are no completed polls. Click here to create an active poll!</div>
   {% endif %}
   {% for poll in polls %}
-    <div class="card">
-      <div class="card-header">
-        <strong>Poll: {{ poll.get_id() }}</strong>
-        <span style="float:right" class="badge badge-pill badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">
-          {{ poll.title }}
-        </h5>
-        {{ poll.description }}
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span>
-        </li>
-        <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span></li>
-        <li class="list-group-item"><strong>Created By: </strong>
-          {% for user in users %}
-            {% if user.userId == poll.createdByUserId %}
-              {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
-            {% endif %}
-          {% endfor %}
-        </li>
-      </ul>
-      {% if not current_user.is_anonymous %}
-        <div class="card-body">
-          <a href="{{ url_for('main.completed') }}/{{ poll.get_id() }}" class="btn btn-info"><i
-            class="fa-fw fa fa-chart-bar"></i> View Results</a>
-          {% if current_user.isAdmin %}
-            <a href="polls/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i>
-              Archive Votes</a>
-          {% endif %}
+    {% if poll.isActive %}
+      <div class="card">
+        <div class="card-header">
+          <strong>Poll: {{ poll.get_id() }}</strong>
+          <span style="float:right"
+                class="badge badge-pill badge-info">{{ poll.howManyResponses() }} Votes Casted</span>
         </div>
-      {% endif %}
-    </div>
-    <br>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ poll.title }}
+          </h5>
+          {{ poll.description }}
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Created At: </strong><span class="modify-time">{{ poll.createdAt }}</span>
+          </li>
+          <li class="list-group-item"><strong>Close At: </strong><span class="modify-time">{{ poll.closeAt }}</span>
+          </li>
+          <li class="list-group-item"><strong>Created By: </strong>
+            {% for user in users %}
+              {% if user.userId == poll.createdByUserId %}
+                {{ user.firstName }} {% if user.lastName %}{{ user.lastName }}{% endif %}
+              {% endif %}
+            {% endfor %}
+          </li>
+        </ul>
+        {% if not current_user.is_anonymous %}
+          <div class="card-body">
+            <a href="{{ url_for('main.completed') }}/{{ poll.get_id() }}" class="btn btn-info"><i
+              class="fa-fw fa fa-chart-bar"></i> View Results</a>
+            {% if current_user.isAdmin %}
+              <a href="polls/{{ poll.get_id() }}/archive" class="btn btn-danger"><i class="fa-fw fa fa-archive"></i>
+                Archive Votes</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <br>
+    {% endif %}
   {% endfor %}
   <script type="text/javascript" src="/static/javascript/format-time.js"></script>
 {% endblock %}

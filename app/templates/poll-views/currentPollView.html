@@ -1,20 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="tab">
-    <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Vote')">Vote</button>
-    <button class="tablinks" onclick="openTab(event, 'Current')">Current Standings</button>
-  </div>
+  {% if poll.isActive %}
+    <div class="tab">
+      <button class="tablinks" id="defaultOpen" onclick="openTab(event, 'Vote')">Vote</button>
+      <button class="tablinks" onclick="openTab(event, 'Current')">Current Standings</button>
+    </div>
 
-  {% include "/current-components/vote.html" %}
+    {% include "/current-components/vote.html" %}
 
-  {% include "/current-components/current-standings.html" %}
+    {% include "/current-components/current-standings.html" %}
 
-  <br>
+    <br>
 
-  <script>
-    // Get the element with id="defaultOpen" and click on it
-    document.getElementById("defaultOpen").click();
-  </script>
-  <script type="text/javascript" src="/static/javascript/format-time.js"></script>
+    <script>
+      // Get the element with id="defaultOpen" and click on it
+      document.getElementById("defaultOpen").click();
+    </script>
+    <script type="text/javascript" src="/static/javascript/format-time.js"></script>
+  {% else %}
+    <div class="alert alert-danger"
+         role="alert">
+      This poll has been <strong>Archived</strong> by an Administrator.
+    </div>
+  {% endif %}
 {% endblock %}
